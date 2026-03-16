@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "api/entries.js": {
+      "memory": 128,
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    { "source": "/api/entries", "destination": "/api/entries.js" }
+  ]
+}

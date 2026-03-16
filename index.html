@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>doppelgänger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black:   #111111;
+      --white:   #ffffff;
+      --bg:      #e8e8e6;
+      --yellow:  #f0f000;
+      --magenta: #e800e8;
+      --blue:    #0000e8;
+      --red:     #e80000;
+      --green:   #00e800;
+      --cyan:    #00fff7;
+      --font:    'Inter', sans-serif;
+      --mono:    'Roboto Mono', monospace;
+      --card-w:  460px;
+      --gap:     24px;
+    }
+
+    html { font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--black);
+      font-family: var(--font);
+      font-weight: 200;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .navbar.scrolled { border-bottom-color: rgba(17,17,17,0.12); }
+    .nav-filters {
+      font-size: 0.95rem;
+      font-weight: 300;
+      text-decoration: underline;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .nav-filters:hover { opacity: 0.4; }
+    .nav-logo {
+      font-size: 1.05rem;
+      font-weight: 200;
+      letter-spacing: 0.02em;
+    }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-credit a {
+      font-size: 0.95rem;
+      font-weight: 200;
+      color: var(--black);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .nav-credit a:hover { opacity: 0.4; }
+    .nav-admin-link {
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: var(--black);
+      text-decoration: none;
+      border: 1px solid var(--black);
+      padding: 3px 10px;
+      letter-spacing: 0.05em;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-admin-link:hover { background: var(--black); color: var(--bg); }
+
+    /* ── TAGS ── */
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 300;
+      padding: 2px 7px;
+      border: 1px solid var(--black);
+      white-space: nowrap;
+      letter-spacing: 0.03em;
+    }
+    .tag-yellow  { background: var(--yellow);  color: var(--black); }
+    .tag-magenta { background: var(--magenta); color: var(--black); }
+    .tag-blue    { background: var(--blue);    color: var(--white); }
+    .tag-red     { background: var(--red);     color: var(--white); }
+    .tag-green   { background: var(--green);   color: var(--black); }
+    .tag-cyan    { background: var(--cyan);    color: var(--black); }
+
+    /* ── FILTERS OVERLAY ── */
+    .filters-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .filters-overlay.active { pointer-events: all; opacity: 1; }
+    .filters-scrim {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+    }
+    .filters-panel {
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: min(780px, 88vw);
+      background: var(--bg);
+      border-right: 2px solid var(--black);
+      box-shadow: 16px 0 60px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .filters-overlay.active .filters-panel { transform: translateX(0); }
+    .filters-panel-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 48px;
+      flex: 1;
+      padding: 52px 48px 48px;
+    }
+    .filters-title {
+      grid-column: 1 / -1;
+      font-size: 3.2rem;
+      font-weight: 100;
+      margin-bottom: 48px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .filter-col { display: flex; flex-direction: column; gap: 32px; }
+    .filter-group .tag { margin-bottom: 12px; }
+    .filter-group ul { list-style: none; }
+    .filter-group ul li a {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 200;
+      color: var(--black);
+      text-decoration: none;
+      padding: 6px 0;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s, opacity 0.15s;
+    }
+    .filter-group ul li a:hover { border-bottom-color: var(--black); opacity: 0.5; }
+    .filters-close-btn {
+      position: sticky;
+      bottom: 0;
+      background: var(--green);
+      color: var(--black);
+      border: none;
+      border-top: 2px solid var(--black);
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      padding: 16px;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      transition: background 0.18s;
+    }
+    .filters-close-btn:hover { background: #00cc00; }
+
+    /* ── HERO STRIP ── */
+    .hero-strip {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 52px 40px 24px;
+      border-bottom: 1px solid var(--black);
+    }
+    .hero-tagline {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 100;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      max-width: 60%;
+    }
+    .hero-meta {
+      font-size: 0.78rem;
+      font-weight: 200;
+      color: #666;
+      text-align: right;
+      line-height: 1.8;
+    }
+
+    /* ── CAROUSEL ── */
+    .carousel-section {
+      padding: 40px 0 0;
+      overflow: hidden;
+    }
+    .carousel-viewport {
+      overflow: hidden;
+      width: 100%;
+    }
+    .carousel-track {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--gap);
+      will-change: transform;
+    }
+    .card {
+      flex: 0 0 var(--card-w);
+      width: var(--card-w);
+      border: 1px solid var(--black);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      overflow: hidden;
+      opacity: 0.3;
+      transform: scale(0.95);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .card.active { opacity: 1; transform: scale(1); }
+    .card-image {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #d8d8d6;
+    }
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .card.active:hover .card-image img { transform: scale(1.04); }
+    .card-body {
+      padding: 20px 24px 22px;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    .card-meta-row { display: flex; align-items: baseline; justify-content: space-between; }
+    .card-title { font-size: 1.28rem; font-weight: 200; line-height: 1.15; letter-spacing: -0.01em; }
+    .card-year  { font-size: 0.8rem; font-weight: 200; color: #666; margin-left: 10px; white-space: nowrap; }
+    .card-author { font-size: 0.78rem; font-weight: 300; color: #555; letter-spacing: 0.01em; }
+    .card-desc  { font-size: 0.82rem; font-weight: 200; color: #444; line-height: 1.7; flex: 1; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; gap: 8px; }
+    .card-tags  { display: flex; gap: 5px; flex-wrap: wrap; }
+    .card-read  {
+      font-size: 0.75rem; font-weight: 300; color: var(--black);
+      white-space: nowrap; letter-spacing: 0.02em;
+      border-bottom: 1px solid transparent; transition: border-color 0.15s;
+    }
+    .card.active:hover .card-read { border-bottom-color: var(--black); }
+
+    .card-dark { background: #191919; }
+    .card-dark .card-body { background: #191919; }
+    .card-dark .card-title,
+    .card-dark .card-year,
+    .card-dark .card-author,
+    .card-dark .card-desc,
+    .card-dark .card-read { color: #e8e8e6; }
+    .card-dark .card-year { color: #888; }
+    .card-dark .card-author { color: #aaa; }
+    .card-dark .card-desc { color: #bbb; }
+    .card-dark .card-image img { filter: brightness(0.65); }
+
+    /* ── PAGINATION ── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      padding: 32px 40px 16px;
+    }
+    .pag-arrow {
+      font-size: 1.1rem;
+      font-weight: 200;
+      cursor: pointer;
+      padding: 6px 12px;
+      border: 1px solid transparent;
+      transition: border-color 0.15s, opacity 0.15s;
+      user-select: none;
+    }
+    .pag-arrow:hover { border-color: var(--black); }
+    .pag-num {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: #777;
+      min-width: 36px;
+      text-align: center;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      border-top: 1px solid var(--black);
+      border-bottom: 1px solid var(--black);
+      overflow: hidden;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      margin-top: 8px;
+    }
+    .marquee-inner {
+      display: flex;
+      animation: marquee 28s linear infinite;
+      white-space: nowrap;
+      gap: 0;
+    }
+    .marquee-item {
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0 24px;
+      border-right: 1px solid rgba(17,17,17,0.2);
+      color: #666;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-top: 1px solid rgba(17,17,17,0.12);
+      margin-top: 16px;
+    }
+    .site-footer a, .site-footer span {
+      font-size: 0.8rem;
+      font-weight: 200;
+      color: #888;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .site-footer a:hover { color: var(--black); }
+
+    @media (max-width: 700px) {
+      .navbar { padding: 18px 20px; }
+      .hero-strip { flex-direction: column; gap: 16px; padding: 36px 20px 20px; }
+      .hero-tagline { max-width: 100%; }
+      .hero-meta { text-align: left; }
+      :root { --card-w: 80vw; }
+      .site-footer { flex-direction: column; gap: 8px; align-items: flex-start; padding: 16px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <span class="nav-filters" id="filtersBtn">filters</span>
+    <span class="nav-logo">doppelgänger</span>
+    <div class="nav-right">
+      <span class="nav-credit"><a href="#" id="sphinxLink">Engineered by Sphinx</a></span>
+      <a href="admin.html" class="nav-admin-link">admin ↗</a>
+    </div>
+  </nav>
+
+  <!-- FILTERS OVERLAY -->
+  <div class="filters-overlay" id="filtersOverlay">
+    <div class="filters-scrim" id="filtersScrim"></div>
+    <div class="filters-panel">
+      <div class="filters-panel-inner">
+        <h1 class="filters-title">Filters Menu</h1>
+        <div class="filter-col">
+          <div class="filter-group">
+            <span class="tag tag-yellow">editorial</span>
+            <ul>
+              <li><a href="article-magnum.html">Magnum Opus — 2019</a></li>
+              <li><a href="article-electricana.html">Electricana — 2020</a></li>
+              <li><a href="article-fukuyama.html">Fukuyama — 2023</a></li>
+            </ul>
+          </div>
+          <div class="filter-group">
+            <span class="tag tag-magenta">photography</span>
+            <ul>
+              <li><a href="article-magnum.html">Magnum Opus — 2019</a></li>
+              <li><a href="article-death.html">Death to Analog — 2021</a></li>
+              <li><a href="article-fukuyama.html">Fukuyama — 2023</a></li>
+              <li><a href="article-house.html">I will Die in This House — 2010</a></li>
+            </ul>
+          </div>
+          <div class="filter-group">
+            <span class="tag tag-red">music</span>
+            <ul>
+              <li><a href="#">Curated by Sphinx Vol.1 — 2015</a></li>
+              <li><a href="#">VHS — 2016</a></li>
+              <li><a href="#">Curated by Sphinx Vol.2 — 2016</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="filter-col">
+          <div class="filter-group">
+            <span class="tag tag-blue">article</span>
+            <ul>
+              <li><a href="article-cinema.html">The End of Cinema — 2026</a></li>
+              <li><a href="article-artaud.html">Artaud Influenzia — 2025</a></li>
+              <li><a href="article-geese.html">Geese &amp; the New Wave of Rock — 2024</a></li>
+              <li><a href="article-argentina.html">Argentina needs new Artists! — 2023</a></li>
+            </ul>
+          </div>
+          <div class="filter-group">
+            <span class="tag tag-cyan">video</span>
+            <ul>
+              <li><a href="#">Short Film: Parallax — 2025</a></li>
+              <li><a href="#">Documentation — 2024</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <button class="filters-close-btn" id="filtersClose">CLOSE  ✕</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <p class="hero-tagline">archive of<br>work &amp; ideas</p>
+    <div class="hero-meta">
+      Buenos Aires — ongoing<br>
+      editorial · photography · music · video
+    </div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-inner">
+      <span class="marquee-item">editorial</span>
+      <span class="marquee-item">photography</span>
+      <span class="marquee-item">music</span>
+      <span class="marquee-item">video</span>
+      <span class="marquee-item">article</span>
+      <span class="marquee-item">doppelgänger</span>
+      <span class="marquee-item">2015 — 2026</span>
+      <span class="marquee-item">Buenos Aires</span>
+      <span class="marquee-item">editorial</span>
+      <span class="marquee-item">photography</span>
+      <span class="marquee-item">music</span>
+      <span class="marquee-item">video</span>
+      <span class="marquee-item">article</span>
+      <span class="marquee-item">doppelgänger</span>
+      <span class="marquee-item">2015 — 2026</span>
+      <span class="marquee-item">Buenos Aires</span>
+    </div>
+  </div>
+
+  <!-- CAROUSEL -->
+  <section class="carousel-section">
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="carouselTrack">
+
+        <article class="card" data-href="article-cinema.html">
+          <div class="card-image"><img src="img/seven.gif" alt="The End of Cinema"/></div>
+          <div class="card-body">
+            <div class="card-meta-row"><h2 class="card-title">The End of Cinema</h2><span class="card-year">2026</span></div>
+            <p class="card-author">by Sphinx' Movie Reviews</p>
+            <p class="card-desc">A review of Ingmar Bergman's The Seventh Seal — a haunting meditation on mortality, faith and the unknowable.</p>
+            <div class="card-footer"><div class="card-tags"><span class="tag tag-cyan">movies</span><span class="tag tag-blue">article</span></div><span class="card-read">read more →</span></div>
+          </div>
+        </article>
+
+        <article class="card" data-href="article-artaud.html">
+          <div class="card-image"><img src="img/artaud.jpg" alt="Artaud Influenzia"/></div>
+          <div class="card-body">
+            <div class="card-meta-row"><h2 class="card-title">Artaud Influenzia</h2><span class="card-year">2025</span></div>
+            <p class="card-author">by Sphinx — Essay</p>
+            <p class="card-desc">Theatre of Cruelty revisited. What Artaud's madness still teaches us about art and rupture.</p>
+            <div class="card-footer"><div class="card-tags"><span class="tag tag-yellow">editorial</span><span class="tag tag-blue">article</span></div><span class="card-read">read more →</span></div>
+          </div>
+        </article>
+
+        <article class="card card-dark" data-href="article-geese.html">
+          <div class="card-image"><img src="img/goose.jpg" alt="Geese & the New Wave of Rock"/></div>
+          <div class="card-body">
+            <div class="card-meta-row"><h2 class="card-title">Geese &amp; the New Wave of Rock</h2><span class="card-year">2024</span></div>
+            <p class="card-author">by Dopple — Article</p>
+            <p class="card-desc">Post-punk returned from Brooklyn. A field report from the loudest venues of the northeast circuit.</p>
+            <div class="card-footer"><div class="card-tags"><span class="tag tag-blue">article</span></div><span class="card-read">read more →</span></div>
+          </div>
+        </article>
+
+        <article class="card" data-href="article-magnum.html">
+          <div class="card-image"><img src="img/magnum-opus.jpg" alt="Magnum Opus"/></div>
+          <div class="card-body">
+            <div class="card-meta-row"><h2 class="card-title">Magnum Opus</h2><span class="card-year">2019</span></div>
+            <p class="card-author">by Sphinx — Editorial</p>
+            <p class="card-desc">The work that started everything. A visual and written essay on the nature of singular creative achievement.</p>
+            <div class="card-footer"><div class="card-tags"><span class="tag tag-yellow">editorial</span><span class="tag tag-magenta">photography</span></div><span class="card-read">read more →</span></div>
+          </div>
+        </article>
+
+        <article class="card" data-href="article-fukuyama.html">
+          <div class="card-image"><img src="img/end.jpg" alt="Fukuyama"/></div>
+          <div class="card-body">
+            <div class="card-meta-row"><h2 class="card-title">Fukuyama &amp; the End of History</h2><span class="card-year">2026</span></div>
+            <p class="card-author">by Vienna</p>
+            <p class="card-desc">Have we really reached the end of history? A long essay for a short century.</p>
+            <div class="card-footer"><div class="card-tags"><span class="tag tag-yellow">editorial</span><span class="tag tag-blue">article</span></div><span class="card-read">read more →</span></div>
+          </div>
+        </article>
+
+        <article class="card" data-href="article-death.html">
+          <div class="card-image"><img src="img/noshine.jpg" alt="Death to Analog"/></div>
+          <div class="card-body">
+            <div class="card-meta-row"><h2 class="card-title">Death to Analog</h2><span class="card-year">2021</span></div>
+            <p class="card-author">by Sphinx — Photography &amp; Music</p>
+            <p class="card-desc">A farewell to tape hiss, vinyl crackle and the imperfect warmth of a world before compression.</p>
+            <div class="card-footer"><div class="card-tags"><span class="tag tag-magenta">photography</span><span class="tag tag-red">music</span></div><span class="card-read">read more →</span></div>
+          </div>
+        </article>
+
+        <article class="card card-dark" data-href="article-argentina.html">
+          <div class="card-image"><img src="img/siren.jpg" alt="Argentina needs new Artists!"/></div>
+          <div class="card-body">
+            <div class="card-meta-row"><h2 class="card-title">Argentina needs new Artists!</h2><span class="card-year">2023</span></div>
+            <p class="card-author">by Sphinx — Article</p>
+            <p class="card-desc">A manifesto. A provocation. A love letter to a country that produces genius and forgets it the next morning.</p>
+            <div class="card-footer"><div class="card-tags"><span class="tag tag-blue">article</span></div><span class="card-read">read more →</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="pagination">
+    <span class="pag-arrow" id="prevBtn">←</span>
+    <span class="pag-num" id="pageNum">001</span>
+    <span class="pag-arrow" id="nextBtn">→</span>
+  </div>
+
+  <div class="site-footer">
+    <a href="#" id="sphinxLinkFooter">Engineered by Sphinx</a>
+    <span>doppelgänger — Buenos Aires</span>
+    <a href="admin.html">admin</a>
+  </div>
+
+  <script>
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    /* ── FILTERS ── */
+    document.getElementById('filtersBtn').addEventListener('click', () =>
+      document.getElementById('filtersOverlay').classList.add('active'));
+    document.getElementById('filtersClose').addEventListener('click', () =>
+      document.getElementById('filtersOverlay').classList.remove('active'));
+    document.getElementById('filtersScrim').addEventListener('click', () =>
+      document.getElementById('filtersOverlay').classList.remove('active'));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.getElementById('filtersOverlay').classList.remove('active');
+    });
+
+    /* ── INFINITE CAROUSEL ── */
+    const track   = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageNum = document.getElementById('pageNum');
+
+    let cards = Array.from(track.children);
+    const N   = cards.length;
+    for (let i = N - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+    track.innerHTML = '';
+    cards.forEach(c => track.appendChild(c));
+
+    let realCurrent = 0;
+    let busy        = false;
+    const GAP = 24;
+
+    function cardW() { return track.children[0].offsetWidth; }
+    function step()  { return cardW() + GAP; }
+    function pivotIndex() { return Math.floor(N / 2); }
+
+    function snapToCenter() {
+      const vw = window.innerWidth, cw = cardW(), s = step(), pidx = pivotIndex();
+      const x = -(pidx * s - (vw / 2 - cw / 2));
+      track.style.transition = 'none';
+      track.style.transform  = `translateX(${x}px)`;
+    }
+
+    function refreshActive() {
+      Array.from(track.children).forEach((c, i) =>
+        c.classList.toggle('active', i === pivotIndex()));
+      pageNum.textContent = String(realCurrent + 1).padStart(3, '0');
+    }
+
+    function go(dir) {
+      if (busy) return;
+      busy = true;
+      const s = step(), vw = window.innerWidth, cw = cardW(), pidx = pivotIndex();
+      if (dir === 1) {
+        track.appendChild(track.firstElementChild);
+        const x0 = -((pidx - 1) * s - (vw / 2 - cw / 2));
+        track.style.transition = 'none';
+        track.style.transform  = `translateX(${x0}px)`;
+        track.getBoundingClientRect();
+        const x1 = -(pidx * s - (vw / 2 - cw / 2));
+        track.style.transition = 'transform 0.52s cubic-bezier(0.22, 1, 0.36, 1)';
+        track.style.transform  = `translateX(${x1}px)`;
+      } else {
+        track.insertBefore(track.lastElementChild, track.firstChild);
+        const x0 = -((pidx + 1) * s - (vw / 2 - cw / 2));
+        track.style.transition = 'none';
+        track.style.transform  = `translateX(${x0}px)`;
+        track.getBoundingClientRect();
+        const x1 = -(pidx * s - (vw / 2 - cw / 2));
+        track.style.transition = 'transform 0.52s cubic-bezier(0.22, 1, 0.36, 1)';
+        track.style.transform  = `translateX(${x1}px)`;
+      }
+      realCurrent = ((realCurrent + dir) % N + N) % N;
+      refreshActive();
+      track.addEventListener('transitionend', function h() {
+        track.removeEventListener('transitionend', h);
+        busy = false;
+      });
+    }
+
+    nextBtn.addEventListener('click', () => go(1));
+    prevBtn.addEventListener('click', () => go(-1));
+    track.addEventListener('click', e => {
+      const card = e.target.closest('.card');
+      if (!card) return;
+      const idx = Array.from(track.children).indexOf(card);
+      const pid = pivotIndex();
+      if (idx === pid) {
+        const href = card.dataset.href;
+        if (href) window.location.href = href;
+      } else {
+        go(idx > pid ? 1 : -1);
+      }
+    });
+
+    let tx = 0;
+    track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend',   e => {
+      const d = tx - e.changedTouches[0].clientX;
+      if (Math.abs(d) > 40) go(d > 0 ? 1 : -1);
+    });
+
+    window.addEventListener('resize', snapToCenter);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      snapToCenter();
+      refreshActive();
+    }));
+  </script>
+</body>
+</html>
