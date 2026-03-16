@@ -9,8 +9,8 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const ADMIN_SECRET = process.env.ADMIN_SECRET || 'doppel2024';
-  const REDIS_URL    = process.env.UPSTASH_REDIS_REST_URL;
-  const REDIS_TOKEN  = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const REDIS_URL    = process.env.KV_REST_API_URL;
+  const REDIS_TOKEN  = process.env.KV_REST_API_TOKEN;
 
   if (!REDIS_URL || !REDIS_TOKEN) {
     return res.status(500).json({ error: 'Redis not configured' });
