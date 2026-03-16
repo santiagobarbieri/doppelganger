@@ -1148,6 +1148,7 @@ function doLogin() {
   const p = document.getElementById('loginPass').value;
   const err = document.getElementById('loginErr');
   if (CREDS[u] && CREDS[u] === p) {
+    localStorage.setItem('dopple_token', p);
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminApp').classList.add('visible');
     document.getElementById('topbarUser').textContent = u;
