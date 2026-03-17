@@ -1,6 +1,3 @@
-// api/entries.js
-// Vercel Serverless Function — usa Upstash Redis REST API
-
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
@@ -21,7 +18,16 @@ export default async function handler(req, res) {
       headers: { Authorization: `Bearer ${REDIS_TOKEN}` }
     });
     const json = await r.json();
-    return json.result ? JSON.parse(json.result) : [];
+    if (!json.result) return [];
+    // Upstash may return already-parsed array or a JSON string — handle both
+    let data = json.result;
+    if (typeof data === 'string') {
+      try { data = JSON.parse(data); } catch(e) { return []; }
+    }
+    if (typeof data === 'string') {
+      try { data = JSON.parse(data); } catch(e) { return []; }
+    }
+    return Array.isArray(data) ? data : [];
   }
 
   async function redisSet(key, value) {
