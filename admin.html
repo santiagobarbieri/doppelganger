@@ -1317,7 +1317,8 @@ function openEditor(id) {
 
   // reset
   selectedTags = entry ? [...(entry.tags || [])] : [];
-  galleryFiles = [];
+  galleryFiles = entry?.gallery ? [...entry.gallery] : [];
+  renderGallery();
 
   document.getElementById('editorTitle').value   = entry?.title   || '';
   document.getElementById('editorBody').value    = entry?.body    || '';
@@ -1425,6 +1426,7 @@ function collectEntry() {
     cover:   document.getElementById('editorCover').value.trim(),
     embed:   document.getElementById('editorEmbed').value.trim(),
     tags:    [...selectedTags],
+    gallery: [...galleryFiles],
     date:    new Date().toISOString().split('T')[0],
   };
 }
