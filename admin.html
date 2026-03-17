@@ -1364,17 +1364,22 @@ function openEditor(id) {
 function getToken() { return localStorage.getItem('dopple_token') || ''; }
 
 async function apiSave(entry) {
-  const token = getToken();
+  const token = localStorage.getItem('dopple_token') || '';
+  console.log('token:', token);
   try {
     const res = await fetch('/api/entries', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Authorization': 'Bearer ' + token 
+      },
       body: JSON.stringify(entry)
     });
+    console.log('status:', res.status);
     if (!res.ok) throw new Error('API ' + res.status);
     return true;
   } catch(e) {
-    console.warn('API save failed, localStorage only:', e.message);
+    console.warn('API save failed:', e.message);
     return false;
   }
 }
