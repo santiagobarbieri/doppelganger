@@ -207,7 +207,7 @@
         ? `<img src="${cover}" alt="${entry.title}" loading="lazy" onerror="this.parentElement.style.background='#d8d8d6'">`
         : '';
       return `
-        <article class="card${isDark ? ' card-dark' : ''}" data-href="${entry.slug || '#'}">
+        <article class="card${isDark ? ' card-dark' : ''}" data-href="article.html?id=${entry.id}">
           <div class="card-image">${imgTag}</div>
           <div class="card-body">
             <div class="card-meta-row">

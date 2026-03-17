@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>doppelgänger</title>
+  <link rel="stylesheet" href="article.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <span class="nav-filters" id="filtersBtn">filters</span>
+    <span class="nav-logo">doppelgänger</span>
+    <div class="nav-right">
+      <span class="nav-credit">Engineered by Sphinx</span>
+    </div>
+  </nav>
+
+  <div class="filters-overlay" id="filtersOverlay">
+    <div class="filters-scrim" id="filtersScrim"></div>
+    <div class="filters-panel">
+      <div class="filters-panel-inner">
+        <h1 class="filters-title">Filters Menu</h1>
+        <div class="filter-col">
+          <div class="filter-group">
+            <span class="tag tag-yellow">editorial</span>
+            <ul id="filter-editorial"></ul>
+          </div>
+          <div class="filter-group">
+            <span class="tag tag-magenta">photography</span>
+            <ul id="filter-photography"></ul>
+          </div>
+          <div class="filter-group">
+            <span class="tag tag-red">music</span>
+            <ul id="filter-music"></ul>
+          </div>
+        </div>
+        <div class="filter-col">
+          <div class="filter-group">
+            <span class="tag tag-blue">article</span>
+            <ul id="filter-article"></ul>
+          </div>
+          <div class="filter-group">
+            <span class="tag tag-cyan">video</span>
+            <ul id="filter-video"></ul>
+          </div>
+        </div>
+      </div>
+      <button class="filters-close-btn" id="filtersClose">CLOSE  ✕</button>
+    </div>
+  </div>
+
+  <!-- LOADING STATE -->
+  <div id="loadingState" style="display:flex; align-items:center; justify-content:center; min-height:60vh;">
+    <p style="font-family:'Roboto Mono',monospace; font-size:0.75rem; color:#aaa; letter-spacing:0.08em;">loading…</p>
+  </div>
+
+  <!-- ARTICLE SHEET — filled by JS -->
+  <div class="article-sheet" id="articleSheet" style="display:none;">
+    <a href="index.html" class="close-btn">CLOSE  ✕</a>
+
+    <div class="article-text">
+      <div class="article-meta" id="articleMeta"></div>
+      <h1 class="article-title" id="articleTitle"></h1>
+      <p class="article-byline" id="articleByline"></p>
+
+      <!-- embed block (video/music) if present -->
+      <div class="embed-block" id="embedBlock" style="display:none;">
+        <div id="embedContainer"></div>
+        <div class="embed-label" id="embedLabel"></div>
+      </div>
+
+      <div class="article-body" id="articleBody"></div>
+      <a href="index.html" class="back-link">← back to index</a>
+    </div>
+
+    <div class="article-photos" id="articlePhotos"></div>
+  </div>
+
+  <script>
+    const TAG_COLORS = { editorial:'yellow', photography:'magenta', article:'blue', music:'red', video:'cyan', movies:'cyan' };
+
+    function tagHTML(tag) {
+      return `<span class="tag tag-${TAG_COLORS[tag]||'blue'}">${tag}</span>`;
+    }
+
+    /* ── FETCH ALL ENTRIES, FIND BY ID ── */
+    async function loadEntry(id) {
+      const res = await fetch('/api/entries');
+      if (!res.ok) throw new Error('API error');
+      const entries = await res.json();
+      return entries.find(e => e.id === id) || null;
+    }
+
+    /* ── EMBED HELPER ── */
+    function buildEmbed(url) {
+      if (!url) return null;
+      // YouTube
+      const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/);
+      if (yt) return { html: `<iframe width="100%" height="280" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen></iframe>`, label: 'YouTube' };
+      // Vimeo
+      const vm = url.match(/vimeo\.com\/(\d+)/);
+      if (vm) return { html: `<iframe width="100%" height="280" src="https://player.vimeo.com/video/${vm[1]}" frameborder="0" allowfullscreen></iframe>`, label: 'Vimeo' };
+      // SoundCloud
+      if (url.includes('soundcloud.com')) return { html: `<iframe width="100%" height="120" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23111111&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>`, label: 'SoundCloud' };
+      // Spotify
+      if (url.includes('spotify.com')) {
+        const sp = url.replace('https://open.spotify.com/', 'https://open.spotify.com/embed/');
+        return { html: `<iframe src="${sp}" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`, label: 'Spotify' };
+      }
+      return null;
+    }
+
+    /* ── RENDER ENTRY ── */
+    function renderEntry(entry, allEntries) {
+      document.title = `${entry.title} — doppelgänger`;
+
+      // meta tags
+      const tags = (entry.tags || [entry.type]).map(tagHTML).join(' ');
+      document.getElementById('articleMeta').innerHTML = `${tags} <span class="article-year">${entry.year || ''}</span>`;
+      document.getElementById('articleTitle').textContent = entry.title;
+      document.getElementById('articleByline').textContent = entry.author || '';
+
+      // body — render markdown
+      const bodyEl = document.getElementById('articleBody');
+      if (entry.body) {
+        bodyEl.innerHTML = marked.parse(entry.body);
+      }
+
+      // embed
+      if (entry.embed) {
+        const embed = buildEmbed(entry.embed);
+        if (embed) {
+          document.getElementById('embedContainer').innerHTML = embed.html;
+          document.getElementById('embedLabel').textContent = embed.label;
+          document.getElementById('embedBlock').style.display = '';
+        }
+      }
+
+      // photos
+      const photosEl = document.getElementById('articlePhotos');
+      const images = [];
+      if (entry.cover) images.push({ src: entry.cover, cls: 'span-2' });
+      if (entry.gallery && entry.gallery.length) {
+        entry.gallery.forEach((src, i) => {
+          const cls = i % 3 === 0 ? 'portrait' : i % 3 === 1 ? 'square' : 'land';
+          images.push({ src, cls });
+        });
+      }
+      if (images.length) {
+        photosEl.innerHTML = images.map(img =>
+          `<figure class="${img.cls}"><img src="${img.src}" alt="${entry.title}" loading="lazy"/></figure>`
+        ).join('');
+      } else {
+        photosEl.style.display = 'none';
+        document.getElementById('articleSheet').style.gridTemplateColumns = '1fr';
+      }
+
+      // populate filters
+      populateFilters(allEntries);
+
+      // show
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('articleSheet').style.display = '';
+    }
+
+    function populateFilters(entries) {
+      ['editorial','photography','article','music','video'].forEach(type => {
+        const ul = document.getElementById('filter-' + type);
+        if (!ul) return;
+        const filtered = entries.filter(e => e.type === type || (e.tags||[]).includes(type));
+        ul.innerHTML = filtered.length
+          ? filtered.map(e => `<li><a href="article.html?id=${e.id}">${e.title} — ${e.year||''}</a></li>`).join('')
+          : `<li style="font-size:0.8rem;color:#aaa;padding:4px 0;">no entries</li>`;
+      });
+    }
+
+    /* ── BOOT ── */
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = parseInt(params.get('id'));
+
+      if (!id) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/entries');
+        const all = await res.json();
+        const entry = all.find(e => e.id === id);
+        if (!entry) { window.location.href = 'index.html'; return; }
+        renderEntry(entry, all);
+      } catch(e) {
+        document.getElementById('loadingState').innerHTML =
+          `<p style="font-family:'Roboto Mono',monospace;font-size:0.75rem;color:#e80000;">error loading entry — <a href="index.html">go back</a></p>`;
+      }
+    })();
+
+    /* ── FILTERS ── */
+    document.getElementById('filtersBtn').addEventListener('click', () =>
+      document.getElementById('filtersOverlay').classList.add('active'));
+    document.getElementById('filtersClose').addEventListener('click', () =>
+      document.getElementById('filtersOverlay').classList.remove('active'));
+    document.getElementById('filtersScrim').addEventListener('click', () =>
+      document.getElementById('filtersOverlay').classList.remove('active'));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.getElementById('filtersOverlay').classList.remove('active');
+    });
+
+    /* ── NAVBAR SCROLL ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+    });
+  </script>
+</body>
+</html>
