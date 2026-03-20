@@ -14,8 +14,8 @@
       --black: #111111; --white: #ffffff; --bg: #f0ede6;
       --blue: #0000e8; --font: 'Inter', sans-serif; --mono: 'Roboto Mono', monospace;
     }
-    html { font-size: 16px; }
-    body { background: var(--bg); color: var(--black); font-family: var(--font); font-weight: 200; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+    html, body { font-size: 16px; height: 100%; overflow: hidden; }
+    body { background: var(--bg); color: var(--black); font-family: var(--font); font-weight: 200; display: flex; flex-direction: column; }
     a { color: inherit; text-decoration: none; }
 
     /* ── TYPE COLORS ── */
@@ -41,7 +41,7 @@
     .nav-link.contact:hover { background: #333; }
 
     /* ── MAIN ── */
-    .main { display: flex; flex: 1; overflow: hidden; }
+    .main { display: flex; flex: 1; overflow: hidden; min-height: 0; }
 
     /* ── PHOTO PANEL ── */
     .photo-panel { width: 360px; flex-shrink: 0; border-right: 1px solid var(--black); overflow: hidden; position: relative; background: #e0ddd6; }
@@ -49,15 +49,15 @@
     .photo-panel img.visible { opacity: 1; }
 
     /* ── INDEX LIST ── */
-    .index-list { flex: 1; overflow-y: auto; }
+    .index-list { flex: 1; overflow-y: auto; min-height: 0; }
 
     /* column header */
     .index-header { display: grid; grid-template-columns: 1fr 140px 80px; align-items: center; padding: 0 28px; height: 36px; border-bottom: 1px solid var(--black); background: var(--black); color: var(--bg); }
     .index-header span { font-size: 0.6rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; font-family: var(--mono); }
 
     .index-row { display: grid; grid-template-columns: 1fr 140px 80px; align-items: center; padding: 0 28px; height: 60px; border-bottom: 1px solid rgba(17,17,17,0.15); cursor: pointer; transition: background 0.1s; text-decoration: none; color: var(--black); }
-    .index-row:hover { background: var(--black); color: var(--bg); }
-    .index-row:hover .row-type-badge { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
+    .index-row:hover { background: var(--blue); color: var(--white); }
+    .index-row:hover .row-type-badge { border-color: rgba(255,255,255,0.4); color: var(--white); }
     .index-row:hover .row-year { color: rgba(255,255,255,0.5); }
     .index-row:hover .row-arrow { opacity: 1; }
 
