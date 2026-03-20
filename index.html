@@ -328,4 +328,7 @@
     document.getElementById('filtersBtn').addEventListener('click', () => document.getElementById('filtersOverlay').classList.add('active'));
     document.getElementById('filtersClose').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
     document.getElementById('filtersScrim').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
-    document.addEventL
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('filtersOverlay').classList.remove('active'); });
+  </script>
+</body>
+</html>
