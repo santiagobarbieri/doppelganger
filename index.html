@@ -1,45 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>doppelgänger</title>
+  <title>dopple</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --black: #111111; --white: #ffffff; --bg: #e8e8e6;
-      --yellow: #f0f000; --magenta: #e800e8; --blue: #0000e8;
-      --red: #e80000; --green: #00e800; --cyan: #00fff7;
-      --font: 'Inter', sans-serif; --mono: 'Roboto Mono', monospace;
-      --card-w: 460px; --gap: 24px;
+      --black: #111111; --white: #ffffff; --bg: #f0ede6;
+      --blue: #0000e8; --font: 'Inter', sans-serif; --mono: 'Roboto Mono', monospace;
     }
     html { font-size: 16px; }
-    body { background: var(--bg); color: var(--black); font-family: var(--font); font-weight: 200; min-height: 100vh; overflow-x: hidden; }
-    .navbar { display: flex; align-items: center; justify-content: space-between; padding: 22px 40px; position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid transparent; transition: border-color 0.3s; }
-    .navbar.scrolled { border-bottom-color: rgba(17,17,17,0.12); }
-    .nav-filters { font-size: 0.95rem; font-weight: 300; text-decoration: underline; cursor: pointer; transition: opacity 0.2s; }
-    .nav-filters:hover { opacity: 0.4; }
-    .nav-logo { font-size: 1.05rem; font-weight: 200; letter-spacing: 0.02em; }
-    .nav-right { display: flex; align-items: center; gap: 20px; }
-    .nav-credit a { font-size: 0.95rem; font-weight: 200; color: var(--black); text-decoration: none; transition: opacity 0.2s; }
-    .nav-credit a:hover { opacity: 0.4; }
-    .nav-admin-link { font-size: 0.75rem; font-weight: 300; color: var(--black); text-decoration: none; border: 1px solid var(--black); padding: 3px 10px; letter-spacing: 0.05em; transition: background 0.15s, color 0.15s; }
-    .nav-admin-link:hover { background: var(--black); color: var(--bg); }
-    .tag { display: inline-block; font-size: 0.72rem; font-weight: 300; padding: 2px 7px; border: 1px solid var(--black); white-space: nowrap; letter-spacing: 0.03em; }
-    .tag-yellow  { background: var(--yellow);  color: var(--black); }
-    .tag-magenta { background: var(--magenta); color: var(--black); }
-    .tag-blue    { background: var(--blue);    color: var(--white); }
-    .tag-red     { background: var(--red);     color: var(--white); }
-    .tag-green   { background: var(--green);   color: var(--black); }
-    .tag-cyan    { background: var(--cyan);    color: var(--black); }
+    body { background: var(--bg); color: var(--black); font-family: var(--font); font-weight: 200; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    .navbar { display: flex; align-items: center; padding: 0 28px; height: 64px; border-bottom: 1px solid var(--black); flex-shrink: 0; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--black); flex-shrink: 0; padding-right: 24px; border-right: 1px solid var(--black); text-decoration: none; }
+    .nav-logo img { width: 36px; height: 36px; object-fit: contain; }
+    .nav-logo-text { font-size: 1.1rem; font-weight: 400; letter-spacing: -0.01em; }
+    .nav-logo-reg { font-size: 0.7rem; vertical-align: super; font-weight: 300; margin-left: 1px; }
+    .nav-tagline { font-size: 0.82rem; font-weight: 200; color: rgba(17,17,17,0.45); padding-left: 24px; flex: 1; letter-spacing: 0.01em; }
+    .nav-links { display: flex; align-items: center; }
+    .nav-link { font-size: 0.82rem; font-weight: 200; color: var(--black); text-decoration: underline; padding: 0 20px; border-left: 1px solid var(--black); height: 64px; display: flex; align-items: center; transition: background 0.15s; cursor: pointer; }
+    .nav-link:hover { background: rgba(17,17,17,0.05); }
+    .nav-link.contact { background: var(--blue); color: var(--white); text-decoration: none; font-weight: 300; }
+    .nav-link.contact:hover { background: #0000cc; }
+
+    /* MAIN */
+    .main { display: flex; flex: 1; overflow: hidden; }
+
+    /* PHOTO PANEL */
+    .photo-panel { width: 340px; flex-shrink: 0; border-right: 1px solid var(--black); overflow: hidden; position: relative; background: #1a1a1a; }
+    .photo-panel img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; position: absolute; inset: 0; transition: opacity 0.35s ease; }
+    .photo-panel img.visible { opacity: 1; }
+
+    /* INDEX LIST */
+    .index-list { flex: 1; overflow-y: auto; }
+    .index-row { display: grid; grid-template-columns: 1fr auto; align-items: center; padding: 0 28px; height: 64px; border-bottom: 1px solid var(--black); cursor: pointer; transition: background 0.12s; text-decoration: none; color: var(--black); }
+    .index-row:hover { background: var(--blue); color: var(--white); }
+    .index-row:hover .row-meta { color: var(--white); opacity: 1; }
+    .index-row:hover .row-year { color: var(--white); }
+    .index-row:hover .row-action { opacity: 1; }
+    .row-left { display: flex; align-items: baseline; gap: 20px; min-width: 0; }
+    .row-title { font-size: clamp(1rem, 2.2vw, 1.45rem); font-weight: 300; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .row-meta { font-size: 0.72rem; font-weight: 300; color: rgba(17,17,17,0.35); letter-spacing: 0.06em; white-space: nowrap; display: flex; align-items: center; gap: 10px; transition: color 0.12s; }
+    .row-sep { opacity: 0.4; }
+    .row-action { font-size: 0.72rem; font-weight: 300; opacity: 0; transition: opacity 0.12s; letter-spacing: 0.04em; }
+    .row-year { font-size: clamp(1rem, 2.2vw, 1.45rem); font-weight: 200; color: rgba(17,17,17,0.35); letter-spacing: -0.01em; flex-shrink: 0; transition: color 0.12s; }
+    .index-loading { padding: 48px 28px; font-size: 0.72rem; font-weight: 300; color: rgba(17,17,17,0.35); font-family: var(--mono); letter-spacing: 0.08em; }
+
+    /* FOOTER */
+    .footer { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 44px; border-top: 1px solid var(--black); flex-shrink: 0; }
+    .footer span, .footer a { font-size: 0.72rem; font-weight: 200; color: rgba(17,17,17,0.45); text-decoration: none; letter-spacing: 0.04em; }
+    .footer a:hover { color: var(--black); }
+
+    /* FILTERS */
     .filters-overlay { position: fixed; inset: 0; z-index: 200; pointer-events: none; opacity: 0; transition: opacity 0.35s ease; }
     .filters-overlay.active { pointer-events: all; opacity: 1; }
     .filters-scrim { position: absolute; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); }
-    .filters-panel { position: absolute; top: 0; left: 0; bottom: 0; width: min(780px, 88vw); background: var(--bg); border-right: 2px solid var(--black); box-shadow: 16px 0 60px rgba(0,0,0,0.25); display: flex; flex-direction: column; overflow-y: auto; transform: translateX(-100%); transition: transform 0.42s cubic-bezier(0.22,1,0.36,1); }
+    .filters-panel { position: absolute; top: 0; left: 0; bottom: 0; width: min(780px, 88vw); background: var(--bg); border-right: 2px solid var(--black); box-shadow: 16px 0 60px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow-y: auto; transform: translateX(-100%); transition: transform 0.42s cubic-bezier(0.22,1,0.36,1); }
     .filters-overlay.active .filters-panel { transform: translateX(0); }
     .filters-panel-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; flex: 1; padding: 52px 48px 48px; }
     .filters-title { grid-column: 1/-1; font-size: 3.2rem; font-weight: 100; margin-bottom: 48px; line-height: 1; letter-spacing: -0.02em; }
@@ -48,65 +72,30 @@
     .filter-group ul { list-style: none; }
     .filter-group ul li a { display: block; font-size: 0.9rem; font-weight: 200; color: var(--black); text-decoration: none; padding: 6px 0; border-bottom: 1px solid transparent; transition: border-color 0.15s, opacity 0.15s; }
     .filter-group ul li a:hover { border-bottom-color: var(--black); opacity: 0.5; }
-    .filters-close-btn { position: sticky; bottom: 0; background: var(--green); color: var(--black); border: none; border-top: 2px solid var(--black); font-family: var(--font); font-size: 0.75rem; font-weight: 400; letter-spacing: 0.08em; padding: 16px; cursor: pointer; width: 100%; text-align: center; transition: background 0.18s; }
+    .filters-close-btn { position: sticky; bottom: 0; background: #00e800; color: var(--black); border: none; border-top: 2px solid var(--black); font-family: var(--font); font-size: 0.75rem; font-weight: 400; letter-spacing: 0.08em; padding: 16px; cursor: pointer; width: 100%; text-align: center; transition: background 0.18s; }
     .filters-close-btn:hover { background: #00cc00; }
-    .hero-strip { display: flex; align-items: baseline; justify-content: space-between; padding: 52px 40px 24px; border-bottom: 1px solid var(--black); }
-    .hero-tagline { font-size: clamp(2.2rem,5vw,3.8rem); font-weight: 100; letter-spacing: -0.03em; line-height: 1; max-width: 60%; }
-    .hero-meta { font-size: 0.78rem; font-weight: 200; color: #666; text-align: right; line-height: 1.8; }
-    .marquee-wrap { border-top: 1px solid var(--black); border-bottom: 1px solid var(--black); overflow: hidden; height: 28px; display: flex; align-items: center; }
-    .marquee-inner { display: flex; animation: marquee 28s linear infinite; white-space: nowrap; }
-    .marquee-item { font-size: 0.65rem; font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; padding: 0 24px; border-right: 1px solid rgba(17,17,17,0.2); color: #666; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .carousel-section { padding: 40px 0 0; overflow: hidden; }
-    .carousel-viewport { overflow: hidden; width: 100%; }
-    .carousel-track { display: flex; align-items: flex-start; gap: var(--gap); will-change: transform; }
-    .carousel-loading { display: flex; align-items: center; justify-content: center; height: 320px; width: 100%; font-size: 0.75rem; font-weight: 300; color: #aaa; font-family: var(--mono); letter-spacing: 0.08em; }
-    .card { flex: 0 0 var(--card-w); width: var(--card-w); border: 1px solid var(--black); display: flex; flex-direction: column; cursor: pointer; overflow: hidden; opacity: 0.3; transform: scale(0.95); transition: opacity 0.5s ease, transform 0.5s ease; }
-    .card.active { opacity: 1; transform: scale(1); }
-    .card-image { width: 100%; aspect-ratio: 4/3; overflow: hidden; flex-shrink: 0; background: #d8d8d6; }
-    .card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
-    .card.active:hover .card-image img { transform: scale(1.04); }
-    .card-body { padding: 20px 24px 22px; background: var(--bg); display: flex; flex-direction: column; gap: 8px; flex: 1; }
-    .card-meta-row { display: flex; align-items: baseline; justify-content: space-between; }
-    .card-title { font-size: 1.28rem; font-weight: 200; line-height: 1.15; letter-spacing: -0.01em; }
-    .card-year { font-size: 0.8rem; font-weight: 200; color: #666; margin-left: 10px; white-space: nowrap; }
-    .card-author { font-size: 0.78rem; font-weight: 300; color: #555; }
-    .card-desc { font-size: 0.82rem; font-weight: 200; color: #444; line-height: 1.7; flex: 1; }
-    .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; gap: 8px; }
-    .card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
-    .card-read { font-size: 0.75rem; font-weight: 300; color: var(--black); white-space: nowrap; letter-spacing: 0.02em; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
-    .card.active:hover .card-read { border-bottom-color: var(--black); }
-    .card-dark { background: #191919; }
-    .card-dark .card-body { background: #191919; }
-    .card-dark .card-title, .card-dark .card-year, .card-dark .card-author, .card-dark .card-desc, .card-dark .card-read { color: #e8e8e6; }
-    .card-dark .card-year { color: #888; }
-    .card-dark .card-desc { color: #bbb; }
-    .card-dark .card-image img { filter: brightness(0.65); }
-    .pagination { display: flex; align-items: center; justify-content: center; gap: 28px; padding: 32px 40px 16px; }
-    .pag-arrow { font-size: 1.1rem; font-weight: 200; cursor: pointer; padding: 6px 12px; border: 1px solid transparent; transition: border-color 0.15s; user-select: none; }
-    .pag-arrow:hover { border-color: var(--black); }
-    .pag-num { font-family: var(--mono); font-size: 0.75rem; font-weight: 300; letter-spacing: 0.12em; color: #777; min-width: 36px; text-align: center; }
-    .site-footer { display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; border-top: 1px solid rgba(17,17,17,0.12); margin-top: 16px; }
-    .site-footer a, .site-footer span { font-size: 0.8rem; font-weight: 200; color: #888; text-decoration: none; transition: color 0.2s; }
-    .site-footer a:hover { color: var(--black); }
-    @media (max-width: 700px) {
-      .navbar { padding: 18px 20px; }
-      .hero-strip { flex-direction: column; gap: 16px; padding: 36px 20px 20px; }
-      .hero-tagline { max-width: 100%; }
-      .hero-meta { text-align: left; }
-      :root { --card-w: 80vw; }
-      .site-footer { flex-direction: column; gap: 8px; align-items: flex-start; padding: 16px 20px; }
-    }
+    .tag { display: inline-block; font-size: 0.68rem; font-weight: 300; padding: 2px 6px; border: 1px solid var(--black); white-space: nowrap; }
+    .tag-yellow  { background: #f0f000; color: var(--black); }
+    .tag-magenta { background: #e800e8; color: var(--black); }
+    .tag-blue    { background: #0000e8; color: var(--white); }
+    .tag-red     { background: #e80000; color: var(--white); }
+    .tag-cyan    { background: #00fff7; color: var(--black); }
+
+    @media (max-width: 860px) { .photo-panel { display: none; } .nav-tagline { display: none; } }
+    @media (max-width: 560px) { .navbar { padding: 0 16px; } .nav-link { padding: 0 14px; } .index-row { padding: 0 16px; height: 56px; } .footer { padding: 0 16px; } }
   </style>
 </head>
 <body>
 
-  <nav class="navbar" id="navbar">
-    <span class="nav-filters" id="filtersBtn">filters</span>
-    <span class="nav-logo">doppelgänger</span>
-    <div class="nav-right">
-      <span class="nav-credit"><a href="#">Engineered by Sphinx</a></span>
-      <a href="admin.html" class="nav-admin-link">admin ↗</a>
+  <nav class="navbar">
+    <a href="admin.html" class="nav-logo">
+      <img src="favicon.png" alt="dopple"/>
+      <span class="nav-logo-text">dopple<span class="nav-logo-reg">®</span></span>
+    </a>
+    <span class="nav-tagline">*</span>
+    <div class="nav-links">
+      <span class="nav-link" id="filtersBtn">index</span>
+      <a href="mailto:dopplemusic@gmail.com" class="nav-link contact">get in contact &gt;</a>
     </div>
   </nav>
 
@@ -114,115 +103,95 @@
     <div class="filters-scrim" id="filtersScrim"></div>
     <div class="filters-panel">
       <div class="filters-panel-inner">
-        <h1 class="filters-title">Filters Menu</h1>
+        <h1 class="filters-title">Index</h1>
         <div class="filter-col">
-          <div class="filter-group">
-            <span class="tag tag-yellow">editorial</span>
-            <ul id="filter-editorial"></ul>
-          </div>
-          <div class="filter-group">
-            <span class="tag tag-magenta">photography</span>
-            <ul id="filter-photography"></ul>
-          </div>
-          <div class="filter-group">
-            <span class="tag tag-red">music</span>
-            <ul id="filter-music"></ul>
-          </div>
+          <div class="filter-group"><span class="tag tag-yellow">editorial</span><ul id="filter-editorial"></ul></div>
+          <div class="filter-group"><span class="tag tag-magenta">photography</span><ul id="filter-photography"></ul></div>
+          <div class="filter-group"><span class="tag tag-red">music</span><ul id="filter-music"></ul></div>
         </div>
         <div class="filter-col">
-          <div class="filter-group">
-            <span class="tag tag-blue">article</span>
-            <ul id="filter-article"></ul>
-          </div>
-          <div class="filter-group">
-            <span class="tag tag-cyan">video</span>
-            <ul id="filter-video"></ul>
-          </div>
+          <div class="filter-group"><span class="tag tag-blue">article</span><ul id="filter-article"></ul></div>
+          <div class="filter-group"><span class="tag tag-cyan">video</span><ul id="filter-video"></ul></div>
         </div>
       </div>
       <button class="filters-close-btn" id="filtersClose">CLOSE  ✕</button>
     </div>
   </div>
 
-  <div class="hero-strip">
-    <p class="hero-tagline">archive of<br>work &amp; ideas</p>
-    <div class="hero-meta">Buenos Aires — ongoing<br>editorial · photography · music · video</div>
-  </div>
-
-  <div class="marquee-wrap">
-    <div class="marquee-inner">
-      <span class="marquee-item">editorial</span><span class="marquee-item">photography</span>
-      <span class="marquee-item">music</span><span class="marquee-item">video</span>
-      <span class="marquee-item">article</span><span class="marquee-item">doppelgänger</span>
-      <span class="marquee-item">Buenos Aires</span><span class="marquee-item">editorial</span>
-      <span class="marquee-item">photography</span><span class="marquee-item">music</span>
-      <span class="marquee-item">video</span><span class="marquee-item">article</span>
-      <span class="marquee-item">doppelgänger</span><span class="marquee-item">Buenos Aires</span>
+  <div class="main">
+    <div class="photo-panel" id="photoPanel"></div>
+    <div class="index-list" id="indexList">
+      <div class="index-loading">loading…</div>
     </div>
   </div>
 
-  <section class="carousel-section">
-    <div class="carousel-viewport">
-      <div class="carousel-track" id="carouselTrack">
-        <div class="carousel-loading">loading entries…</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="pagination">
-    <span class="pag-arrow" id="prevBtn">←</span>
-    <span class="pag-num" id="pageNum">—</span>
-    <span class="pag-arrow" id="nextBtn">→</span>
-  </div>
-
-  <div class="site-footer">
-    <a href="#">Engineered by Sphinx</a>
-    <span>doppelgänger — Buenos Aires</span>
-    <a href="admin.html">admin</a>
-  </div>
+  <footer class="footer">
+    <span>Buenos Aires, Argentina.</span>
+    <span>dopple.</span>
+    <span>EST 2024</span>
+  </footer>
 
   <script>
-    const TAG_COLORS = { editorial:'yellow', photography:'magenta', article:'blue', music:'red', video:'cyan', movies:'cyan' };
-
-    function tagHTML(tag) {
-      const color = TAG_COLORS[tag] || 'blue';
-      return `<span class="tag tag-${color}">${tag}</span>`;
-    }
-
     async function loadEntries() {
       try {
         const res = await fetch('/api/entries');
-        if (!res.ok) throw new Error('API error');
+        if (!res.ok) throw new Error();
         return await res.json();
-      } catch(err) {
+      } catch {
         const db = JSON.parse(localStorage.getItem('dopple_db') || 'null');
-        if (db && db.entries) return db.entries.filter(e => e.status === 'published');
+        if (db?.entries) return db.entries.filter(e => e.status === 'published');
         return [];
       }
     }
 
-    function buildCard(entry, isDark) {
-      const tags = (entry.tags || [entry.type]).map(tagHTML).join('');
-      const cover = entry.cover || '';
-      const imgTag = cover
-        ? `<img src="${cover}" alt="${entry.title}" loading="lazy" onerror="this.parentElement.style.background='#d8d8d6'">`
-        : '';
-      return `
-        <article class="card${isDark ? ' card-dark' : ''}" data-href="article.html?id=${entry.id}">
-          <div class="card-image">${imgTag}</div>
-          <div class="card-body">
-            <div class="card-meta-row">
-              <h2 class="card-title">${entry.title}</h2>
-              <span class="card-year">${entry.year || ''}</span>
-            </div>
-            <p class="card-author">${entry.author || ''}</p>
-            <p class="card-desc">${entry.excerpt || ''}</p>
-            <div class="card-footer">
-              <div class="card-tags">${tags}</div>
-              <span class="card-read">read more →</span>
-            </div>
+    const photoPanel = document.getElementById('photoPanel');
+    let currentSrc = null;
+
+    function showPhoto(src) {
+      if (!src || src === currentSrc) return;
+      currentSrc = src;
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        Array.from(photoPanel.querySelectorAll('img')).forEach(i => i.remove());
+        photoPanel.appendChild(img);
+        requestAnimationFrame(() => img.classList.add('visible'));
+      };
+    }
+
+    function clearPhoto() {
+      currentSrc = null;
+      Array.from(photoPanel.querySelectorAll('img')).forEach(i => {
+        i.classList.remove('visible');
+        setTimeout(() => i.remove(), 380);
+      });
+    }
+
+    function renderList(entries) {
+      const list = document.getElementById('indexList');
+      if (!entries.length) {
+        list.innerHTML = `<div class="index-loading">no published entries yet — <a href="admin.html" style="color:var(--blue)">go to admin</a></div>`;
+        return;
+      }
+      list.innerHTML = entries.map(e => `
+        <a class="index-row" href="article.html?id=${e.id}" data-cover="${e.cover||''}">
+          <div class="row-left">
+            <span class="row-title">${e.title}</span>
+            <span class="row-meta">
+              <span>${e.type||''}</span>
+              <span class="row-sep">I</span>
+              <span>${e.year||''}</span>
+              <span class="row-sep">I</span>
+              <span class="row-action">read more &gt;</span>
+            </span>
           </div>
-        </article>`;
+          <span class="row-year">${e.year||''}</span>
+        </a>`).join('');
+
+      list.querySelectorAll('.index-row').forEach(row => {
+        row.addEventListener('mouseenter', () => showPhoto(row.dataset.cover));
+        row.addEventListener('mouseleave', clearPhoto);
+      });
     }
 
     function populateFilters(entries) {
@@ -231,95 +200,17 @@
         if (!ul) return;
         const filtered = entries.filter(e => e.type === type || (e.tags||[]).includes(type));
         ul.innerHTML = filtered.length
-          ? filtered.map(e => `<li><a href="${e.slug||'#'}">${e.title} — ${e.year||''}</a></li>`).join('')
+          ? filtered.map(e => `<li><a href="article.html?id=${e.id}">${e.title} — ${e.year||''}</a></li>`).join('')
           : `<li style="font-size:0.8rem;color:#aaa;padding:4px 0;">no entries</li>`;
       });
     }
 
-    const track   = document.getElementById('carouselTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const pageNum = document.getElementById('pageNum');
-    let N = 0, busy = false, realCurrent = 0;
-    const GAP = 24;
-
-    function cardW()      { return track.children[0]?.offsetWidth || 460; }
-    function step()       { return cardW() + GAP; }
-    function pivotIndex() { return Math.floor(N / 2); }
-
-    function snapToCenter() {
-      if (!N) return;
-      const vw = window.innerWidth, cw = cardW(), s = step(), pidx = pivotIndex();
-      track.style.transition = 'none';
-      track.style.transform  = `translateX(${-(pidx * s - (vw/2 - cw/2))}px)`;
-    }
-
-    function refreshActive() {
-      Array.from(track.children).forEach((c,i) => c.classList.toggle('active', i === pivotIndex()));
-      pageNum.textContent = String(realCurrent + 1).padStart(3,'0');
-    }
-
-    function go(dir) {
-      if (busy || N < 2) return;
-      busy = true;
-      const s = step(), vw = window.innerWidth, cw = cardW(), pidx = pivotIndex();
-      if (dir === 1) {
-        track.appendChild(track.firstElementChild);
-        track.style.transition = 'none';
-        track.style.transform  = `translateX(${-((pidx-1)*s - (vw/2-cw/2))}px)`;
-        track.getBoundingClientRect();
-        track.style.transition = 'transform 0.52s cubic-bezier(0.22,1,0.36,1)';
-        track.style.transform  = `translateX(${-(pidx*s - (vw/2-cw/2))}px)`;
-      } else {
-        track.insertBefore(track.lastElementChild, track.firstChild);
-        track.style.transition = 'none';
-        track.style.transform  = `translateX(${-((pidx+1)*s - (vw/2-cw/2))}px)`;
-        track.getBoundingClientRect();
-        track.style.transition = 'transform 0.52s cubic-bezier(0.22,1,0.36,1)';
-        track.style.transform  = `translateX(${-(pidx*s - (vw/2-cw/2))}px)`;
-      }
-      realCurrent = ((realCurrent + dir) % N + N) % N;
-      refreshActive();
-      track.addEventListener('transitionend', function h() {
-        track.removeEventListener('transitionend', h);
-        busy = false;
-      });
-    }
-
-    prevBtn.addEventListener('click', () => go(-1));
-    nextBtn.addEventListener('click', () => go(1));
-    track.addEventListener('click', e => {
-      const card = e.target.closest('.card');
-      if (!card) return;
-      const idx = Array.from(track.children).indexOf(card);
-      const pid = pivotIndex();
-      if (idx === pid) { const href = card.dataset.href; if (href && href !== '#') window.location.href = href; }
-      else go(idx > pid ? 1 : -1);
-    });
-    let tx = 0;
-    track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend', e => { const d = tx - e.changedTouches[0].clientX; if (Math.abs(d) > 40) go(d > 0 ? 1 : -1); });
-    window.addEventListener('resize', snapToCenter);
-
     (async () => {
       const entries = await loadEntries();
-      if (!entries.length) {
-        track.innerHTML = `<div class="carousel-loading">no published entries yet — <a href="admin.html" style="color:var(--blue)">go to admin</a></div>`;
-        return;
-      }
-      for (let i = entries.length-1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i+1));
-        [entries[i], entries[j]] = [entries[j], entries[i]];
-      }
-      track.innerHTML = entries.map((e,i) => buildCard(e, i%3===2)).join('');
-      N = entries.length;
+      renderList(entries);
       populateFilters(entries);
-      requestAnimationFrame(() => requestAnimationFrame(() => { snapToCenter(); refreshActive(); }));
     })();
 
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
-    });
     document.getElementById('filtersBtn').addEventListener('click', () => document.getElementById('filtersOverlay').classList.add('active'));
     document.getElementById('filtersClose').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
     document.getElementById('filtersScrim').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
