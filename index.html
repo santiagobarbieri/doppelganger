@@ -56,10 +56,22 @@
     .index-header span { font-size: 0.6rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; font-family: var(--mono); }
 
     .index-row { display: grid; grid-template-columns: 1fr 140px 80px; align-items: center; padding: 0 28px; height: 60px; border-bottom: 1px solid rgba(17,17,17,0.15); cursor: pointer; transition: background 0.1s; text-decoration: none; color: var(--black); }
-    .index-row:hover { background: var(--blue); color: var(--white); }
-    .index-row:hover .row-type-badge { border-color: rgba(255,255,255,0.4); color: var(--white); }
-    .index-row:hover .row-year { color: rgba(255,255,255,0.5); }
+    .index-row:hover { background: rgba(0,0,232,0.08); }
+    
+    
     .index-row:hover .row-arrow { opacity: 1; }
+    .index-row.selected { background: var(--blue); color: var(--white); }
+    .index-row.selected .row-type-badge { border-color: rgba(255,255,255,0.4); color: var(--white); }
+    .index-row.selected .row-year { color: rgba(255,255,255,0.7); }
+    .row-read-more { display: none; font-size: 0.72rem; font-weight: 300; color: var(--white); text-decoration: none; margin-left: 10px; letter-spacing: 0.04em; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 1px; }
+    .index-row.selected .row-read-more { display: inline; }
+    .index-row.selected { background: var(--blue); color: var(--white); }
+    .index-row.selected .row-type-badge { border-color: rgba(255,255,255,0.4); color: var(--white); }
+    .index-row.selected .row-year { color: rgba(255,255,255,0.8); }
+    .index-row.selected .row-type-dot { opacity: 0.8; }
+    .row-read-more { display: none; font-size: 0.72rem; font-weight: 300; color: var(--white); text-decoration: underline; margin-left: 12px; white-space: nowrap; letter-spacing: 0.04em; }
+    .index-row.selected .row-read-more { display: inline; }
+    .index-row:not(.selected):hover { background: rgba(0,0,232,0.08); }
 
     .row-title { font-size: clamp(0.95rem, 1.8vw, 1.25rem); font-weight: 300; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 20px; }
 
@@ -124,7 +136,7 @@
     <span class="nav-tagline">*</span>
     <div class="nav-links">
       <span class="nav-link" id="filtersBtn">index</span>
-      <a href="mailto:dopplemusic@gmail.com" class="nav-link contact">get in contact &gt;</a>
+      <a href="/cdn-cgi/l/email-protection#dbbfb4ababb7beb6aea8b2b89bbcb6bab2b7f5b8b4b6" class="nav-link contact">get in contact &gt;</a>
     </div>
   </nav>
 
@@ -194,7 +206,7 @@
     <span>EST 2024</span>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const TYPE_DOTS = { articulo:'dot-articulo', resena:'dot-resena', archivo:'dot-archivo', web:'dot-web', portfolio:'dot-portfolio' };
     const TYPE_LABELS = { articulo:'artículo', resena:'reseña', archivo:'archivo', web:'página web', portfolio:'portfolio' };
 
@@ -215,7 +227,8 @@
     let currentSrc = 'paris.jpg';
 
     function showPhoto(src) {
-      if (!src || src === currentSrc) return;
+      if (!src) { src = 'paris.jpg'; }
+      if (src === currentSrc) return;
       currentSrc = src;
       const img = new Image();
       img.src = src;
@@ -234,6 +247,15 @@
     let allEntries = [];
     let activeFilter = 'all';
 
+    let selectedRow = null;
+
+    function selectRow(row) {
+      if (selectedRow) selectedRow.classList.remove('selected');
+      selectedRow = row;
+      row.classList.add('selected');
+      showPhoto(row.dataset.cover);
+    }
+
     function renderRows(entries) {
       const container = document.getElementById('rowsContainer');
       const filtered = activeFilter === 'all' ? entries : entries.filter(e => e.postType === activeFilter);
@@ -248,20 +270,28 @@
         const dot = TYPE_DOTS[pt] || 'dot-articulo';
         const label = TYPE_LABELS[pt] || pt;
         return `
-          <a class="index-row" href="article.html?id=${e.id}" data-cover="${e.cover||''}">
+          <div class="index-row" data-href="article.html?id=${e.id}" data-cover="${e.cover||''}">
             <span class="row-title">${e.title}</span>
             <span class="row-type-badge">
               <span class="row-type-dot ${dot}"></span>
               ${label}
             </span>
-            <span class="row-year">${e.year||''} <span class="row-arrow">→</span></span>
-          </a>`;
+            <span class="row-year">
+              ${e.year||''}
+              <a class="row-read-more" href="article.html?id=${e.id}">read more →</a>
+            </span>
+          </div>`;
       }).join('');
 
       container.querySelectorAll('.index-row').forEach(row => {
-        row.addEventListener('mouseenter', () => showPhoto(row.dataset.cover));
-        row.addEventListener('mouseleave', clearPhoto);
+        row.addEventListener('click', e => {
+          if (e.target.closest('.row-read-more')) return;
+          selectRow(row);
+        });
       });
+
+      const first = container.querySelector('.index-row');
+      if (first) selectRow(first);
     }
 
     /* ── FILTERS LEGEND ── */
@@ -291,20 +321,11 @@
       allEntries = await loadEntries();
       renderRows(allEntries);
       populateFilters(allEntries);
-      // default photo
-      const defaultImg = new Image();
-      defaultImg.src = 'paris.jpg';
-      defaultImg.onload = () => {
-        photoPanel.appendChild(defaultImg);
-        requestAnimationFrame(() => defaultImg.classList.add('visible'));
-      };
+
     })();
 
     /* ── OVERLAY ── */
     document.getElementById('filtersBtn').addEventListener('click', () => document.getElementById('filtersOverlay').classList.add('active'));
     document.getElementById('filtersClose').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
     document.getElementById('filtersScrim').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('filtersOverlay').classList.remove('active'); });
-  </script>
-</body>
-</html>
+    document.addEventL
