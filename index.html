@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>dopple</title>
+  <title>dopple®</title>
   <link rel="icon" type="image/png" href="img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,118 +12,145 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --black: #111111; --white: #ffffff; --bg: #f0ede6;
-      --blue: #0000e8; --font: 'Inter', sans-serif; --mono: 'Roboto Mono', monospace;
+      --blue: #0000e8; --red: #e80000; --green: #00aa00;
+      --font: 'Inter', sans-serif; --mono: 'Roboto Mono', monospace;
+      --c-articulo: #111111; --c-resena: #0000e8; --c-archivo: #888888;
+      --c-web: #00aa00; --c-portfolio: #e80000;
+      --nav-h: 60px; --footer-h: 40px;
     }
-    html, body { font-size: 16px; height: 100%; overflow: hidden; }
+    html, body { height: 100%; overflow: hidden; font-size: 16px; }
     body { background: var(--bg); color: var(--black); font-family: var(--font); font-weight: 200; display: flex; flex-direction: column; }
     a { color: inherit; text-decoration: none; }
 
-    /* ── TYPE COLORS ── */
-    :root {
-      --c-articulo:  #111111;
-      --c-resena:    #0000e8;
-      --c-archivo:   #888888;
-      --c-web:       #00aa00;
-      --c-portfolio: #e80000;
-    }
-
     /* ── NAV ── */
-    .navbar { display: flex; align-items: center; padding: 0 28px; height: 64px; border-bottom: 1px solid var(--black); flex-shrink: 0; }
-    .nav-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--black); flex-shrink: 0; padding-right: 24px; border-right: 1px solid var(--black); text-decoration: none; }
-    .nav-logo img { width: 36px; height: 36px; object-fit: contain; }
-    .nav-logo-text { font-size: 1.1rem; font-weight: 400; letter-spacing: -0.01em; }
-    .nav-logo-reg { font-size: 0.7rem; vertical-align: super; font-weight: 300; margin-left: 1px; }
-    .nav-tagline { font-size: 0.82rem; font-weight: 200; color: rgba(17,17,17,0.4); padding-left: 24px; flex: 1; letter-spacing: 0.01em; font-style: italic; }
+    .navbar { display: flex; align-items: center; padding: 0 24px; height: var(--nav-h); border-bottom: 1px solid var(--black); flex-shrink: 0; background: var(--bg); z-index: 10; gap: 0; }
+    .nav-logo { display: flex; align-items: center; gap: 9px; padding-right: 20px; border-right: 1px solid var(--black); text-decoration: none; color: var(--black); flex-shrink: 0; cursor: pointer; }
+    .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+    .nav-logo-text { font-size: 1rem; font-weight: 400; letter-spacing: -0.01em; }
+    .nav-logo-reg { font-size: 0.6rem; vertical-align: super; font-weight: 300; }
+    .nav-tagline { font-size: 0.75rem; font-weight: 200; color: rgba(17,17,17,0.35); padding-left: 20px; flex: 1; font-style: italic; }
     .nav-links { display: flex; align-items: center; }
-    .nav-link { font-size: 0.82rem; font-weight: 200; color: var(--black); text-decoration: underline; padding: 0 20px; border-left: 1px solid var(--black); height: 64px; display: flex; align-items: center; transition: background 0.15s; cursor: pointer; white-space: nowrap; }
-    .nav-link:hover { background: rgba(17,17,17,0.06); }
-    .nav-link.contact { background: var(--black); color: var(--bg); text-decoration: none; font-weight: 300; }
-    .nav-link.contact:hover { background: #333; }
+    .nav-link { font-size: 0.75rem; font-weight: 200; color: var(--black); padding: 0 18px; border-left: 1px solid var(--black); height: var(--nav-h); display: flex; align-items: center; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+    .nav-link:hover { background: rgba(17,17,17,0.05); }
+    .nav-link.underline { text-decoration: underline; }
+    .nav-link.cta { background: var(--black); color: var(--bg); }
+    .nav-link.cta:hover { background: #2a2a2a; }
 
     /* ── MAIN ── */
     .main { display: flex; flex: 1; overflow: hidden; min-height: 0; }
 
     /* ── PHOTO PANEL ── */
-    .photo-panel { width: 360px; flex-shrink: 0; border-right: 1px solid var(--black); overflow: hidden; position: relative; background: #e0ddd6; }
+    .photo-panel { width: 320px; flex-shrink: 0; border-right: 1px solid var(--black); overflow: hidden; position: relative; background: #ccc9c2; transition: width 0.5s cubic-bezier(0.22,1,0.36,1), border 0.5s; }
+    .photo-panel.collapsed { width: 0; border-right: none; }
     .photo-panel img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; position: absolute; inset: 0; transition: opacity 0.4s ease; }
     .photo-panel img.visible { opacity: 1; }
 
     /* ── INDEX LIST ── */
-    .index-list { flex: 1; overflow-y: auto; min-height: 0; }
+    .index-list { display: flex; flex-direction: column; overflow: hidden; transition: width 0.5s cubic-bezier(0.22,1,0.36,1); width: calc(100% - 320px); flex-shrink: 0; }
+    .index-list.narrow { width: 290px; border-right: 1px solid var(--black); }
+    .index-list.expanded { width: 100%; }
 
-    /* column header */
-    .index-header { display: grid; grid-template-columns: 1fr 140px 80px; align-items: center; padding: 0 28px; height: 36px; border-bottom: 1px solid var(--black); background: var(--black); color: var(--bg); }
-    .index-header span { font-size: 0.6rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; font-family: var(--mono); }
-
-    .index-row { display: grid; grid-template-columns: 1fr 140px 80px; align-items: center; padding: 0 28px; height: 60px; border-bottom: 1px solid rgba(17,17,17,0.15); cursor: pointer; transition: background 0.1s; text-decoration: none; color: var(--black); }
-    .index-row:hover { background: rgba(0,0,232,0.08); }
-    
-    
-    .index-row:hover .row-arrow { opacity: 1; }
-    .index-row.selected { background: var(--blue); color: var(--white); }
-    .index-row.selected .row-type-badge { border-color: rgba(255,255,255,0.4); color: var(--white); }
-    .index-row.selected .row-year { color: rgba(255,255,255,0.7); }
-    .row-read-more { display: none; font-size: 0.72rem; font-weight: 300; color: var(--white); text-decoration: none; margin-left: 10px; letter-spacing: 0.04em; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 1px; }
-    .index-row.selected .row-read-more { display: inline; }
-    .index-row.selected { background: var(--blue); color: var(--white); }
-    .index-row.selected .row-type-badge { border-color: rgba(255,255,255,0.4); color: var(--white); }
-    .index-row.selected .row-year { color: rgba(255,255,255,0.8); }
-    .index-row.selected .row-type-dot { opacity: 0.8; }
-    .row-read-more { display: none; font-size: 0.72rem; font-weight: 300; color: var(--white); text-decoration: underline; margin-left: 12px; white-space: nowrap; letter-spacing: 0.04em; }
-    .index-row.selected .row-read-more { display: inline; }
-    .index-row:not(.selected):hover { background: rgba(0,0,232,0.08); }
-
-    .row-title { font-size: clamp(0.95rem, 1.8vw, 1.25rem); font-weight: 300; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 20px; }
-
-    .row-type-badge {
-      font-size: 0.6rem; font-weight: 400; letter-spacing: 0.1em;
-      text-transform: uppercase; font-family: var(--mono);
-      padding: 3px 8px; border: 1px solid rgba(17,17,17,0.25);
-      display: inline-flex; align-items: center; gap: 6px;
-      width: fit-content; transition: border-color 0.1s, color 0.1s;
-    }
-    .row-type-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-    .dot-articulo  { background: var(--c-articulo); }
-    .dot-resena    { background: var(--c-resena); }
-    .dot-archivo   { background: var(--c-archivo); }
-    .dot-web       { background: var(--c-web); }
+    .type-legend { display: flex; align-items: center; border-bottom: 1px solid var(--black); flex-shrink: 0; overflow-x: auto; scrollbar-width: none; }
+    .type-legend::-webkit-scrollbar { display: none; }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.58rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(17,17,17,0.38); font-family: var(--mono); cursor: pointer; padding: 0 14px; height: 32px; white-space: nowrap; border-right: 1px solid rgba(17,17,17,0.1); transition: color 0.15s, background 0.15s; }
+    .legend-item:hover { color: var(--black); }
+    .legend-item.active { color: var(--black); background: rgba(17,17,17,0.04); }
+    .legend-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .dot-articulo { background: var(--c-articulo); }
+    .dot-resena   { background: var(--c-resena); }
+    .dot-archivo  { background: var(--c-archivo); }
+    .dot-web      { background: var(--c-web); }
     .dot-portfolio { background: var(--c-portfolio); }
 
-    .row-year { font-size: 0.82rem; font-weight: 200; color: rgba(17,17,17,0.35); font-family: var(--mono); letter-spacing: 0.04em; transition: color 0.1s; }
-    .row-arrow { opacity: 0; transition: opacity 0.1s; font-size: 0.75rem; margin-left: 4px; }
+    .index-header { display: grid; grid-template-columns: 1fr 110px 64px; padding: 0 18px; height: 28px; border-bottom: 1px solid var(--black); background: var(--black); flex-shrink: 0; align-items: center; }
+    .index-list.narrow .index-header { grid-template-columns: 1fr 60px; }
+    .index-list.narrow .index-header span:nth-child(2) { display: none; }
+    .index-header span { font-size: 0.52rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; font-family: var(--mono); color: rgba(240,237,230,0.45); }
 
-    .index-loading { padding: 48px 28px; font-size: 0.72rem; font-weight: 300; color: rgba(17,17,17,0.35); font-family: var(--mono); letter-spacing: 0.08em; }
+    .rows-container { flex: 1; overflow-y: auto; min-height: 0; }
 
-    /* ── TYPE LEGEND ── */
-    .type-legend { display: flex; align-items: center; gap: 20px; padding: 10px 28px; border-bottom: 1px solid rgba(17,17,17,0.12); flex-wrap: wrap; }
-    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.6rem; font-weight: 300; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(17,17,17,0.45); font-family: var(--mono); cursor: pointer; transition: color 0.15s; }
-    .legend-item:hover { color: var(--black); }
-    .legend-item.active { color: var(--black); }
-    .legend-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .index-row { display: grid; grid-template-columns: 1fr 110px 64px; align-items: center; padding: 0 18px; height: 54px; border-bottom: 1px solid rgba(17,17,17,0.09); cursor: pointer; transition: background 0.1s; color: var(--black); }
+    .index-list.narrow .index-row { grid-template-columns: 1fr 60px; }
+    .index-list.narrow .row-type-badge { display: none; }
+    .index-row:hover:not(.selected) { background: rgba(0,0,232,0.05); }
+    .index-row.selected { background: var(--blue); color: var(--white); }
+    .index-row.selected .row-type-badge { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.75); }
+    .index-row.selected .row-year { color: rgba(255,255,255,0.55); }
+
+    .row-title { font-size: clamp(0.8rem, 1.3vw, 1rem); font-weight: 300; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px; }
+    .row-type-badge { font-size: 0.52rem; font-weight: 300; letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--mono); padding: 2px 6px; border: 1px solid rgba(17,17,17,0.18); display: inline-flex; align-items: center; gap: 4px; width: fit-content; }
+    .row-type-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; }
+    .row-year { font-size: 0.7rem; font-weight: 200; color: rgba(17,17,17,0.3); font-family: var(--mono); display: flex; align-items: center; gap: 6px; }
+    .row-action { display: none; font-size: 0.58rem; color: var(--white); font-family: var(--mono); letter-spacing: 0.04em; white-space: nowrap; background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline; }
+    .index-row.selected .row-action { display: inline; }
+
+    .index-loading { padding: 36px 18px; font-size: 0.65rem; color: rgba(17,17,17,0.28); font-family: var(--mono); letter-spacing: 0.06em; }
+
+    /* ── PREVIEW PANEL ── */
+    .preview-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; background: var(--bg); }
+    .preview-panel.visible { opacity: 1; pointer-events: all; }
+
+    /* project hero */
+    .project-hero { position: relative; flex-shrink: 0; height: 52%; overflow: hidden; border-bottom: 1px solid var(--black); background: #1a1a1a; }
+    .project-hero-img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.5s ease; }
+    .project-hero-img.loaded { opacity: 1; }
+    .project-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%); }
+    .project-hero-badge { position: absolute; top: 16px; left: 16px; font-size: 0.55rem; font-family: var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); background: rgba(0,0,0,0.5); padding: 3px 8px; border: 1px solid rgba(255,255,255,0.15); }
+    .project-hero-title { position: absolute; bottom: 20px; left: 20px; font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 100; color: var(--white); letter-spacing: -0.02em; line-height: 1.05; }
+    .project-hero-open { position: absolute; bottom: 20px; right: 20px; display: flex; align-items: center; gap: 6px; font-size: 0.62rem; font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); text-decoration: none; border: 1px solid rgba(255,255,255,0.35); padding: 8px 14px; transition: background 0.15s, border-color 0.15s; }
+    .project-hero-open:hover { background: var(--white); color: var(--black); border-color: var(--white); }
+
+    /* browser mockup */
+    .browser-mockup { position: absolute; bottom: -1px; right: 24px; width: 52%; max-width: 320px; border: 1px solid rgba(255,255,255,0.12); border-bottom: none; overflow: hidden; box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
+    .browser-bar { background: rgba(30,30,30,0.95); padding: 6px 10px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .browser-dots { display: flex; gap: 4px; }
+    .browser-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .browser-dot:nth-child(1) { background: #ff5f57; }
+    .browser-dot:nth-child(2) { background: #febc2e; }
+    .browser-dot:nth-child(3) { background: #28c840; }
+    .browser-url { flex: 1; font-size: 0.55rem; font-family: var(--mono); color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .browser-screen { width: 100%; aspect-ratio: 16/10; overflow: hidden; background: #111; }
+    .browser-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+
+    /* project info */
+    .project-info { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+    .project-description { font-size: 0.82rem; font-weight: 200; line-height: 1.8; color: rgba(17,17,17,0.65); }
+    .project-meta-row { display: flex; gap: 24px; flex-wrap: wrap; }
+    .project-meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .project-meta-label { font-size: 0.55rem; font-family: var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: rgba(17,17,17,0.3); }
+    .project-meta-value { font-size: 0.78rem; font-weight: 300; color: var(--black); }
+    .tech-list { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tech-pill { font-size: 0.58rem; font-family: var(--mono); padding: 3px 8px; border: 1px solid rgba(17,17,17,0.2); color: rgba(17,17,17,0.55); letter-spacing: 0.04em; }
+    .project-cta { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: var(--black); color: var(--bg); font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--black); transition: background 0.15s, color 0.15s; align-self: flex-start; margin-top: auto; }
+    .project-cta:hover { background: var(--bg); color: var(--black); }
 
     /* ── FOOTER ── */
-    .footer { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 44px; border-top: 1px solid var(--black); flex-shrink: 0; }
-    .footer span, .footer a { font-size: 0.7rem; font-weight: 200; color: rgba(17,17,17,0.4); text-decoration: none; letter-spacing: 0.04em; font-family: var(--mono); }
+    .footer { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: var(--footer-h); border-top: 1px solid var(--black); flex-shrink: 0; }
+    .footer span, .footer a { font-size: 0.62rem; font-weight: 200; color: rgba(17,17,17,0.35); text-decoration: none; font-family: var(--mono); letter-spacing: 0.04em; }
     .footer a:hover { color: var(--black); }
 
     /* ── FILTERS OVERLAY ── */
     .filters-overlay { position: fixed; inset: 0; z-index: 200; pointer-events: none; opacity: 0; transition: opacity 0.35s ease; }
     .filters-overlay.active { pointer-events: all; opacity: 1; }
-    .filters-scrim { position: absolute; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); }
-    .filters-panel { position: absolute; top: 0; left: 0; bottom: 0; width: min(780px, 88vw); background: var(--bg); border-right: 2px solid var(--black); display: flex; flex-direction: column; overflow-y: auto; transform: translateX(-100%); transition: transform 0.42s cubic-bezier(0.22,1,0.36,1); }
+    .filters-scrim { position: absolute; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
+    .filters-panel { position: absolute; top: 0; left: 0; bottom: 0; width: min(640px, 88vw); background: var(--bg); border-right: 2px solid var(--black); display: flex; flex-direction: column; overflow-y: auto; transform: translateX(-100%); transition: transform 0.42s cubic-bezier(0.22,1,0.36,1); }
     .filters-overlay.active .filters-panel { transform: translateX(0); }
-    .filters-panel-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; flex: 1; padding: 52px 48px 48px; }
-    .filters-title { grid-column: 1/-1; font-size: 3.2rem; font-weight: 100; margin-bottom: 48px; line-height: 1; letter-spacing: -0.02em; }
-    .filter-col { display: flex; flex-direction: column; gap: 32px; }
-    .filter-group-label { font-size: 0.65rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; font-family: var(--mono); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .filters-panel-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0 36px; flex: 1; padding: 44px 40px; }
+    .filters-title { grid-column: 1/-1; font-size: 2.6rem; font-weight: 100; margin-bottom: 36px; line-height: 1; letter-spacing: -0.02em; }
+    .filter-col { display: flex; flex-direction: column; gap: 24px; }
+    .filter-group-label { font-size: 0.55rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; font-family: var(--mono); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; color: rgba(17,17,17,0.5); }
     .filter-group ul { list-style: none; }
-    .filter-group ul li a { display: block; font-size: 0.9rem; font-weight: 200; color: var(--black); text-decoration: none; padding: 6px 0; border-bottom: 1px solid transparent; transition: border-color 0.15s, opacity 0.15s; }
+    .filter-group ul li a { display: block; font-size: 0.85rem; font-weight: 200; color: var(--black); text-decoration: none; padding: 5px 0; border-bottom: 1px solid transparent; transition: border-color 0.15s, opacity 0.15s; }
     .filter-group ul li a:hover { border-bottom-color: var(--black); opacity: 0.5; }
-    .filters-close-btn { position: sticky; bottom: 0; background: var(--black); color: var(--bg); border: none; border-top: 1px solid var(--black); font-family: var(--mono); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em; padding: 16px; cursor: pointer; width: 100%; text-align: center; transition: background 0.18s; }
-    .filters-close-btn:hover { background: #333; }
+    .filters-close-btn { position: sticky; bottom: 0; background: var(--black); color: var(--bg); border: none; border-top: 1px solid var(--black); font-family: var(--mono); font-size: 0.65rem; font-weight: 300; letter-spacing: 0.1em; padding: 13px; cursor: pointer; width: 100%; text-align: center; transition: background 0.18s; }
+    .filters-close-btn:hover { background: #2a2a2a; }
 
-    @media (max-width: 900px) { .photo-panel { display: none; } .nav-tagline { display: none; } }
-    @media (max-width: 560px) { .navbar { padding: 0 16px; } .nav-link { padding: 0 14px; } .index-row { padding: 0 16px; height: 52px; grid-template-columns: 1fr 80px; } .index-row .row-type-badge { display: none; } .footer { padding: 0 16px; } .type-legend { padding: 8px 16px; } .index-header { padding: 0 16px; grid-template-columns: 1fr 80px; } .index-header span:nth-child(2) { display: none; } }
+    @media (max-width: 860px) {
+      .photo-panel { display: none; }
+      .index-list { width: 100% !important; }
+      .nav-tagline { display: none; }
+      .preview-panel { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -135,8 +162,8 @@
     </a>
     <span class="nav-tagline">*</span>
     <div class="nav-links">
-      <span class="nav-link" id="filtersBtn">index</span>
-      <a href="/cdn-cgi/l/email-protection#dbbfb4ababb7beb6aea8b2b89bbcb6bab2b7f5b8b4b6" class="nav-link contact">get in contact &gt;</a>
+      <span class="nav-link underline" id="filtersBtn">index</span>
+      <a href="mailto:dopplemusic@gmail.com" class="nav-link cta">get in contact &gt;</a>
     </div>
   </nav>
 
@@ -147,25 +174,25 @@
         <h1 class="filters-title">Index</h1>
         <div class="filter-col">
           <div class="filter-group">
-            <div class="filter-group-label"><span class="legend-dot" style="background:var(--c-articulo)"></span> artículo</div>
+            <div class="filter-group-label"><span class="legend-dot dot-articulo"></span>artículo</div>
             <ul id="filter-articulo"></ul>
           </div>
           <div class="filter-group">
-            <div class="filter-group-label"><span class="legend-dot" style="background:var(--c-resena)"></span> reseña</div>
+            <div class="filter-group-label"><span class="legend-dot dot-resena"></span>reseña</div>
             <ul id="filter-resena"></ul>
           </div>
           <div class="filter-group">
-            <div class="filter-group-label"><span class="legend-dot" style="background:var(--c-archivo)"></span> archivo</div>
+            <div class="filter-group-label"><span class="legend-dot dot-archivo"></span>archivo</div>
             <ul id="filter-archivo"></ul>
           </div>
         </div>
         <div class="filter-col">
           <div class="filter-group">
-            <div class="filter-group-label"><span class="legend-dot" style="background:var(--c-web)"></span> página web</div>
+            <div class="filter-group-label"><span class="legend-dot dot-web"></span>página web</div>
             <ul id="filter-web"></ul>
           </div>
           <div class="filter-group">
-            <div class="filter-group-label"><span class="legend-dot" style="background:var(--c-portfolio)"></span> portfolio</div>
+            <div class="filter-group-label"><span class="legend-dot dot-portfolio"></span>portfolio</div>
             <ul id="filter-portfolio"></ul>
           </div>
         </div>
@@ -176,122 +203,286 @@
 
   <div class="main">
     <div class="photo-panel" id="photoPanel"></div>
+
     <div class="index-list" id="indexList">
-
       <div class="type-legend" id="typeLegend">
-        <span class="legend-item active" data-filter="all"><span class="legend-dot" style="background:var(--black)"></span> todos</span>
-        <span class="legend-item" data-filter="articulo"><span class="legend-dot dot-articulo"></span> artículo</span>
-        <span class="legend-item" data-filter="resena"><span class="legend-dot dot-resena"></span> reseña</span>
-        <span class="legend-item" data-filter="archivo"><span class="legend-dot dot-archivo"></span> archivo</span>
-        <span class="legend-item" data-filter="web"><span class="legend-dot dot-web"></span> web</span>
-        <span class="legend-item" data-filter="portfolio"><span class="legend-dot dot-portfolio"></span> portfolio</span>
+        <span class="legend-item active" data-filter="all"><span class="legend-dot" style="background:var(--black)"></span>todos</span>
+        <span class="legend-item" data-filter="articulo"><span class="legend-dot dot-articulo"></span>artículo</span>
+        <span class="legend-item" data-filter="resena"><span class="legend-dot dot-resena"></span>reseña</span>
+        <span class="legend-item" data-filter="archivo"><span class="legend-dot dot-archivo"></span>archivo</span>
+        <span class="legend-item" data-filter="web"><span class="legend-dot dot-web"></span>web</span>
+        <span class="legend-item" data-filter="portfolio"><span class="legend-dot dot-portfolio"></span>portfolio</span>
       </div>
-
       <div class="index-header">
         <span>título</span>
         <span>tipo</span>
         <span>año</span>
       </div>
-
-      <div id="rowsContainer">
+      <div class="rows-container" id="rowsContainer">
         <div class="index-loading">loading…</div>
       </div>
+    </div>
 
+    <div class="preview-panel" id="previewPanel">
+      <div class="project-hero" id="projectHero">
+        <img class="project-hero-img" id="projectHeroImg" src="" alt=""/>
+        <div class="project-hero-overlay"></div>
+        <span class="project-hero-badge" id="projectHeroBadge">portfolio</span>
+        <div class="project-hero-title" id="projectHeroTitle"></div>
+        <a class="project-hero-open" id="projectHeroOpen" href="#" target="_blank">open site ↗</a>
+        <div class="browser-mockup" id="browserMockup">
+          <div class="browser-bar">
+            <div class="browser-dots">
+              <div class="browser-dot"></div>
+              <div class="browser-dot"></div>
+              <div class="browser-dot"></div>
+            </div>
+            <div class="browser-url" id="browserUrl">dopple.vercel.app</div>
+          </div>
+          <div class="browser-screen">
+            <img id="browserScreenImg" src="" alt=""/>
+          </div>
+        </div>
+      </div>
+      <div class="project-info" id="projectInfo">
+        <p class="project-description" id="projectDescription"></p>
+        <div class="project-meta-row" id="projectMetaRow"></div>
+        <div class="tech-list" id="techList"></div>
+        <a class="project-cta" id="projectCta" href="#" target="_blank">open project ↗</a>
+      </div>
     </div>
   </div>
 
   <footer class="footer">
     <span>Buenos Aires, Argentina.</span>
-    <span>dopple.</span>
+    <span>dopple®</span>
     <span>EST 2024</span>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    const TYPE_DOTS = { articulo:'dot-articulo', resena:'dot-resena', archivo:'dot-archivo', web:'dot-web', portfolio:'dot-portfolio' };
+  <script>
+    const TYPE_DOTS   = { articulo:'dot-articulo', resena:'dot-resena', archivo:'dot-archivo', web:'dot-web', portfolio:'dot-portfolio' };
     const TYPE_LABELS = { articulo:'artículo', resena:'reseña', archivo:'archivo', web:'página web', portfolio:'portfolio' };
+    const PREVIEW_TYPES = ['web', 'portfolio'];
 
+    /* ── HARDCODED PROJECTS ── */
+    const PROJECTS = {
+      'atlas': {
+        title: 'Atlas News',
+        type: 'web',
+        year: 2025,
+        url: 'https://atlasnewsbydopple.netlify.app/',
+        cover: 'img/atlas-cover.jpg',
+        description: 'A live news aggregator with real-time weather, animated gradient backgrounds and a cinematic editorial layout. Built for atmosphere as much as information.',
+        technologies: ['HTML', 'CSS', 'Vanilla JS', 'News API', 'Open-Meteo'],
+        author: 'dopple'
+      },
+      'infinity-disk': {
+        title: 'Infinity Disk',
+        type: 'portfolio',
+        year: 2025,
+        url: 'https://sphinx-archive.netlify.app/infinity-disk',
+        cover: 'img/infinitydisk-cover.jpg',
+        description: 'A personal music archive and player. Dark mode interface with folder-based organization, waveform visualization and custom album art. Designed for the obsessive listener.',
+        technologies: ['HTML', 'CSS', 'Vanilla JS', 'Web Audio API'],
+        author: 'dopple'
+      },
+      'bare-state': {
+        title: 'Bare State',
+        type: 'portfolio',
+        year: 2026,
+        url: 'https://hilarious-torrone-62fd5e.netlify.app/',
+        cover: 'img/barestate-cover.jpg',
+        description: 'E-commerce and lookbook for Bare State — a Buenos Aires clothing brand. Clean editorial layout, full-screen lookbook, product filtering and contact integration.',
+        technologies: ['HTML', 'CSS', 'Vanilla JS'],
+        author: 'dopple'
+      }
+    };
+
+    /* ── LOAD ENTRIES ── */
     async function loadEntries() {
       try {
         const res = await fetch('/api/entries');
         if (!res.ok) throw new Error();
-        return await res.json();
+        const api = await res.json();
+        // merge hardcoded projects
+        const hardcoded = Object.keys(PROJECTS).map((key, i) => ({
+          id: 9000 + i,
+          ...PROJECTS[key],
+          postType: PROJECTS[key].type,
+          excerpt: PROJECTS[key].description,
+          slug: key,
+          status: 'published',
+          date: String(PROJECTS[key].year),
+          projectUrl: PROJECTS[key].url,
+          technologies: PROJECTS[key].technologies.join(', ')
+        }));
+        return [...hardcoded, ...api];
       } catch {
         const db = JSON.parse(localStorage.getItem('dopple_db') || 'null');
-        if (db?.entries) return db.entries.filter(e => e.status === 'published');
-        return [];
+        const local = db?.entries ? db.entries.filter(e => e.status === 'published') : [];
+        const hardcoded = Object.keys(PROJECTS).map((key, i) => ({
+          id: 9000 + i,
+          ...PROJECTS[key],
+          postType: PROJECTS[key].type,
+          excerpt: PROJECTS[key].description,
+          slug: key,
+          status: 'published',
+          date: String(PROJECTS[key].year),
+          projectUrl: PROJECTS[key].url,
+          technologies: PROJECTS[key].technologies.join(', ')
+        }));
+        return [...hardcoded, ...local];
       }
     }
 
     /* ── PHOTO ── */
     const photoPanel = document.getElementById('photoPanel');
-    let currentSrc = 'paris.jpg';
+    let currentPhotoSrc = null;
 
     function showPhoto(src) {
-      if (!src) { src = 'paris.jpg'; }
-      if (src === currentSrc) return;
-      currentSrc = src;
+      const target = src || 'img/paris.jpg';
+      if (target === currentPhotoSrc) return;
+      currentPhotoSrc = target;
       const img = new Image();
-      img.src = src;
+      img.src = target;
       img.onload = () => {
-        Array.from(photoPanel.querySelectorAll('img')).forEach(i => i.remove());
+        Array.from(photoPanel.querySelectorAll('img')).forEach(i => { i.style.opacity = '0'; setTimeout(() => i.remove(), 420); });
         photoPanel.appendChild(img);
-        requestAnimationFrame(() => img.classList.add('visible'));
+        requestAnimationFrame(() => { img.style.transition = 'opacity 0.4s ease'; img.style.opacity = '1'; img.classList.add('visible'); });
       };
     }
 
-    function clearPhoto() {
-      showPhoto('paris.jpg');
+    /* ── LAYOUT ── */
+    const indexList    = document.getElementById('indexList');
+    const previewPanel = document.getElementById('previewPanel');
+    let previewMode = false;
+
+    function enterPreviewMode() {
+      if (previewMode) return;
+      previewMode = true;
+      photoPanel.classList.add('collapsed');
+      indexList.classList.add('narrow');
+      indexList.classList.remove('expanded');
+      setTimeout(() => previewPanel.classList.add('visible'), 80);
     }
 
-    /* ── RENDER ── */
-    let allEntries = [];
-    let activeFilter = 'all';
+    function exitPreviewMode() {
+      if (!previewMode) return;
+      previewMode = false;
+      previewPanel.classList.remove('visible');
+      photoPanel.classList.remove('collapsed');
+      indexList.classList.remove('narrow');
+    }
 
+    /* ── RENDER PREVIEW ── */
+    function renderPreview(entry) {
+      const url = entry.projectUrl || entry.url || '';
+      const cover = entry.cover || 'img/paris.jpg';
+
+      // hero
+      const heroImg = document.getElementById('projectHeroImg');
+      heroImg.classList.remove('loaded');
+      heroImg.src = cover;
+      heroImg.onload = () => heroImg.classList.add('loaded');
+
+      document.getElementById('projectHeroTitle').textContent = entry.title;
+      document.getElementById('projectHeroBadge').textContent = TYPE_LABELS[entry.postType] || entry.postType;
+      document.getElementById('projectHeroOpen').href = url;
+
+      // browser mockup
+      document.getElementById('browserUrl').textContent = url.replace('https://', '').replace('http://', '').split('/')[0];
+      const screenImg = document.getElementById('browserScreenImg');
+      screenImg.src = cover;
+
+      // info
+      document.getElementById('projectDescription').textContent = entry.excerpt || entry.description || '';
+
+      // meta
+      const techs = (entry.technologies || '').split(',').map(t => t.trim()).filter(Boolean);
+      document.getElementById('techList').innerHTML = techs.map(t => `<span class="tech-pill">${t}</span>`).join('');
+
+      document.getElementById('projectMetaRow').innerHTML = [
+        entry.year ? `<div class="project-meta-item"><span class="project-meta-label">año</span><span class="project-meta-value">${entry.year}</span></div>` : '',
+        entry.author ? `<div class="project-meta-item"><span class="project-meta-label">por</span><span class="project-meta-value">${entry.author}</span></div>` : '',
+        url ? `<div class="project-meta-item"><span class="project-meta-label">url</span><span class="project-meta-value"><a href="${url}" target="_blank" style="color:var(--blue);text-decoration:underline;">${url.replace('https://','')}</a></span></div>` : ''
+      ].join('');
+
+      document.getElementById('projectCta').href = url;
+    }
+
+    /* ── SELECT ROW ── */
     let selectedRow = null;
 
-    function selectRow(row) {
+    function selectRow(row, entry) {
       if (selectedRow) selectedRow.classList.remove('selected');
       selectedRow = row;
       row.classList.add('selected');
-      showPhoto(row.dataset.cover);
+
+      const isPreview = PREVIEW_TYPES.includes(entry.postType);
+      if (isPreview) {
+        enterPreviewMode();
+        renderPreview(entry);
+      } else {
+        exitPreviewMode();
+        showPhoto(entry.cover);
+      }
     }
+
+    /* ── RENDER ROWS ── */
+    let allEntries = [], activeFilter = 'all';
 
     function renderRows(entries) {
       const container = document.getElementById('rowsContainer');
-      const filtered = activeFilter === 'all' ? entries : entries.filter(e => e.postType === activeFilter);
+      const filtered = activeFilter === 'all' ? entries : entries.filter(e => (e.postType || e.type || 'articulo') === activeFilter);
 
       if (!filtered.length) {
         container.innerHTML = `<div class="index-loading">no entries found</div>`;
-        return;
+        exitPreviewMode(); return;
       }
 
       container.innerHTML = filtered.map(e => {
-        const pt = e.postType || 'articulo';
-        const dot = TYPE_DOTS[pt] || 'dot-articulo';
-        const label = TYPE_LABELS[pt] || pt;
+        const pt = e.postType || e.type || 'articulo';
+        const isPreview = PREVIEW_TYPES.includes(pt);
         return `
-          <div class="index-row" data-href="article.html?id=${e.id}" data-cover="${e.cover||''}">
+          <div class="index-row" data-id="${e.id}">
             <span class="row-title">${e.title}</span>
-            <span class="row-type-badge">
-              <span class="row-type-dot ${dot}"></span>
-              ${label}
-            </span>
+            <span class="row-type-badge"><span class="row-type-dot ${TYPE_DOTS[pt]||'dot-articulo'}"></span>${TYPE_LABELS[pt]||pt}</span>
             <span class="row-year">
-              ${e.year||''}
-              <a class="row-read-more" href="article.html?id=${e.id}">read more →</a>
+              ${e.year||e.date||''}
+              ${isPreview
+                ? `<button class="row-action" data-id="${e.id}">open ↗</button>`
+                : `<a class="row-action" href="article.html?id=${e.id}">read →</a>`
+              }
             </span>
           </div>`;
       }).join('');
 
       container.querySelectorAll('.index-row').forEach(row => {
-        row.addEventListener('click', e => {
-          if (e.target.closest('.row-read-more')) return;
-          selectRow(row);
+        const id = parseInt(row.dataset.id);
+        const entry = entries.find(e => e.id === id);
+        if (!entry) return;
+
+        row.addEventListener('click', ev => {
+          if (ev.target.closest('.row-action')) return;
+          selectRow(row, entry);
         });
+
+        const actionBtn = row.querySelector('.row-action');
+        if (actionBtn && entry.projectUrl) {
+          actionBtn.addEventListener('click', ev => {
+            ev.stopPropagation();
+            window.open(entry.projectUrl || entry.url, '_blank');
+          });
+        }
       });
 
+      // select first row automatically
       const first = container.querySelector('.index-row');
-      if (first) selectRow(first);
+      if (first) {
+        const id = parseInt(first.dataset.id);
+        const entry = entries.find(e => e.id === id);
+        if (entry) selectRow(first, entry);
+      }
     }
 
     /* ── FILTERS LEGEND ── */
@@ -301,6 +492,7 @@
       document.querySelectorAll('.legend-item').forEach(i => i.classList.remove('active'));
       item.classList.add('active');
       activeFilter = item.dataset.filter;
+      exitPreviewMode();
       renderRows(allEntries);
     });
 
@@ -309,9 +501,14 @@
       ['articulo','resena','archivo','web','portfolio'].forEach(type => {
         const ul = document.getElementById('filter-' + type);
         if (!ul) return;
-        const filtered = entries.filter(e => e.postType === type);
+        const filtered = entries.filter(e => (e.postType||e.type||'articulo') === type);
         ul.innerHTML = filtered.length
-          ? filtered.map(e => `<li><a href="article.html?id=${e.id}">${e.title} — ${e.year||''}</a></li>`).join('')
+          ? filtered.map(e => {
+              const isPreview = PREVIEW_TYPES.includes(e.postType || e.type);
+              const href = isPreview ? (e.projectUrl || e.url || '#') : `article.html?id=${e.id}`;
+              const target = isPreview ? ' target="_blank"' : '';
+              return `<li><a href="${href}"${target}>${e.title} — ${e.year||e.date||''}</a></li>`;
+            }).join('')
           : `<li style="font-size:0.8rem;color:#aaa;padding:4px 0;">no entries</li>`;
       });
     }
@@ -321,10 +518,18 @@
       allEntries = await loadEntries();
       renderRows(allEntries);
       populateFilters(allEntries);
-
+      // default photo for non-preview entries
+      const defaultImg = new Image();
+      defaultImg.src = 'img/paris.jpg';
+      defaultImg.onload = () => {
+        if (!previewMode) {
+          photoPanel.appendChild(defaultImg);
+          requestAnimationFrame(() => { defaultImg.style.transition = 'opacity 0.4s ease'; defaultImg.style.opacity = '1'; defaultImg.classList.add('visible'); });
+        }
+      };
     })();
 
-    /* ── OVERLAY ── */
+    /* ── FILTERS ── */
     document.getElementById('filtersBtn').addEventListener('click', () => document.getElementById('filtersOverlay').classList.add('active'));
     document.getElementById('filtersClose').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
     document.getElementById('filtersScrim').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
