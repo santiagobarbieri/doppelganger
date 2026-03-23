@@ -1,0 +1,399 @@
+/* ─────────────────────────────
+   RESET + BASE
+───────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --black: #111111;
+  --white: #ffffff;
+  --bg: #f0ede6;
+
+  --blue: #ff6200;
+  --red: #e80000;
+  --green: #00aa00;
+
+  --font: 'Inter', sans-serif;
+
+  --c-articulo: #111111;
+  --c-resena: #ff6200;
+  --c-archivo: #888888;
+  --c-web: #00aa00;
+  --c-portfolio: #e80000;
+
+  --nav-h: 60px;
+  --footer-h: 40px;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--black);
+  font-family: var(--font);
+  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* ─────────────────────────────
+   NAVBAR
+───────────────────────────── */
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  height: var(--nav-h);
+  border-bottom: 1px solid var(--black);
+  background: var(--bg);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-right: 20px;
+  border-right: 1px solid var(--black);
+}
+
+.nav-logo img {
+  width: 28px;
+  height: 28px;
+}
+
+.nav-logo-text {
+  font-size: 1rem;
+}
+
+.nav-logo-reg {
+  font-size: 0.6rem;
+  vertical-align: super;
+}
+
+.nav-tagline {
+  font-size: 0.75rem;
+  color: rgba(17,17,17,0.35);
+  padding-left: 20px;
+  flex: 1;
+  font-style: italic;
+}
+
+.nav-links {
+  display: flex;
+}
+
+.nav-link {
+  font-size: 0.75rem;
+  padding: 0 18px;
+  border-left: 1px solid var(--black);
+  display: flex;
+  align-items: center;
+  transition: background 0.15s;
+}
+
+.nav-link:hover {
+  background: rgba(17,17,17,0.05);
+}
+
+.nav-link.underline {
+  text-decoration: underline;
+}
+
+.nav-link.cta {
+  background: var(--black);
+  color: var(--bg);
+}
+
+.nav-link.cta:hover {
+  background: #2a2a2a;
+}
+
+
+/* ─────────────────────────────
+   LAYOUT
+───────────────────────────── */
+.main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+
+/* ─────────────────────────────
+   PHOTO PANEL
+───────────────────────────── */
+.photo-panel {
+  width: 320px;
+  border-right: 1px solid var(--black);
+  position: relative;
+  background: #ccc9c2;
+  transition: 0.5s;
+}
+
+.photo-panel.collapsed {
+  width: 0;
+  border-right: none;
+}
+
+.photo-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.photo-panel img.visible {
+  opacity: 1;
+}
+
+
+/* ─────────────────────────────
+   INDEX LIST
+───────────────────────────── */
+.index-list {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 320px);
+  transition: 0.5s;
+}
+
+.index-list.narrow {
+  width: 290px;
+  border-right: 1px solid var(--black);
+}
+
+.index-list.expanded {
+  width: 100%;
+}
+
+
+/* LEGEND */
+.type-legend {
+  display: flex;
+  border-bottom: 1px solid var(--black);
+  overflow-x: auto;
+}
+
+.legend-item {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  padding: 0 14px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+.legend-item.active {
+  background: rgba(0,0,0,0.04);
+}
+
+.legend-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.dot-articulo { background: var(--c-articulo); }
+.dot-resena   { background: var(--c-resena); }
+.dot-archivo  { background: var(--c-archivo); }
+.dot-web      { background: var(--c-web); }
+.dot-portfolio{ background: var(--c-portfolio); }
+
+
+/* HEADER */
+.index-header {
+  display: grid;
+  grid-template-columns: 1fr 110px 64px;
+  padding: 0 18px;
+  height: 28px;
+  background: var(--black);
+  color: rgba(255,255,255,0.4);
+}
+
+
+/* ROWS */
+.rows-container {
+  overflow-y: auto;
+}
+
+.index-row {
+  display: grid;
+  grid-template-columns: 1fr 110px 64px;
+  padding: 0 18px;
+  height: 54px;
+  align-items: center;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.index-row.selected {
+  color: var(--blue);
+}
+
+.row-title {
+  font-size: 0.9rem;
+}
+
+.row-type-badge {
+  font-size: 0.52rem;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 2px 6px;
+}
+
+.row-year {
+  font-size: 0.7rem;
+  color: rgba(0,0,0,0.3);
+}
+
+.row-action {
+  display: none;
+}
+
+.index-row.selected .row-action {
+  display: inline;
+}
+
+
+/* ─────────────────────────────
+   PREVIEW PANEL
+───────────────────────────── */
+.preview-panel {
+  flex: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.preview-panel.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+
+/* HERO */
+.project-hero {
+  height: 52%;
+  position: relative;
+  background: #1a1a1a;
+}
+
+.project-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.project-hero-img.loaded {
+  opacity: 1;
+}
+
+.project-hero-title {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+}
+
+
+/* INFO */
+.project-info {
+  padding: 20px 24px;
+}
+
+.project-description {
+  font-size: 0.82rem;
+  line-height: 1.8;
+}
+
+
+/* ─────────────────────────────
+   FOOTER
+───────────────────────────── */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: var(--footer-h);
+  border-top: 1px solid var(--black);
+}
+
+.footer span {
+  font-size: 0.62rem;
+  color: rgba(0,0,0,0.35);
+}
+
+
+/* ─────────────────────────────
+   OVERLAY
+───────────────────────────── */
+.filters-overlay {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.filters-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.filters-scrim {
+  background: rgba(0,0,0,0.4);
+  position: absolute;
+  inset: 0;
+}
+
+.filters-panel {
+  width: min(640px, 88vw);
+  background: var(--bg);
+  transform: translateX(-100%);
+  transition: 0.4s;
+}
+
+.filters-overlay.active .filters-panel {
+  transform: translateX(0);
+}
+
+
+/* ─────────────────────────────
+   RESPONSIVE
+───────────────────────────── */
+@media (max-width: 860px) {
+  .photo-panel {
+    display: none;
+  }
+
+  .index-list {
+    width: 100% !important;
+  }
+
+  .preview-panel {
+    display: none;
+  }
+
+  .nav-tagline {
+    display: none;
+  }
+}
