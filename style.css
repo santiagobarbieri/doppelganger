@@ -169,7 +169,6 @@ a { color: inherit; text-decoration: none; }
 .legend-item {
   font-size: 0.58rem;
   font-family: var(--mono);
-  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(17,17,17,0.38);
   padding: 0 14px;
@@ -626,10 +625,9 @@ a { color: inherit; text-decoration: none; }
 .filters-title {
   grid-column: 1/-1;
   font-size: 2.6rem;
-  font-weight: 100;
+  font-weight: 400;
   margin-bottom: 36px;
   line-height: 1;
-  letter-spacing: -0.02em;
 }
 
 .filter-col { display: flex; flex-direction: column; gap: 24px; }
