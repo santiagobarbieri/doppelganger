@@ -87,7 +87,7 @@
         <span class="project-hero-badge" id="projectHeroBadge">portfolio</span>
         <div class="project-hero-title" id="projectHeroTitle"></div>
         <a class="project-hero-open" id="projectHeroOpen" href="#" target="_blank">open site ↗</a>
-        <div class="browser-mockup" id="browserMockup">
+        <div class="browser-mockup">
           <div class="browser-bar">
             <div class="browser-dots">
               <div class="browser-dot"></div>
@@ -121,74 +121,15 @@
     const TYPE_LABELS = { articulo:'artículo', resena:'reseña', archivo:'archivo', web:'página web', portfolio:'portfolio' };
     const PREVIEW_TYPES = ['web', 'portfolio'];
 
-    /* ── HARDCODED PROJECTS ── */
-    const PROJECTS = {
-      'atlas': {
-        title: 'Atlas News',
-        type: 'web',
-        year: 2025,
-        url: 'https://atlasnewsbydopple.netlify.app/',
-        cover: 'img/atlas-cover.jpg',
-        description: 'A live news aggregator with real-time weather, animated gradient backgrounds and a cinematic editorial layout. Built for atmosphere as much as information.',
-        technologies: ['HTML', 'CSS', 'Vanilla JS', 'News API', 'Open-Meteo'],
-        author: 'dopple'
-      },
-      'infinity-disk': {
-        title: 'Infinity Disk',
-        type: 'portfolio',
-        year: 2025,
-        url: 'https://sphinx-archive.netlify.app/infinity-disk',
-        cover: 'img/infinitydisk-cover.jpg',
-        description: 'A personal music archive and player. Dark mode interface with folder-based organization, waveform visualization and custom album art. Designed for the obsessive listener.',
-        technologies: ['HTML', 'CSS', 'Vanilla JS', 'Web Audio API'],
-        author: 'dopple'
-      },
-      'bare-state': {
-        title: 'Bare State',
-        type: 'portfolio',
-        year: 2026,
-        url: 'https://hilarious-torrone-62fd5e.netlify.app/',
-        cover: 'img/barestate-cover.jpg',
-        description: 'E-commerce and lookbook for Bare State — a Buenos Aires clothing brand. Clean editorial layout, full-screen lookbook, product filtering and contact integration.',
-        technologies: ['HTML', 'CSS', 'Vanilla JS'],
-        author: 'dopple'
-      }
-    };
-
-    /* ── LOAD ENTRIES ── */
     async function loadEntries() {
       try {
         const res = await fetch('/api/entries');
         if (!res.ok) throw new Error();
-        const api = await res.json();
-        // merge hardcoded projects
-        const hardcoded = Object.keys(PROJECTS).map((key, i) => ({
-          id: 9000 + i,
-          ...PROJECTS[key],
-          postType: PROJECTS[key].type,
-          excerpt: PROJECTS[key].description,
-          slug: key,
-          status: 'published',
-          date: String(PROJECTS[key].year),
-          projectUrl: PROJECTS[key].url,
-          technologies: PROJECTS[key].technologies.join(', ')
-        }));
-        return [...hardcoded, ...api];
+        return await res.json();
       } catch {
         const db = JSON.parse(localStorage.getItem('dopple_db') || 'null');
-        const local = db?.entries ? db.entries.filter(e => e.status === 'published') : [];
-        const hardcoded = Object.keys(PROJECTS).map((key, i) => ({
-          id: 9000 + i,
-          ...PROJECTS[key],
-          postType: PROJECTS[key].type,
-          excerpt: PROJECTS[key].description,
-          slug: key,
-          status: 'published',
-          date: String(PROJECTS[key].year),
-          projectUrl: PROJECTS[key].url,
-          technologies: PROJECTS[key].technologies.join(', ')
-        }));
-        return [...hardcoded, ...local];
+        if (db?.entries) return db.entries.filter(e => e.status === 'published');
+        return [];
       }
     }
 
@@ -203,9 +144,16 @@
       const img = new Image();
       img.src = target;
       img.onload = () => {
-        Array.from(photoPanel.querySelectorAll('img')).forEach(i => { i.style.opacity = '0'; setTimeout(() => i.remove(), 420); });
+        Array.from(photoPanel.querySelectorAll('img')).forEach(i => {
+          i.style.opacity = '0';
+          setTimeout(() => i.remove(), 420);
+        });
         photoPanel.appendChild(img);
-        requestAnimationFrame(() => { img.style.transition = 'opacity 0.4s ease'; img.style.opacity = '1'; img.classList.add('visible'); });
+        requestAnimationFrame(() => {
+          img.style.transition = 'opacity 0.4s ease';
+          img.style.opacity = '1';
+          img.classList.add('visible');
+        });
       };
     }
 
@@ -233,10 +181,9 @@
 
     /* ── RENDER PREVIEW ── */
     function renderPreview(entry) {
-      const url = entry.projectUrl || entry.url || '';
+      const url = entry.projectUrl || '';
       const cover = entry.cover || 'img/paris.jpg';
 
-      // hero
       const heroImg = document.getElementById('projectHeroImg');
       heroImg.classList.remove('loaded');
       heroImg.src = cover;
@@ -245,16 +192,11 @@
       document.getElementById('projectHeroTitle').textContent = entry.title;
       document.getElementById('projectHeroBadge').textContent = TYPE_LABELS[entry.postType] || entry.postType;
       document.getElementById('projectHeroOpen').href = url;
+      document.getElementById('browserUrl').textContent = url.replace('https://','').replace('http://','').split('/')[0];
+      document.getElementById('browserScreenImg').src = cover;
+      document.getElementById('projectDescription').textContent = entry.excerpt || '';
+      document.getElementById('projectCta').href = url;
 
-      // browser mockup
-      document.getElementById('browserUrl').textContent = url.replace('https://', '').replace('http://', '').split('/')[0];
-      const screenImg = document.getElementById('browserScreenImg');
-      screenImg.src = cover;
-
-      // info
-      document.getElementById('projectDescription').textContent = entry.excerpt || entry.description || '';
-
-      // meta
       const techs = (entry.technologies || '').split(',').map(t => t.trim()).filter(Boolean);
       document.getElementById('techList').innerHTML = techs.map(t => `<span class="tech-pill">${t}</span>`).join('');
 
@@ -263,8 +205,6 @@
         entry.author ? `<div class="project-meta-item"><span class="project-meta-label">por</span><span class="project-meta-value">${entry.author}</span></div>` : '',
         url ? `<div class="project-meta-item"><span class="project-meta-label">url</span><span class="project-meta-value"><a href="${url}" target="_blank" style="color:var(--blue);text-decoration:underline;">${url.replace('https://','')}</a></span></div>` : ''
       ].join('');
-
-      document.getElementById('projectCta').href = url;
     }
 
     /* ── SELECT ROW ── */
@@ -274,15 +214,9 @@
       if (selectedRow) selectedRow.classList.remove('selected');
       selectedRow = row;
       row.classList.add('selected');
-
       const isPreview = PREVIEW_TYPES.includes(entry.postType);
-      if (isPreview) {
-        enterPreviewMode();
-        renderPreview(entry);
-      } else {
-        exitPreviewMode();
-        showPhoto(entry.cover);
-      }
+      if (isPreview) { enterPreviewMode(); renderPreview(entry); }
+      else { exitPreviewMode(); showPhoto(entry.cover); }
     }
 
     /* ── RENDER ROWS ── */
@@ -290,7 +224,7 @@
 
     function renderRows(entries) {
       const container = document.getElementById('rowsContainer');
-      const filtered = activeFilter === 'all' ? entries : entries.filter(e => (e.postType || e.type || 'articulo') === activeFilter);
+      const filtered = activeFilter === 'all' ? entries : entries.filter(e => (e.postType || 'articulo') === activeFilter);
 
       if (!filtered.length) {
         container.innerHTML = `<div class="index-loading">no entries found</div>`;
@@ -298,18 +232,20 @@
       }
 
       container.innerHTML = filtered.map(e => {
-        const pt = e.postType || e.type || 'articulo';
+        const pt = e.postType || 'articulo';
         const isPreview = PREVIEW_TYPES.includes(pt);
         return `
           <div class="index-row" data-id="${e.id}">
             <span class="row-title">${e.title}</span>
-            <span class="row-type-badge"><span class="row-type-dot ${TYPE_DOTS[pt]||'dot-articulo'}"></span>${TYPE_LABELS[pt]||pt}</span>
+            <span class="row-type-badge">
+              <span class="row-type-dot ${TYPE_DOTS[pt]||'dot-articulo'}"></span>
+              ${TYPE_LABELS[pt]||pt}
+            </span>
             <span class="row-year">
-              ${e.year||e.date||''}
+              ${e.year||''}
               ${isPreview
                 ? `<button class="row-action" data-id="${e.id}">open ↗</button>`
-                : `<a class="row-action" href="article.html?id=${e.id}">read →</a>`
-              }
+                : `<a class="row-action" href="article.html?id=${e.id}">read →</a>`}
             </span>
           </div>`;
       }).join('');
@@ -328,12 +264,11 @@
         if (actionBtn && entry.projectUrl) {
           actionBtn.addEventListener('click', ev => {
             ev.stopPropagation();
-            window.open(entry.projectUrl || entry.url, '_blank');
+            window.open(entry.projectUrl, '_blank');
           });
         }
       });
 
-      // select first row automatically
       const first = container.querySelector('.index-row');
       if (first) {
         const id = parseInt(first.dataset.id);
@@ -358,13 +293,13 @@
       ['articulo','resena','archivo','web','portfolio'].forEach(type => {
         const ul = document.getElementById('filter-' + type);
         if (!ul) return;
-        const filtered = entries.filter(e => (e.postType||e.type||'articulo') === type);
+        const filtered = entries.filter(e => (e.postType||'articulo') === type);
         ul.innerHTML = filtered.length
           ? filtered.map(e => {
-              const isPreview = PREVIEW_TYPES.includes(e.postType || e.type);
-              const href = isPreview ? (e.projectUrl || e.url || '#') : `article.html?id=${e.id}`;
+              const isPreview = PREVIEW_TYPES.includes(e.postType);
+              const href = isPreview ? (e.projectUrl || '#') : `article.html?id=${e.id}`;
               const target = isPreview ? ' target="_blank"' : '';
-              return `<li><a href="${href}"${target}>${e.title} — ${e.year||e.date||''}</a></li>`;
+              return `<li><a href="${href}"${target}>${e.title} — ${e.year||''}</a></li>`;
             }).join('')
           : `<li style="font-size:0.8rem;color:#aaa;padding:4px 0;">no entries</li>`;
       });
@@ -375,18 +310,20 @@
       allEntries = await loadEntries();
       renderRows(allEntries);
       populateFilters(allEntries);
-      // default photo for non-preview entries
       const defaultImg = new Image();
       defaultImg.src = 'img/paris.jpg';
       defaultImg.onload = () => {
         if (!previewMode) {
           photoPanel.appendChild(defaultImg);
-          requestAnimationFrame(() => { defaultImg.style.transition = 'opacity 0.4s ease'; defaultImg.style.opacity = '1'; defaultImg.classList.add('visible'); });
+          requestAnimationFrame(() => {
+            defaultImg.style.transition = 'opacity 0.4s ease';
+            defaultImg.style.opacity = '1';
+            defaultImg.classList.add('visible');
+          });
         }
       };
     })();
 
-    /* ── FILTERS ── */
     document.getElementById('filtersBtn').addEventListener('click', () => document.getElementById('filtersOverlay').classList.add('active'));
     document.getElementById('filtersClose').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
     document.getElementById('filtersScrim').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
