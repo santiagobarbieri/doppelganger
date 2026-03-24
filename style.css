@@ -116,7 +116,7 @@ a { color: inherit; text-decoration: none; }
    PHOTO PANEL
 ───────────────────────────── */
 .photo-panel {
-  width: 320px;
+  width: 500px;
   flex-shrink: 0;
   border-right: 1px solid var(--black);
   position: relative;
