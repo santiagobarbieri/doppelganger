@@ -310,6 +310,7 @@
       renderRows(allEntries);
       populateFilters(allEntries);
       const defaultImg = new Image();
+      defaultImg.src = 'img/paris.jpg';
       defaultImg.onload = () => {
         if (!previewMode) {
           photoPanel.appendChild(defaultImg);
