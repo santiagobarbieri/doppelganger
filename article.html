@@ -3,217 +3,865 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>articles</title>
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <link rel="stylesheet" href="article.css"/>
+  <title>dopple®</title>
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;1,9..40,200&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <style>
+
+/* ─────────────────────────────────────────
+   RESET + VARS
+───────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --black:   #111111;
+  --white:   #ffffff;
+  --bg:      #f0ede6;
+  --bg-dark: #0d0d0d;
+  --accent:  #ff6200;
+  --font:    'DM Sans', sans-serif;
+  --serif:   'Playfair Display', serif;
+  --mono:    'DM Mono', monospace;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--black);
+  font-family: var(--font);
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ─────────────────────────────────────────
+   LOADING
+───────────────────────────────────────── */
+#loadingScreen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity 0.6s ease;
+}
+
+#loadingScreen.gone {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-word {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(17,17,17,0.3);
+  letter-spacing: 0.08em;
+  animation: pulse 1.4s ease infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+/* ─────────────────────────────────────────
+   NAVBAR
+───────────────────────────────────────── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 52px;
+  background: rgba(240,237,230,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-logo {
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.nav-logo span {
+  font-size: 0.5rem;
+  vertical-align: super;
+  font-weight: 300;
+  opacity: 0.5;
+}
+
+.nav-back {
+  font-size: 0.65rem;
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+  color: rgba(17,17,17,0.4);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+}
+
+.nav-back:hover { color: var(--black); }
+
+.nav-read-time {
+  font-size: 0.6rem;
+  font-family: var(--mono);
+  color: rgba(17,17,17,0.3);
+  letter-spacing: 0.06em;
+}
+
+/* ─────────────────────────────────────────
+   PROGRESS BAR
+───────────────────────────────────────── */
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  width: 0%;
+  z-index: 200;
+  transition: width 0.1s linear;
+}
+
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+.article-hero {
+  position: relative;
+  height: 72vh;
+  min-height: 480px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.05);
+  transition: transform 8s ease;
+}
+
+.hero-img.loaded { transform: scale(1); }
+
+.hero-no-img {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a1610 0%, #2a2218 50%, #1a1610 100%);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(13,13,13,0.95) 0%,
+    rgba(13,13,13,0.6) 35%,
+    rgba(13,13,13,0.1) 70%,
+    transparent 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 60px 52px;
+  max-width: 900px;
+  width: 100%;
+}
+
+.hero-type {
+  font-size: 0.6rem;
+  font-family: var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-type::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--accent);
+  display: inline-block;
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.hero-author {
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.5);
+  font-style: italic;
+  font-family: var(--serif);
+}
+
+.hero-year {
+  font-size: 0.6rem;
+  font-family: var(--mono);
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.08em;
+}
+
+.hero-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+}
+
+/* ─────────────────────────────────────────
+   ARTICLE LAYOUT
+───────────────────────────────────────── */
+.article-layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  min-height: 60vh;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.article-layout.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────
+   LEFT: TEXT
+───────────────────────────────────────── */
+.article-text {
+  padding: 56px 64px 80px;
+  border-right: 1px solid rgba(17,17,17,0.07);
+}
+
+/* excerpt / intro */
+.article-intro {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.65;
+  color: rgba(17,17,17,0.65);
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(17,17,17,0.08);
+}
+
+/* markdown body */
+.article-body {
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.9;
+  color: rgba(17,17,17,0.75);
+}
+
+.article-body p { margin-bottom: 1.5em; }
+
+.article-body h1, .article-body h2, .article-body h3 {
+  font-family: var(--serif);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin: 2em 0 0.8em;
+}
+
+.article-body h1 { font-size: 2rem; }
+.article-body h2 { font-size: 1.5rem; }
+.article-body h3 { font-size: 1.15rem; }
+
+.article-body blockquote {
+  border-left: 2px solid var(--accent);
+  padding: 4px 0 4px 24px;
+  margin: 2em 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: rgba(17,17,17,0.6);
+}
+
+.article-body strong { font-weight: 400; color: var(--black); }
+.article-body em { font-style: italic; }
+
+.article-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.article-body img {
+  width: 100%;
+  display: block;
+  margin: 2em 0;
+}
+
+.article-body ul, .article-body ol {
+  padding-left: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.article-body li { margin-bottom: 0.5em; }
+
+.article-body code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  background: rgba(17,17,17,0.06);
+  padding: 2px 6px;
+}
+
+.article-body pre {
+  background: rgba(17,17,17,0.04);
+  padding: 20px;
+  margin: 1.5em 0;
+  overflow-x: auto;
+}
+
+.article-body pre code {
+  background: none;
+  padding: 0;
+}
+
+.article-body hr {
+  border: none;
+  border-top: 1px solid rgba(17,17,17,0.1);
+  margin: 3em 0;
+}
+
+/* embed */
+.embed-wrap {
+  margin: 2.5em 0;
+  border-top: 1px solid rgba(17,17,17,0.08);
+  border-bottom: 1px solid rgba(17,17,17,0.08);
+  padding: 20px 0;
+}
+
+.embed-label {
+  font-size: 0.55rem;
+  font-family: var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(17,17,17,0.28);
+  margin-bottom: 12px;
+}
+
+.embed-wrap iframe { display: block; border-radius: 0; }
+
+/* back link */
+.article-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 60px;
+  font-size: 0.65rem;
+  font-family: var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(17,17,17,0.35);
+  transition: color 0.15s;
+  padding-top: 40px;
+  border-top: 1px solid rgba(17,17,17,0.08);
+  width: 100%;
+}
+
+.article-back:hover { color: var(--black); }
+
+/* ─────────────────────────────────────────
+   RIGHT: PHOTOS + SIDEBAR
+───────────────────────────────────────── */
+.article-aside {
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 52px;
+  align-self: start;
+  max-height: calc(100vh - 52px);
+  overflow-y: auto;
+}
+
+/* main image */
+.aside-main-img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+}
+
+/* gallery grid */
+.aside-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.aside-gallery img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.aside-gallery img:hover { opacity: 0.8; }
+
+/* aside info block */
+.aside-info {
+  padding-top: 16px;
+  border-top: 1px solid rgba(17,17,17,0.07);
+}
+
+.aside-info-label {
+  font-size: 0.52rem;
+  font-family: var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(17,17,17,0.28);
+  margin-bottom: 8px;
+}
+
+.aside-info-val {
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: rgba(17,17,17,0.65);
+  line-height: 1.6;
+}
+
+/* ─────────────────────────────────────────
+   NEXT ARTICLE
+───────────────────────────────────────── */
+.next-article {
+  border-top: 1px solid rgba(17,17,17,0.07);
+  padding: 48px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+  color: var(--black);
+}
+
+.next-article:hover { background: rgba(17,17,17,0.02); }
+
+.next-label {
+  font-size: 0.55rem;
+  font-family: var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(17,17,17,0.28);
+  margin-bottom: 8px;
+}
+
+.next-title {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--black);
+}
+
+.next-arrow {
+  font-size: 1.5rem;
+  color: rgba(17,17,17,0.2);
+  flex-shrink: 0;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.next-article:hover .next-arrow {
+  transform: translateX(6px);
+  color: var(--accent);
+}
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+.article-footer {
+  background: var(--bg-dark);
+  color: var(--white);
+  padding: 40px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.footer-logo span {
+  font-size: 0.5rem;
+  vertical-align: super;
+  opacity: 0.4;
+}
+
+.footer-meta {
+  font-size: 0.6rem;
+  font-family: var(--mono);
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.06em;
+}
+
+.footer-back {
+  font-size: 0.65rem;
+  font-family: var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer-back:hover { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   LIGHTBOX
+───────────────────────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0,0,0,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.lightbox.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 1rem;
+  cursor: pointer;
+  font-family: var(--mono);
+  letter-spacing: 0.1em;
+  transition: color 0.15s;
+}
+
+.lightbox-close:hover { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 960px) {
+  .article-layout { grid-template-columns: 1fr; }
+  .article-aside {
+    position: static;
+    max-height: none;
+    padding: 0 32px 48px;
+    border-top: 1px solid rgba(17,17,17,0.07);
+  }
+  .article-aside .aside-main-img { aspect-ratio: 16/9; }
+  .hero-content { padding: 0 32px 40px; }
+  .article-text { padding: 40px 32px 60px; }
+  .next-article { padding: 40px 32px; }
+  .article-footer { padding: 32px; flex-direction: column; gap: 12px; align-items: flex-start; }
+}
+
+@media (max-width: 600px) {
+  .hero-content { padding: 0 20px 32px; }
+  .article-text { padding: 32px 20px 48px; }
+  .article-hero { height: 60vh; }
+  .navbar { padding: 0 20px; }
+  .nav-read-time { display: none; }
+}
+
+  </style>
 </head>
 <body>
 
-  <nav class="navbar" id="navbar">
-    <span class="nav-filters" id="filtersBtn">filters</span>
-    <span class="nav-logo">doppelgänger</span>
-    <div class="nav-right">
-      <span class="nav-credit">Engineered by Sphinx</span>
-    </div>
-  </nav>
+<!-- PROGRESS BAR -->
+<div class="read-progress" id="readProgress"></div>
 
-  <div class="filters-overlay" id="filtersOverlay">
-    <div class="filters-scrim" id="filtersScrim"></div>
-    <div class="filters-panel">
-      <div class="filters-panel-inner">
-        <h1 class="filters-title">Filters Menu</h1>
-        <div class="filter-col">
-          <div class="filter-group">
-            <span class="tag tag-yellow">editorial</span>
-            <ul id="filter-editorial"></ul>
-          </div>
-          <div class="filter-group">
-            <span class="tag tag-magenta">photography</span>
-            <ul id="filter-photography"></ul>
-          </div>
-          <div class="filter-group">
-            <span class="tag tag-red">music</span>
-            <ul id="filter-music"></ul>
-          </div>
-        </div>
-        <div class="filter-col">
-          <div class="filter-group">
-            <span class="tag tag-blue">article</span>
-            <ul id="filter-article"></ul>
-          </div>
-          <div class="filter-group">
-            <span class="tag tag-cyan">video</span>
-            <ul id="filter-video"></ul>
-          </div>
-        </div>
-      </div>
-      <button class="filters-close-btn" id="filtersClose">CLOSE  ✕</button>
+<!-- LOADING -->
+<div id="loadingScreen">
+  <div class="loading-word">loading…</div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close">ESC ✕</button>
+  <img id="lightboxImg" src="" alt=""/>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">dopple<span>®</span></a>
+  <a href="index.html" class="nav-back">← back to index</a>
+  <span class="nav-read-time" id="navReadTime"></span>
+</nav>
+
+<!-- HERO -->
+<div class="article-hero" id="articleHero">
+  <div class="hero-no-img" id="heroNoImg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-type" id="heroType">article</div>
+    <h1 class="hero-title" id="heroTitle">Loading…</h1>
+    <div class="hero-meta">
+      <span class="hero-author" id="heroAuthor"></span>
+      <span class="hero-dot" id="heroDot" style="display:none"></span>
+      <span class="hero-year" id="heroYear"></span>
     </div>
   </div>
+</div>
 
-  <!-- LOADING STATE -->
-  <div id="loadingState" style="display:flex; align-items:center; justify-content:center; min-height:60vh;">
-    <p style="font-family:'Roboto Mono',monospace; font-size:0.75rem; color:#aaa; letter-spacing:0.08em;">loading…</p>
-  </div>
+<!-- MAIN LAYOUT -->
+<div class="article-layout" id="articleLayout">
 
-  <!-- ARTICLE SHEET — filled by JS -->
-  <div class="article-sheet" id="articleSheet" style="display:none;">
-    <a href="index.html" class="close-btn">CLOSE  ✕</a>
-
-    <div class="article-text">
-      <div class="article-meta" id="articleMeta"></div>
-      <h1 class="article-title" id="articleTitle"></h1>
-      <p class="article-byline" id="articleByline"></p>
-
-      <!-- embed block (video/music) if present -->
-      <div class="embed-block" id="embedBlock" style="display:none;">
-        <div id="embedContainer"></div>
-        <div class="embed-label" id="embedLabel"></div>
-      </div>
-
-      <div class="article-body" id="articleBody"></div>
-      <a href="index.html" class="back-link">← back to index</a>
+  <!-- LEFT: TEXT -->
+  <div class="article-text">
+    <div class="article-intro" id="articleIntro" style="display:none;"></div>
+    <div class="embed-wrap" id="embedWrap" style="display:none;">
+      <div class="embed-label" id="embedLabel"></div>
+      <div id="embedContainer"></div>
     </div>
-
-    <div class="article-photos" id="articlePhotos"></div>
+    <div class="article-body" id="articleBody"></div>
+    <a href="index.html" class="article-back">← back to index</a>
   </div>
 
-  <script>
-    const TAG_COLORS = { editorial:'yellow', photography:'magenta', article:'blue', music:'red', video:'cyan', movies:'cyan' };
+  <!-- RIGHT: ASIDE -->
+  <aside class="article-aside" id="articleAside">
+    <!-- filled by JS -->
+  </aside>
 
-    function tagHTML(tag) {
-      return `<span class="tag tag-${TAG_COLORS[tag]||'blue'}">${tag}</span>`;
+</div>
+
+<!-- NEXT ARTICLE -->
+<a class="next-article" id="nextArticle" href="#" style="display:none;">
+  <div>
+    <div class="next-label">next</div>
+    <div class="next-title" id="nextTitle"></div>
+  </div>
+  <span class="next-arrow">→</span>
+</a>
+
+<!-- FOOTER -->
+<footer class="article-footer">
+  <div class="footer-logo">dopple<span>®</span></div>
+  <span class="footer-meta">Buenos Aires — EST 2024</span>
+  <a href="index.html" class="footer-back">← index</a>
+</footer>
+
+<script>
+/* ── READ PROGRESS ── */
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+  document.getElementById('readProgress').style.width = Math.min(pct, 100) + '%';
+});
+
+/* ── LIGHTBOX ── */
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+/* ── READ TIME ── */
+function calcReadTime(text) {
+  const words = text.trim().split(/\s+/).length;
+  const mins = Math.max(1, Math.round(words / 200));
+  return `${mins} min read`;
+}
+
+/* ── EMBED ── */
+function buildEmbed(url) {
+  if (!url) return null;
+  const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/);
+  if (yt) return { html: `<iframe width="100%" height="300" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="display:block;"></iframe>`, label: 'video' };
+  const vm = url.match(/vimeo\.com\/(\d+)/);
+  if (vm) return { html: `<iframe width="100%" height="300" src="https://player.vimeo.com/video/${vm[1]}" frameborder="0" allowfullscreen style="display:block;"></iframe>`, label: 'video' };
+  if (url.includes('soundcloud.com')) return { html: `<iframe height="120" scrolling="no" frameborder="no" style="width:100%;" src="https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23ff6200&auto_play=false&hide_related=true&show_comments=false&show_user=true"></iframe>`, label: 'audio' };
+  if (url.includes('spotify.com')) {
+    const sp = url.replace('open.spotify.com/', 'open.spotify.com/embed/');
+    return { html: `<iframe src="${sp}" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" style="display:block;"></iframe>`, label: 'spotify' };
+  }
+  return null;
+}
+
+/* ── RENDER ── */
+function renderEntry(entry, allEntries) {
+  document.title = `${entry.title} — dopple®`;
+
+  // hero
+  document.getElementById('heroType').textContent = entry.postType || entry.type || 'article';
+  document.getElementById('heroTitle').textContent = entry.title;
+
+  const authorEl = document.getElementById('heroAuthor');
+  const dotEl    = document.getElementById('heroDot');
+  const yearEl   = document.getElementById('heroYear');
+
+  if (entry.author) { authorEl.textContent = entry.author; }
+  if (entry.year)   { yearEl.textContent = entry.year; }
+  if (entry.author && entry.year) { dotEl.style.display = ''; }
+
+  // hero image
+  if (entry.cover) {
+    const img = document.createElement('img');
+    img.className = 'hero-img';
+    img.alt = entry.title;
+    img.src = entry.cover;
+    img.onload = () => { img.classList.add('loaded'); document.getElementById('heroNoImg').style.display = 'none'; };
+    document.getElementById('articleHero').insertBefore(img, document.querySelector('.hero-overlay'));
+  }
+
+  // read time
+  const rt = calcReadTime(entry.body || entry.excerpt || '');
+  document.getElementById('navReadTime').textContent = rt;
+
+  // excerpt / intro
+  if (entry.excerpt) {
+    const intro = document.getElementById('articleIntro');
+    intro.textContent = entry.excerpt;
+    intro.style.display = '';
+  }
+
+  // embed
+  if (entry.embed) {
+    const emb = buildEmbed(entry.embed);
+    if (emb) {
+      document.getElementById('embedContainer').innerHTML = emb.html;
+      document.getElementById('embedLabel').textContent = emb.label;
+      document.getElementById('embedWrap').style.display = '';
     }
+  }
 
-    /* ── FETCH ALL ENTRIES, FIND BY ID ── */
-    async function loadEntry(id) {
-      const res = await fetch('/api/entries');
-      if (!res.ok) throw new Error('API error');
-      const entries = await res.json();
-      return entries.find(e => e.id === id) || null;
+  // body
+  if (entry.body) {
+    document.getElementById('articleBody').innerHTML = marked.parse(entry.body);
+  }
+
+  // aside
+  const aside = document.getElementById('articleAside');
+  let asideHTML = '';
+
+  if (entry.cover) {
+    asideHTML += `<img class="aside-main-img" src="${entry.cover}" alt="${entry.title}" onclick="openLightbox('${entry.cover}')"/>`;
+  }
+
+  const gallery = entry.gallery || [];
+  if (gallery.length) {
+    asideHTML += `<div class="aside-gallery">${gallery.map(src => `<img src="${src}" alt="" loading="lazy" onclick="openLightbox('${src}')"/>`).join('')}</div>`;
+  }
+
+  if (!entry.cover && !gallery.length) {
+    // no images — make text layout single col
+    document.getElementById('articleLayout').style.gridTemplateColumns = '1fr';
+    aside.style.display = 'none';
+  }
+
+  // aside info
+  if (entry.author || entry.year || entry.technologies) {
+    if (entry.author) asideHTML += `<div class="aside-info"><div class="aside-info-label">author</div><div class="aside-info-val">${entry.author}</div></div>`;
+    if (entry.year)   asideHTML += `<div class="aside-info"><div class="aside-info-label">year</div><div class="aside-info-val">${entry.year}</div></div>`;
+    if (entry.technologies) {
+      const techs = entry.technologies.split(',').map(t => t.trim()).filter(Boolean);
+      if (techs.length) asideHTML += `<div class="aside-info"><div class="aside-info-label">tags</div><div class="aside-info-val">${techs.join(' · ')}</div></div>`;
     }
+  }
 
-    /* ── EMBED HELPER ── */
-    function buildEmbed(url) {
-      if (!url) return null;
-      // YouTube
-      const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/);
-      if (yt) return { html: `<iframe width="100%" height="280" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen></iframe>`, label: 'YouTube' };
-      // Vimeo
-      const vm = url.match(/vimeo\.com\/(\d+)/);
-      if (vm) return { html: `<iframe width="100%" height="280" src="https://player.vimeo.com/video/${vm[1]}" frameborder="0" allowfullscreen></iframe>`, label: 'Vimeo' };
-      // SoundCloud
-      if (url.includes('soundcloud.com')) return { html: `<iframe width="100%" height="120" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23111111&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>`, label: 'SoundCloud' };
-      // Spotify
-      if (url.includes('spotify.com')) {
-        const sp = url.replace('https://open.spotify.com/', 'https://open.spotify.com/embed/');
-        return { html: `<iframe src="${sp}" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`, label: 'Spotify' };
-      }
-      return null;
-    }
+  aside.innerHTML = asideHTML;
 
-    /* ── RENDER ENTRY ── */
-    function renderEntry(entry, allEntries) {
-      document.title = `${entry.title} — doppelgänger`;
+  // next article
+  const others = allEntries.filter(e => e.id !== entry.id && (e.postType || e.type) === (entry.postType || entry.type));
+  if (others.length) {
+    const next = others[Math.floor(Math.random() * others.length)];
+    const nextEl = document.getElementById('nextArticle');
+    nextEl.href = `article.html?id=${next.id}`;
+    document.getElementById('nextTitle').textContent = next.title;
+    nextEl.style.display = '';
+  }
 
-      // meta tags
-      const tags = (entry.tags || [entry.type]).map(tagHTML).join(' ');
-      document.getElementById('articleMeta').innerHTML = `${tags} <span class="article-year">${entry.year || ''}</span>`;
-      document.getElementById('articleTitle').textContent = entry.title;
-      document.getElementById('articleByline').textContent = entry.author || '';
+  // show layout
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.getElementById('articleLayout').classList.add('visible');
+      const ls = document.getElementById('loadingScreen');
+      ls.classList.add('gone');
+      setTimeout(() => ls.remove(), 700);
+    }, 200);
+  });
+}
 
-      // body — render markdown
-      const bodyEl = document.getElementById('articleBody');
-      if (entry.body) {
-        bodyEl.innerHTML = marked.parse(entry.body);
-      }
+/* ── BOOT ── */
+(async () => {
+  const id = parseInt(new URLSearchParams(window.location.search).get('id'));
+  if (!id) { window.location.href = 'index.html'; return; }
 
-      // embed
-      if (entry.embed) {
-        const embed = buildEmbed(entry.embed);
-        if (embed) {
-          document.getElementById('embedContainer').innerHTML = embed.html;
-          document.getElementById('embedLabel').textContent = embed.label;
-          document.getElementById('embedBlock').style.display = '';
-        }
-      }
-
-      // photos
-      const photosEl = document.getElementById('articlePhotos');
-      const images = [];
-      if (entry.cover) images.push({ src: entry.cover, cls: 'span-2' });
-      if (entry.gallery && entry.gallery.length) {
-        entry.gallery.forEach((src, i) => {
-          const cls = i % 3 === 0 ? 'portrait' : i % 3 === 1 ? 'square' : 'land';
-          images.push({ src, cls });
-        });
-      }
-      if (images.length) {
-        photosEl.innerHTML = images.map(img =>
-          `<figure class="${img.cls}"><img src="${img.src}" alt="${entry.title}" loading="lazy"/></figure>`
-        ).join('');
-      } else {
-        photosEl.style.display = 'none';
-        document.getElementById('articleSheet').style.gridTemplateColumns = '1fr';
-      }
-
-      // populate filters
-      populateFilters(allEntries);
-
-      // show
-      document.getElementById('loadingState').style.display = 'none';
-      document.getElementById('articleSheet').style.display = '';
-    }
-
-    function populateFilters(entries) {
-      ['editorial','photography','article','music','video'].forEach(type => {
-        const ul = document.getElementById('filter-' + type);
-        if (!ul) return;
-        const filtered = entries.filter(e => e.type === type || (e.tags||[]).includes(type));
-        ul.innerHTML = filtered.length
-          ? filtered.map(e => `<li><a href="article.html?id=${e.id}">${e.title} — ${e.year||''}</a></li>`).join('')
-          : `<li style="font-size:0.8rem;color:#aaa;padding:4px 0;">no entries</li>`;
-      });
-    }
-
-    /* ── BOOT ── */
-    (async () => {
-      const params = new URLSearchParams(window.location.search);
-      const id = parseInt(params.get('id'));
-
-      if (!id) {
-        window.location.href = 'index.html';
-        return;
-      }
-
-      try {
-        const res = await fetch('/api/entries');
-        const all = await res.json();
-        const entry = all.find(e => e.id === id);
-        if (!entry) { window.location.href = 'index.html'; return; }
-        renderEntry(entry, all);
-      } catch(e) {
-        document.getElementById('loadingState').innerHTML =
-          `<p style="font-family:'Roboto Mono',monospace;font-size:0.75rem;color:#e80000;">error loading entry — <a href="index.html">go back</a></p>`;
-      }
-    })();
-
-    /* ── FILTERS ── */
-    document.getElementById('filtersBtn').addEventListener('click', () =>
-      document.getElementById('filtersOverlay').classList.add('active'));
-    document.getElementById('filtersClose').addEventListener('click', () =>
-      document.getElementById('filtersOverlay').classList.remove('active'));
-    document.getElementById('filtersScrim').addEventListener('click', () =>
-      document.getElementById('filtersOverlay').classList.remove('active'));
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') document.getElementById('filtersOverlay').classList.remove('active');
-    });
-
-    /* ── NAVBAR SCROLL ── */
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
-    });
-  </script>
+  try {
+    const res = await fetch('/api/entries');
+    const all = await res.json();
+    const entry = all.find(e => e.id === id);
+    if (!entry) { window.location.href = 'index.html'; return; }
+    renderEntry(entry, all);
+  } catch(e) {
+    document.getElementById('loadingScreen').innerHTML =
+      `<div style="text-align:center;"><p style="font-family:'DM Mono',monospace;font-size:0.75rem;color:rgba(17,17,17,0.4);">error loading — <a href="index.html" style="text-decoration:underline;">go back</a></p></div>`;
+  }
+})();
+</script>
 </body>
 </html>

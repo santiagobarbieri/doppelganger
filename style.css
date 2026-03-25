@@ -667,7 +667,6 @@ a {
 ───────────────────────────────────────── */
 .s2-about {
   padding: 80px 60px;
-  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 .s2-about-grid {
@@ -721,7 +720,6 @@ a {
 ───────────────────────────────────────── */
 .s2-lookbook {
   padding: 80px 60px;
-  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 .lb-viewport {
@@ -832,7 +830,6 @@ a {
 ───────────────────────────────────────── */
 .s2-socials {
   padding: 80px 60px;
-  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 .socials-grid {
@@ -886,7 +883,6 @@ a {
 ───────────────────────────────────────── */
 .s2-contact {
   padding: 80px 60px;
-  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 .contact-grid {
@@ -1027,7 +1023,8 @@ a {
 ───────────────────────────────────────── */
 .s2-footer {
   padding: 60px;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  background-color: #f0ede6;
+  color: #111111;
 }
 
 .s2-footer-top {
@@ -1041,7 +1038,7 @@ a {
   font-size: 2rem;
   font-weight: 400;
   letter-spacing: -0.03em;
-  color: var(--white);
+  color: var(--bg-dark);
 }
 
 .s2-footer-logo span {
@@ -1054,7 +1051,7 @@ a {
 .s2-footer-tagline {
   font-size: 0.8rem;
   font-weight: 200;
-  color: rgba(255,255,255,0.25);
+  color: var(--black);
   font-style: italic;
   font-family: var(--font-serif);
 }
@@ -1076,26 +1073,26 @@ a {
   font-family: var(--mono);
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
+  color: var(--black);
   margin-bottom: 4px;
 }
 
 .s2-fcol a {
   font-size: 0.82rem;
   font-weight: 200;
-  color: rgba(255,255,255,0.45);
+  color: var(--black);
   text-decoration: none;
   transition: color 0.15s;
 }
 
-.s2-fcol a:hover { color: var(--white); }
+.s2-fcol a:hover { color: var(--accent); }
 
 .s2-footer-bottom {
   display: flex;
   gap: 32px;
   font-size: 0.6rem;
   font-family: var(--mono);
-  color: rgba(255,255,255,0.15);
+  color: var(--black);
   letter-spacing: 0.06em;
 }
 
