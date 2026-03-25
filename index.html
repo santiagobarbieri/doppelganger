@@ -7,31 +7,254 @@
   <link rel="icon" type="image/png" href="img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;1,9..40,200&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <nav class="navbar">
-    <a href="admin.html" class="nav-logo">
-      <img src="img/favicon.png" alt="dopple"/>
-      <span class="nav-logo-text">dopple<span class="nav-logo-reg">®</span></span>
-    </a>
-    <span class="nav-tagline">*</span>
-    <div class="type-legend" id="typeLegend">
-        <span class="legend-item active" data-filter="all"><span class="legend-dot" style="background:var(--black)"></span>todos</span>
-        <span class="legend-item" data-filter="articulo"><span class="legend-dot dot-articulo"></span>artículo</span>
-        <span class="legend-item" data-filter="resena"><span class="legend-dot dot-resena"></span>reseña</span>
-        <span class="legend-item" data-filter="archivo"><span class="legend-dot dot-archivo"></span>archivo</span>
-        <span class="legend-item" data-filter="web"><span class="legend-dot dot-web"></span>web</span>
-        <span class="legend-item" data-filter="portfolio"><span class="legend-dot dot-portfolio"></span>portfolio</span>
-      </div>
-    <div class="nav-links">
-      <span class="nav-link underline" id="filtersBtn">index</span>
-      <a href="mailto:dopplemusic@gmail.com" class="nav-link cta">get in contact &gt;</a>
-    </div>
-  </nav>
+  <!-- ═══════════════════════════════════════
+       SECTION 1 — MAIN INDEX
+  ═══════════════════════════════════════ -->
+  <section class="s-main" id="sMain">
 
+    <nav class="navbar">
+      <a href="admin.html" class="nav-logo">dopple<span class="nav-reg">®</span></a>
+      <div class="nav-filters" id="navFilters">
+        <span class="nf-item active" data-filter="all">all</span>
+        <span class="nf-sep">·</span>
+        <span class="nf-item" data-filter="work">work</span>
+        <span class="nf-sep">·</span>
+        <span class="nf-item" data-filter="articles">articles</span>
+        <span class="nf-sep">·</span>
+        <span class="nf-item" data-filter="blog">blog</span>
+      </div>
+      <div class="nav-right">
+        <a href="mailto:dopplemusic@gmail.com" class="nav-cta">contact &gt;</a>
+      </div>
+    </nav>
+
+    <div class="main-area">
+
+      <!-- INDEX LIST -->
+      <div class="index-col" id="indexCol">
+        <div class="rows-container" id="rowsContainer">
+          <div class="index-loading">loading…</div>
+        </div>
+      </div>
+
+      <!-- PREVIEW — slides in from right -->
+      <div class="preview-col" id="previewCol">
+        <button class="preview-close" onclick="hidePreview()">✕</button>
+        <div class="preview-inner" id="previewInner"></div>
+      </div>
+
+    </div>
+
+    <!-- EXPLORE BAR -->
+    <div class="explore-bar" id="exploreBar" onclick="openSection2()">
+      <span class="explore-label">keep exploring</span>
+      <span class="explore-arrow">↓</span>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 2 — ABOUT / LOOKBOOK / CONTACT
+  ═══════════════════════════════════════ -->
+  <section class="s-secondary" id="sSecondary">
+
+    <div class="s2-back" onclick="closeSection2()">
+      <span>↑</span>
+      <span>back to index</span>
+    </div>
+
+    <div class="s2-scroll">
+
+      <!-- HERO with video bg -->
+      <div class="s2-hero">
+        <video class="s2-video" autoplay muted loop playsinline poster="img/paris.jpg">
+          <source src="img/hero-bg.mp4" type="video/mp4"/>
+        </video>
+        <div class="s2-hero-overlay"></div>
+        <div class="s2-hero-content">
+          <p class="s2-eyebrow">dopple® — Buenos Aires, 2024</p>
+          <h1 class="s2-headline">we deserve<br><em>a world</em><br>well done.</h1>
+          <p class="s2-subline">UX/UI design studio building the web people actually want to use.</p>
+        </div>
+        <div class="s2-hero-scroll-hint">scroll ↓</div>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="s2-about">
+        <div class="s2-label">about us</div>
+        <div class="s2-about-grid">
+          <div class="s2-about-text">
+            <p>Dopple nació de una convicción simple: el entorno online que habitamos todos los días merece ser mejor. Más atractivo, más inteligente, más humano.</p>
+            <p>Los sistemas rotos que se parchean con un "ya está", los diseños que repiten la misma fórmula sin preguntarse por qué — eso es exactamente lo que venimos a cambiar.</p>
+            <p>Somos una empresa de diseño UX/UI centrada en devolverle el criterio a la web. Cada proyecto que tomamos es una oportunidad de romper con la monotonía y construir algo que funcione de verdad.</p>
+          </div>
+          <div class="s2-stats">
+            <div class="s2-stat">
+              <span class="s2-stat-n">12</span>
+              <span class="s2-stat-l">projects</span>
+            </div>
+            <div class="s2-stat">
+              <span class="s2-stat-n">3</span>
+              <span class="s2-stat-l">years active</span>
+            </div>
+            <div class="s2-stat">
+              <span class="s2-stat-n">∞</span>
+              <span class="s2-stat-l">ambition</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOOKBOOK CAROUSEL -->
+      <div class="s2-lookbook">
+        <div class="s2-label">lookbook</div>
+        <div class="lb-viewport">
+          <div class="lb-track" id="lbTrack">
+            <div class="lb-slide" style="background:#0a0a12;">
+              <div class="lb-slide-content">
+                <div class="lb-slide-num">01</div>
+                <div class="lb-slide-title">Atlas News</div>
+                <div class="lb-slide-sub">live news · weather · editorial layout · 2025</div>
+                <a class="lb-slide-link" href="https://atlasnewsbydopple.netlify.app/" target="_blank">visit ↗</a>
+              </div>
+            </div>
+            <div class="lb-slide" style="background:#080810;">
+              <div class="lb-slide-content">
+                <div class="lb-slide-num">02</div>
+                <div class="lb-slide-title">Infinity Disk</div>
+                <div class="lb-slide-sub">music archive · dark mode · web audio · 2025</div>
+                <a class="lb-slide-link" href="https://sphinx-archive.netlify.app/infinity-disk" target="_blank">visit ↗</a>
+              </div>
+            </div>
+            <div class="lb-slide" style="background:#f5f2ed;">
+              <div class="lb-slide-content" style="color:#111;">
+                <div class="lb-slide-num" style="color:rgba(17,17,17,0.3);">03</div>
+                <div class="lb-slide-title" style="color:#111;">Bare State</div>
+                <div class="lb-slide-sub" style="color:rgba(17,17,17,0.5);">e-commerce · lookbook · Buenos Aires fashion · 2026</div>
+                <a class="lb-slide-link" href="https://hilarious-torrone-62fd5e.netlify.app/" target="_blank" style="border-color:rgba(17,17,17,0.3);color:#111;">visit ↗</a>
+              </div>
+            </div>
+            <div class="lb-slide" style="background:#1a0a0a;">
+              <div class="lb-slide-content">
+                <div class="lb-slide-num">04</div>
+                <div class="lb-slide-title">Magnum Opus</div>
+                <div class="lb-slide-sub">editorial archive · admin cms · 2024</div>
+                <a class="lb-slide-link" href="#" target="_blank">visit ↗</a>
+              </div>
+            </div>
+          </div>
+          <button class="lb-btn lb-prev" onclick="lbGo(-1)">←</button>
+          <button class="lb-btn lb-next" onclick="lbGo(1)">→</button>
+          <div class="lb-counter" id="lbCounter">01 / 04</div>
+        </div>
+      </div>
+
+      <!-- SOCIALS -->
+      <div class="s2-socials">
+        <div class="s2-label">find us</div>
+        <div class="socials-grid">
+          <a class="social-row" href="#" target="_blank">
+            <span class="social-name">Instagram</span>
+            <span class="social-handle">@dopple.studio</span>
+            <span class="social-arr">↗</span>
+          </a>
+          <a class="social-row" href="#" target="_blank">
+            <span class="social-name">Behance</span>
+            <span class="social-handle">/dopple</span>
+            <span class="social-arr">↗</span>
+          </a>
+          <a class="social-row" href="#" target="_blank">
+            <span class="social-name">LinkedIn</span>
+            <span class="social-handle">dopple studio</span>
+            <span class="social-arr">↗</span>
+          </a>
+          <a class="social-row" href="mailto:dopplemusic@gmail.com">
+            <span class="social-name">Email</span>
+            <span class="social-handle">dopplemusic@gmail.com</span>
+            <span class="social-arr">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="s2-contact">
+        <div class="s2-label">get in touch</div>
+        <div class="contact-grid">
+          <div class="contact-intro">
+            <p class="contact-big">Let's build something worth using.</p>
+            <p class="contact-sub">Contanos tu proyecto. Te respondemos en 48 horas.</p>
+          </div>
+          <form class="contact-form" onsubmit="handleSubmit(event)">
+            <div class="cf-row">
+              <div class="cf-group">
+                <label class="cf-label">nombre</label>
+                <input class="cf-input" type="text" placeholder="Tu nombre" required/>
+              </div>
+              <div class="cf-group">
+                <label class="cf-label">email</label>
+                <input class="cf-input" type="email" placeholder="tu@email.com" required/>
+              </div>
+            </div>
+            <div class="cf-group">
+              <label class="cf-label">tipo de proyecto</label>
+              <div class="cf-types">
+                <button type="button" class="cf-type active" onclick="cfType(this)">sitio web</button>
+                <button type="button" class="cf-type" onclick="cfType(this)">branding</button>
+                <button type="button" class="cf-type" onclick="cfType(this)">ux/ui</button>
+                <button type="button" class="cf-type" onclick="cfType(this)">otro</button>
+              </div>
+            </div>
+            <div class="cf-group">
+              <label class="cf-label">mensaje</label>
+              <textarea class="cf-textarea" rows="4" placeholder="Contanos qué tenés en mente…" required></textarea>
+            </div>
+            <div class="cf-footer-row">
+              <button class="cf-submit" type="submit">enviar →</button>
+              <span class="cf-success" id="cfSuccess">enviado ✓</span>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- S2 FOOTER -->
+      <footer class="s2-footer">
+        <div class="s2-footer-top">
+          <div class="s2-footer-logo">dopple<span>®</span></div>
+          <p class="s2-footer-tagline">we deserve a world well done</p>
+        </div>
+        <div class="s2-footer-cols">
+          <div class="s2-fcol">
+            <div class="s2-fcol-label">studio</div>
+            <a href="#">about</a>
+            <a href="#">work</a>
+            <a href="#" onclick="closeSection2()">index</a>
+          </div>
+          <div class="s2-fcol">
+            <div class="s2-fcol-label">social</div>
+            <a href="#" target="_blank">instagram</a>
+            <a href="#" target="_blank">behance</a>
+            <a href="#" target="_blank">linkedin</a>
+          </div>
+          <div class="s2-fcol">
+            <div class="s2-fcol-label">contact</div>
+            <a href="mailto:dopplemusic@gmail.com">email</a>
+          </div>
+        </div>
+        <div class="s2-footer-bottom">
+          <span>Buenos Aires, Argentina</span>
+          <span>© dopple® 2024 – 2026</span>
+        </div>
+      </footer>
+
+    </div>
+  </section>
+
+  <!-- FILTERS OVERLAY -->
   <div class="filters-overlay" id="filtersOverlay">
     <div class="filters-scrim" id="filtersScrim"></div>
     <div class="filters-panel">
@@ -39,212 +262,134 @@
         <h1 class="filters-title">Index</h1>
         <div class="filter-col">
           <div class="filter-group">
-            <div class="filter-group-label"><span class="legend-dot dot-articulo"></span>artículo</div>
-            <ul id="filter-articulo"></ul>
-          </div>
-          <div class="filter-group">
-            <div class="filter-group-label"><span class="legend-dot dot-resena"></span>reseña</div>
-            <ul id="filter-resena"></ul>
-          </div>
-          <div class="filter-group">
-            <div class="filter-group-label"><span class="legend-dot dot-archivo"></span>archivo</div>
-            <ul id="filter-archivo"></ul>
+            <div class="filter-group-label">work</div>
+            <ul id="filter-work"></ul>
           </div>
         </div>
         <div class="filter-col">
           <div class="filter-group">
-            <div class="filter-group-label"><span class="legend-dot dot-web"></span>página web</div>
-            <ul id="filter-web"></ul>
+            <div class="filter-group-label">articles</div>
+            <ul id="filter-articles"></ul>
           </div>
           <div class="filter-group">
-            <div class="filter-group-label"><span class="legend-dot dot-portfolio"></span>portfolio</div>
-            <ul id="filter-portfolio"></ul>
+            <div class="filter-group-label">blog</div>
+            <ul id="filter-blog"></ul>
           </div>
         </div>
       </div>
-      <button class="filters-close-btn" id="filtersClose">CLOSE  ✕</button>
+      <button class="filters-close-btn" id="filtersClose">CLOSE ✕</button>
     </div>
   </div>
-
-  <div class="main">
-    <div class="photo-panel" id="photoPanel"></div>
-
-    <div class="index-list" id="indexList">
-      <div class="index-header">
-        <span>título</span>
-        <span>tipo</span>
-        <span>año</span>
-      </div>
-      <div class="rows-container" id="rowsContainer">
-        <div class="index-loading">loading…</div>
-      </div>
-    </div>
-
-    <div class="preview-panel" id="previewPanel">
-      <div class="project-hero" id="projectHero">
-        <img class="project-hero-img" id="projectHeroImg" src="" alt=""/>
-        <div class="project-hero-overlay"></div>
-        <span class="project-hero-badge" id="projectHeroBadge">portfolio</span>
-        <div class="project-hero-title" id="projectHeroTitle"></div>
-        <a class="project-hero-open" id="projectHeroOpen" href="#" target="_blank">open site ↗</a>
-        <div class="browser-mockup">
-          <div class="browser-bar">
-            <div class="browser-dots">
-              <div class="browser-dot"></div>
-              <div class="browser-dot"></div>
-              <div class="browser-dot"></div>
-            </div>
-            <div class="browser-url" id="browserUrl">dopple.vercel.app</div>
-          </div>
-          <div class="browser-screen">
-            <img id="browserScreenImg" src="" alt=""/>
-          </div>
-        </div>
-      </div>
-      <div class="project-info" id="projectInfo">
-        <p class="project-description" id="projectDescription"></p>
-        <div class="project-meta-row" id="projectMetaRow"></div>
-        <div class="tech-list" id="techList"></div>
-        <a class="project-cta" id="projectCta" href="#" target="_blank">open project ↗</a>
-      </div>
-    </div>
-  </div>
-
-  <footer class="footer">
-    <span>Buenos Aires, Argentina.</span>
-    <span>dopple®</span>
-    <span>EST 2024</span>
-  </footer>
 
   <script>
-    const TYPE_DOTS   = { articulo:'dot-articulo', resena:'dot-resena', archivo:'dot-archivo', web:'dot-web', portfolio:'dot-portfolio' };
-    const TYPE_LABELS = { articulo:'artículo', resena:'reseña', archivo:'archivo', web:'página web', portfolio:'portfolio' };
-    const PREVIEW_TYPES = ['web', 'portfolio'];
+    /* ── TYPE MAP ── */
+    const TYPE_MAP = { portfolio:'work', web:'work', articulo:'articles', resena:'blog', archivo:'articles' };
+    const TYPE_LABELS = { portfolio:'work', web:'web', articulo:'article', resena:'review', archivo:'archive' };
+    const PREVIEW_TYPES = ['portfolio','web'];
 
+    /* ── LOAD ── */
     async function loadEntries() {
       try {
         const res = await fetch('/api/entries');
         if (!res.ok) throw new Error();
         return await res.json();
       } catch {
-        const db = JSON.parse(localStorage.getItem('dopple_db') || 'null');
-        if (db?.entries) return db.entries.filter(e => e.status === 'published');
+        const db = JSON.parse(localStorage.getItem('dopple_db')||'null');
+        if (db?.entries) return db.entries.filter(e=>e.status==='published');
         return [];
       }
     }
 
-    /* ── PHOTO ── */
-    const photoPanel = document.getElementById('photoPanel');
-    let currentPhotoSrc = null;
+    /* ── SECTION 2 ── */
+    function openSection2()  { document.getElementById('sSecondary').classList.add('open'); }
+    function closeSection2() { document.getElementById('sSecondary').classList.remove('open'); }
 
-    function showPhoto(src) {
-      if (target === currentPhotoSrc) return;
-      currentPhotoSrc = target;
-      const img = new Image();
-      img.src = target;
-      img.onload = () => {
-        Array.from(photoPanel.querySelectorAll('img')).forEach(i => {
-          i.style.opacity = '0';
-          setTimeout(() => i.remove(), 420);
-        });
-        photoPanel.appendChild(img);
-        requestAnimationFrame(() => {
-          img.style.transition = 'opacity 0.4s ease';
-          img.style.opacity = '1';
-          img.classList.add('visible');
-        });
-      };
-    }
-
-    /* ── LAYOUT ── */
-    const indexList    = document.getElementById('indexList');
-    const previewPanel = document.getElementById('previewPanel');
-    let previewMode = false;
-
-    function enterPreviewMode() {
-      if (previewMode) return;
-      previewMode = true;
-      photoPanel.classList.add('collapsed');
-      indexList.classList.add('narrow');
-      indexList.classList.remove('expanded');
-      setTimeout(() => previewPanel.classList.add('visible'), 80);
-    }
-
-    function exitPreviewMode() {
-      if (!previewMode) return;
-      previewMode = false;
-      previewPanel.classList.remove('visible');
-      photoPanel.classList.remove('collapsed');
-      indexList.classList.remove('narrow');
-    }
-
-    /* ── RENDER PREVIEW ── */
-    function renderPreview(entry) {
-      const url = entry.projectUrl || '';
-      const cover = entry.cover || 'img/paris.jpg';
-
-      const heroImg = document.getElementById('projectHeroImg');
-      heroImg.classList.remove('loaded');
-      heroImg.src = cover;
-      heroImg.onload = () => heroImg.classList.add('loaded');
-
-      document.getElementById('projectHeroTitle').textContent = entry.title;
-      document.getElementById('projectHeroBadge').textContent = TYPE_LABELS[entry.postType] || entry.postType;
-      document.getElementById('projectHeroOpen').href = url;
-      document.getElementById('browserUrl').textContent = url.replace('https://','').replace('http://','').split('/')[0];
-      document.getElementById('browserScreenImg').src = cover;
-      document.getElementById('projectDescription').textContent = entry.excerpt || '';
-      document.getElementById('projectCta').href = url;
-
-      const techs = (entry.technologies || '').split(',').map(t => t.trim()).filter(Boolean);
-      document.getElementById('techList').innerHTML = techs.map(t => `<span class="tech-pill">${t}</span>`).join('');
-
-      document.getElementById('projectMetaRow').innerHTML = [
-        entry.year ? `<div class="project-meta-item"><span class="project-meta-label">año</span><span class="project-meta-value">${entry.year}</span></div>` : '',
-        entry.author ? `<div class="project-meta-item"><span class="project-meta-label">por</span><span class="project-meta-value">${entry.author}</span></div>` : '',
-        url ? `<div class="project-meta-item"><span class="project-meta-label">url</span><span class="project-meta-value"><a href="${url}" target="_blank" style="color:var(--blue);text-decoration:underline;">${url.replace('https://','')}</a></span></div>` : ''
-      ].join('');
-    }
-
-    /* ── SELECT ROW ── */
+    /* ── PREVIEW ── */
     let selectedRow = null;
+
+    function showPreview(entry) {
+      const col   = document.getElementById('previewCol');
+      const inner = document.getElementById('previewInner');
+      const isWork = PREVIEW_TYPES.includes(entry.postType);
+      const url  = entry.projectUrl || '';
+      const cover = entry.cover || '';
+
+      if (isWork) {
+        inner.innerHTML = `
+          <div class="pv-work">
+            <div class="pv-hero-wrap">
+              ${cover ? `<img class="pv-hero-img" src="${cover}" alt="${entry.title}"/>` : '<div class="pv-hero-placeholder"></div>'}
+              <div class="pv-hero-overlay">
+                <div class="pv-type-tag">${TYPE_LABELS[entry.postType]||'work'}</div>
+                <div class="pv-hero-title">${entry.title}</div>
+                ${url ? `<a class="pv-hero-link" href="${url}" target="_blank">open ↗</a>` : ''}
+              </div>
+              <div class="browser-bar-mini">
+                <div class="bm-dots"><span></span><span></span><span></span></div>
+                <div class="bm-url">${url.replace('https://','').split('/')[0]}</div>
+              </div>
+            </div>
+            <div class="pv-body">
+              <p class="pv-desc">${entry.excerpt||''}</p>
+              ${(entry.technologies||'') ? `<div class="pv-pills">${entry.technologies.split(',').map(t=>`<span class="pv-pill">${t.trim()}</span>`).join('')}</div>` : ''}
+              <div class="pv-meta">
+                ${entry.year ? `<span>${entry.year}</span>` : ''}
+                ${entry.author ? `<span>${entry.author}</span>` : ''}
+              </div>
+              ${url ? `<a class="pv-cta" href="${url}" target="_blank">open project ↗</a>` : ''}
+            </div>
+          </div>`;
+      } else {
+        inner.innerHTML = `
+          <div class="pv-article">
+            ${cover ? `<img class="pv-art-img" src="${cover}" alt="${entry.title}"/>` : ''}
+            <div class="pv-body">
+              <div class="pv-type-tag">${TYPE_LABELS[entry.postType]||'article'}</div>
+              <div class="pv-art-title">${entry.title}</div>
+              <div class="pv-meta">${entry.year||''} ${entry.author ? '— '+entry.author : ''}</div>
+              <p class="pv-desc">${entry.excerpt||''}</p>
+              <a class="pv-cta" href="article.html?id=${entry.id}">read →</a>
+            </div>
+          </div>`;
+      }
+      col.classList.add('active');
+    }
+
+    function hidePreview() {
+      document.getElementById('previewCol').classList.remove('active');
+      if (selectedRow) { selectedRow.classList.remove('selected'); selectedRow = null; }
+    }
 
     function selectRow(row, entry) {
       if (selectedRow) selectedRow.classList.remove('selected');
       selectedRow = row;
       row.classList.add('selected');
-      const isPreview = PREVIEW_TYPES.includes(entry.postType);
-      if (isPreview) { enterPreviewMode(); renderPreview(entry); }
-      else { exitPreviewMode(); showPhoto(entry.cover); }
+      showPreview(entry);
     }
 
-    /* ── RENDER ROWS ── */
+    /* ── RENDER ── */
     let allEntries = [], activeFilter = 'all';
+
+    function filterGroup(e) { return TYPE_MAP[e.postType||'articulo'] || 'articles'; }
 
     function renderRows(entries) {
       const container = document.getElementById('rowsContainer');
-      const filtered = activeFilter === 'all' ? entries : entries.filter(e => (e.postType || 'articulo') === activeFilter);
+      const filtered = activeFilter === 'all' ? entries : entries.filter(e => filterGroup(e) === activeFilter);
 
       if (!filtered.length) {
         container.innerHTML = `<div class="index-loading">no entries found</div>`;
-        exitPreviewMode(); return;
+        hidePreview(); return;
       }
 
-      container.innerHTML = filtered.map(e => {
+      container.innerHTML = filtered.map((e, i) => {
         const pt = e.postType || 'articulo';
-        const isPreview = PREVIEW_TYPES.includes(pt);
         return `
-          <div class="index-row" data-id="${e.id}">
+          <div class="index-row" data-id="${e.id}" style="animation-delay:${i*0.035}s">
+            <span class="row-num">${String(i+1).padStart(2,'0')}</span>
             <span class="row-title">${e.title}</span>
-            <span class="row-type-badge">
-              <span class="row-type-dot ${TYPE_DOTS[pt]||'dot-articulo'}"></span>
-              ${TYPE_LABELS[pt]||pt}
-            </span>
-            <span class="row-year">
-              ${e.year||''}
-              ${isPreview
-                ? `<button class="row-action" data-id="${e.id}">open ↗</button>`
-                : `<a class="row-action" href="article.html?id=${e.id}">read →</a>`}
+            <span class="row-meta-wrap">
+              <span class="row-type">${TYPE_LABELS[pt]||pt}</span>
+              <span class="row-year">${e.year||''}</span>
             </span>
           </div>`;
       }).join('');
@@ -253,80 +398,81 @@
         const id = parseInt(row.dataset.id);
         const entry = entries.find(e => e.id === id);
         if (!entry) return;
-
-        row.addEventListener('click', ev => {
-          if (ev.target.closest('.row-action')) return;
-          selectRow(row, entry);
-        });
-
-        const actionBtn = row.querySelector('.row-action');
-        if (actionBtn && entry.projectUrl) {
-          actionBtn.addEventListener('click', ev => {
-            ev.stopPropagation();
-            window.open(entry.projectUrl, '_blank');
-          });
-        }
+        row.addEventListener('click', () => selectRow(row, entry));
       });
-
-      const first = container.querySelector('.index-row');
-      if (first) {
-        const id = parseInt(first.dataset.id);
-        const entry = entries.find(e => e.id === id);
-        if (entry) selectRow(first, entry);
-      }
     }
 
-    /* ── FILTERS LEGEND ── */
-    document.getElementById('typeLegend').addEventListener('click', e => {
-      const item = e.target.closest('.legend-item');
+    /* ── NAV FILTERS ── */
+    document.getElementById('navFilters').addEventListener('click', e => {
+      const item = e.target.closest('.nf-item');
       if (!item) return;
-      document.querySelectorAll('.legend-item').forEach(i => i.classList.remove('active'));
+      document.querySelectorAll('.nf-item').forEach(i => i.classList.remove('active'));
       item.classList.add('active');
       activeFilter = item.dataset.filter;
-      exitPreviewMode();
+      hidePreview();
       renderRows(allEntries);
     });
 
-    /* ── POPULATE FILTER PANEL ── */
     function populateFilters(entries) {
-      ['articulo','resena','archivo','web','portfolio'].forEach(type => {
-        const ul = document.getElementById('filter-' + type);
+      ['work','articles','blog'].forEach(g => {
+        const ul = document.getElementById('filter-'+g);
         if (!ul) return;
-        const filtered = entries.filter(e => (e.postType||'articulo') === type);
-        ul.innerHTML = filtered.length
-          ? filtered.map(e => {
-              const isPreview = PREVIEW_TYPES.includes(e.postType);
-              const href = isPreview ? (e.projectUrl || '#') : `article.html?id=${e.id}`;
-              const target = isPreview ? ' target="_blank"' : '';
-              return `<li><a href="${href}"${target}>${e.title} — ${e.year||''}</a></li>`;
+        const isWork = g === 'work';
+        const list = entries.filter(e => filterGroup(e) === g);
+        ul.innerHTML = list.length
+          ? list.map(e => {
+              const href = isWork ? (e.projectUrl||'#') : `article.html?id=${e.id}`;
+              const tgt  = isWork ? ' target="_blank"' : '';
+              return `<li><a href="${href}"${tgt}>${e.title} — ${e.year||''}</a></li>`;
             }).join('')
-          : `<li style="font-size:0.8rem;color:#aaa;padding:4px 0;">no entries</li>`;
+          : `<li style="color:rgba(17,17,17,0.3);font-size:0.8rem;padding:4px 0;">no entries</li>`;
       });
     }
+
+    /* ── LOOKBOOK ── */
+    let lbIdx = 0;
+    function lbGo(dir) {
+      const track = document.getElementById('lbTrack');
+      const n = track.querySelectorAll('.lb-slide').length;
+      lbIdx = ((lbIdx + dir) + n) % n;
+      track.style.transform = `translateX(-${lbIdx * 100}%)`;
+      document.getElementById('lbCounter').textContent =
+        `${String(lbIdx+1).padStart(2,'0')} / ${String(n).padStart(2,'0')}`;
+    }
+
+    /* ── CONTACT ── */
+    function cfType(btn) {
+      document.querySelectorAll('.cf-type').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    function handleSubmit(e) {
+      e.preventDefault();
+      const s = document.getElementById('cfSuccess');
+      s.classList.add('show');
+      e.target.reset();
+      setTimeout(() => s.classList.remove('show'), 4000);
+    }
+
+    /* ── FILTERS OVERLAY ── */
+    document.getElementById('filtersClose').addEventListener('click', () =>
+      document.getElementById('filtersOverlay').classList.remove('active'));
+    document.getElementById('filtersScrim').addEventListener('click', () =>
+      document.getElementById('filtersOverlay').classList.remove('active'));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.getElementById('filtersOverlay').classList.remove('active');
+        closeSection2();
+        hidePreview();
+      }
+    });
 
     /* ── BOOT ── */
     (async () => {
       allEntries = await loadEntries();
       renderRows(allEntries);
       populateFilters(allEntries);
-      const defaultImg = new Image();
-      defaultImg.src = 'img/paris.jpg';
-      defaultImg.onload = () => {
-        if (!previewMode) {
-          photoPanel.appendChild(defaultImg);
-          requestAnimationFrame(() => {
-            defaultImg.style.transition = 'opacity 0.4s ease';
-            defaultImg.style.opacity = '1';
-            defaultImg.classList.add('visible');
-          });
-        }
-      };
     })();
-
-    document.getElementById('filtersBtn').addEventListener('click', () => document.getElementById('filtersOverlay').classList.add('active'));
-    document.getElementById('filtersClose').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
-    document.getElementById('filtersScrim').addEventListener('click', () => document.getElementById('filtersOverlay').classList.remove('active'));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('filtersOverlay').classList.remove('active'); });
   </script>
 </body>
 </html>
