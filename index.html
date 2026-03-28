@@ -210,7 +210,9 @@
   /* ══════════════════════════════════════
      INFINITE GRID ENGINE
   ══════════════════════════════════════ */
+
   const CELL = 400;
+  const GAP  = 24;   // ← ajustá este número al gusto (px entre proyectos)
   let gridEntries = [];
   let ox = 0, oy = 0;         // grid offset
   let dragging = false;
@@ -242,8 +244,8 @@
       for (let c = startCol; c <= endCol; c++) {
         const entry = getEntry(c, r);
         if (!entry) continue;
-        const px = c * CELL + ox;
-        const py = r * CELL + oy;
+        const px = c * (CELL + GAP) + ox;
+        const py = r * (CELL + GAP) + oy;
         const num = String(gridEntries.indexOf(entry) + 1).padStart(2, '0');
         const cover = entry.cover || '';
         html += `<div class="grid-cell" style="transform:translate(${px}px,${py}px)" data-id="${entry.id}">
@@ -283,8 +285,8 @@
     }
 
     // center grid on load
-    ox = (window.innerWidth  - CELL * 3) / 2;
-    oy = (window.innerHeight - CELL * 3) / 2;
+    ox = (window.innerWidth  - (CELL + GAP) * 3) / 2;
+    oy = (window.innerHeight - (CELL + GAP) * 3) / 2;
     renderGrid();
 
     /* MOUSE */

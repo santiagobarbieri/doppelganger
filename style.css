@@ -156,7 +156,6 @@ a {
   overflow: hidden;
   background: var(--bg);
   cursor: grab;
-  gap: 300px;
   user-select: none;
 }
 
