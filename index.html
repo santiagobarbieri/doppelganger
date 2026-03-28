@@ -12,247 +12,155 @@
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════
-       SECTION 1 — MAIN INDEX
-  ═══════════════════════════════════════ -->
-  <section class="s-main" id="sMain">
+  <!-- ═══════════════════════════════
+       NAVBAR — fixed
+  ═══════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <a href="admin.html" class="nav-logo">dopple<span class="nav-reg">®</span></a>
+    <div class="nav-filters" id="navFilters">
+      <span class="nf-item active" data-filter="all">all</span>
+      <span class="nf-sep">·</span>
+      <span class="nf-item" data-filter="work">work</span>
+      <span class="nf-sep">·</span>
+      <span class="nf-item" data-filter="articles">articles</span>
+      <span class="nf-sep">·</span>
+      <span class="nf-item" data-filter="blog">blog</span>
+    </div>
+    <div class="nav-right">
+      <a href="mailto:dopplemusic@gmail.com" class="nav-cta">contact &gt;</a>
+    </div>
+  </nav>
 
-    <nav class="navbar">
-      <a href="admin.html" class="nav-logo">dopple<span class="nav-reg">®</span></a>
-      <div class="nav-filters" id="navFilters">
-        <span class="nf-item active" data-filter="all">all</span>
-        <span class="nf-sep">·</span>
-        <span class="nf-item" data-filter="work">work</span>
-        <span class="nf-sep">·</span>
-        <span class="nf-item" data-filter="articles">articles</span>
-        <span class="nf-sep">·</span>
-        <span class="nf-item" data-filter="blog">blog</span>
+  <!-- ═══════════════════════════════
+       GRID SECTION — full viewport
+  ═══════════════════════════════ -->
+  <section class="grid-section" id="gridSection">
+    <div class="infinite-grid" id="infiniteGrid"></div>
+    <div class="grid-hint" id="gridHint">drag to explore ←→</div>
+
+    <!-- popup backdrop -->
+    <div class="popup-backdrop" id="popupBackdrop" onclick="closePopup()"></div>
+
+    <!-- project popup -->
+    <div class="project-popup" id="projectPopup">
+      <button class="popup-close" onclick="closePopup()">✕</button>
+      <div class="popup-inner" id="popupInner"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════
+       ABOUT + INDEX — scrollable
+  ═══════════════════════════════ -->
+  <section class="about-section">
+
+    <div class="about-hero">
+      <div class="about-left">
+        <p class="about-eyebrow">dopple® — Buenos Aires, 2024</p>
+        <h1 class="about-headline">we deserve<br><em>a world</em><br>well done.</h1>
       </div>
-      <div class="nav-right">
-        <a href="mailto:dopplemusic@gmail.com" class="nav-cta">contact &gt;</a>
-      </div>
-    </nav>
-
-    <div class="main-area">
-
-      <!-- INDEX LIST -->
-      <div class="index-col" id="indexCol">
-        <div class="rows-container" id="rowsContainer">
-          <div class="index-loading">loading…</div>
+      <div class="about-right">
+        <p class="about-body">UX/UI design studio focused on building the web people actually want to use. We break the cycle of repeated layouts, broken systems, and design that stopped asking why.</p>
+        <div class="about-stats">
+          <div class="about-stat">
+            <span class="stat-n">12</span>
+            <span class="stat-l">projects</span>
+          </div>
+          <div class="about-stat">
+            <span class="stat-n">3</span>
+            <span class="stat-l">years</span>
+          </div>
+          <div class="about-stat">
+            <span class="stat-n">∞</span>
+            <span class="stat-l">ambition</span>
+          </div>
         </div>
       </div>
-
-      <!-- PREVIEW — slides in from right -->
-      <div class="preview-col" id="previewCol">
-        <button class="preview-close" onclick="hidePreview()">✕</button>
-        <div class="preview-inner" id="previewInner"></div>
-      </div>
-
     </div>
 
-    <!-- EXPLORE BAR -->
-    <div class="explore-bar" id="exploreBar" onclick="openSection2()">
-      <span class="explore-label">keep exploring</span>
-      <span class="explore-arrow">↓</span>
+    <div class="index-section">
+      <div class="index-header-row">
+        <span class="ih-num">#</span>
+        <span class="ih-title">title</span>
+        <span class="ih-type">type</span>
+        <span class="ih-year">year</span>
+      </div>
+      <div class="rows-container" id="rowsContainer">
+        <div class="index-loading">loading…</div>
+      </div>
     </div>
 
   </section>
 
-  <!-- ═══════════════════════════════════════
-       SECTION 2 — ABOUT / LOOKBOOK / CONTACT
-  ═══════════════════════════════════════ -->
-  <section class="s-secondary" id="sSecondary">
-
-    <div class="s2-back" onclick="closeSection2()">
-      <span>↑</span>
-      <span>back to index</span>
-    </div>
-
-    <div class="s2-scroll">
-
-      <!-- HERO with video bg -->
-      <div class="s2-hero">
-        <video class="s2-video" autoplay muted loop playsinline poster="img/paris.jpg">
-          <source src="img/hero-bg.mp4" type="video/mp4"/>
-        </video>
-        <div class="s2-hero-overlay"></div>
-        <div class="s2-hero-content">
-          <p class="s2-eyebrow">dopple® — Buenos Aires, 2024</p>
-          <h1 class="s2-headline">we deserve<br><em>a world</em><br>well done.</h1>
-          <p class="s2-subline">UX/UI design studio building the web people actually want to use.</p>
-        </div>
-        <div class="s2-hero-scroll-hint">scroll ↓</div>
-      </div>
-
-      <!-- ABOUT -->
-      <div class="s2-about">
-        <div class="s2-label">about us</div>
-        <div class="s2-about-grid">
-          <div class="s2-about-text">
-            <p>Dopple nació de una convicción simple: el entorno online que habitamos todos los días merece ser mejor. Más atractivo, más inteligente, más humano.</p>
-            <p>Los sistemas rotos que se parchean con un "ya está", los diseños que repiten la misma fórmula sin preguntarse por qué — eso es exactamente lo que venimos a cambiar.</p>
-            <p>Somos una empresa de diseño UX/UI centrada en devolverle el criterio a la web. Cada proyecto que tomamos es una oportunidad de romper con la monotonía y construir algo que funcione de verdad.</p>
-          </div>
-          <div class="s2-stats">
-            <div class="s2-stat">
-              <span class="s2-stat-n">12</span>
-              <span class="s2-stat-l">projects</span>
-            </div>
-            <div class="s2-stat">
-              <span class="s2-stat-n">3</span>
-              <span class="s2-stat-l">years active</span>
-            </div>
-            <div class="s2-stat">
-              <span class="s2-stat-n">∞</span>
-              <span class="s2-stat-l">ambition</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- LOOKBOOK CAROUSEL -->
-      <div class="s2-lookbook">
-        <div class="s2-label">lookbook</div>
-        <div class="lb-viewport">
-          <div class="lb-track" id="lbTrack">
-            <div class="lb-slide" style="background:#0a0a12;">
-              <div class="lb-slide-content">
-                <div class="lb-slide-num">01</div>
-                <div class="lb-slide-title">Atlas News</div>
-                <div class="lb-slide-sub">live news · weather · editorial layout · 2025</div>
-                <a class="lb-slide-link" href="https://atlasnewsbydopple.netlify.app/" target="_blank">visit ↗</a>
-              </div>
-            </div>
-            <div class="lb-slide" style="background:#080810;">
-              <div class="lb-slide-content">
-                <div class="lb-slide-num">02</div>
-                <div class="lb-slide-title">Infinity Disk</div>
-                <div class="lb-slide-sub">music archive · dark mode · web audio · 2025</div>
-                <a class="lb-slide-link" href="https://sphinx-archive.netlify.app/infinity-disk" target="_blank">visit ↗</a>
-              </div>
-            </div>
-            <div class="lb-slide" style="background:#f5f2ed;">
-              <div class="lb-slide-content" style="color:#111;">
-                <div class="lb-slide-num" style="color:rgba(17,17,17,0.3);">03</div>
-                <div class="lb-slide-title" style="color:#111;">Bare State</div>
-                <div class="lb-slide-sub" style="color:rgba(17,17,17,0.5);">e-commerce · lookbook · Buenos Aires fashion · 2026</div>
-                <a class="lb-slide-link" href="https://hilarious-torrone-62fd5e.netlify.app/" target="_blank" style="border-color:rgba(17,17,17,0.3);color:#111;">visit ↗</a>
-              </div>
-            </div>
-            <div class="lb-slide" style="background:#1a0a0a;">
-              <div class="lb-slide-content">
-                <div class="lb-slide-num">04</div>
-                <div class="lb-slide-title">Magnum Opus</div>
-                <div class="lb-slide-sub">editorial archive · admin cms · 2024</div>
-                <a class="lb-slide-link" href="#" target="_blank">visit ↗</a>
-              </div>
-            </div>
-          </div>
-          <button class="lb-btn lb-prev" onclick="lbGo(-1)">←</button>
-          <button class="lb-btn lb-next" onclick="lbGo(1)">→</button>
-          <div class="lb-counter" id="lbCounter">01 / 04</div>
-        </div>
-      </div>
-
-      <!-- SOCIALS -->
-      <div class="s2-socials">
-        <div class="s2-label">find us</div>
-        <div class="socials-grid">
+  <!-- ═══════════════════════════════
+       CONTACT + FOOTER
+  ═══════════════════════════════ -->
+  <section class="contact-section">
+    <div class="contact-wrap">
+      <div class="contact-left">
+        <div class="contact-label">get in touch</div>
+        <p class="contact-big">Let's build something worth using.</p>
+        <div class="socials-list">
           <a class="social-row" href="#" target="_blank">
-            <span class="social-name">Instagram</span>
-            <span class="social-handle">@dopple.studio</span>
-            <span class="social-arr">↗</span>
+            <span class="sr-name">Instagram</span>
+            <span class="sr-handle">@dopple.studio</span>
+            <span class="sr-arr">↗</span>
           </a>
           <a class="social-row" href="#" target="_blank">
-            <span class="social-name">Behance</span>
-            <span class="social-handle">/dopple</span>
-            <span class="social-arr">↗</span>
-          </a>
-          <a class="social-row" href="#" target="_blank">
-            <span class="social-name">LinkedIn</span>
-            <span class="social-handle">dopple studio</span>
-            <span class="social-arr">↗</span>
+            <span class="sr-name">Behance</span>
+            <span class="sr-handle">/dopple</span>
+            <span class="sr-arr">↗</span>
           </a>
           <a class="social-row" href="mailto:dopplemusic@gmail.com">
-            <span class="social-name">Email</span>
-            <span class="social-handle">dopplemusic@gmail.com</span>
-            <span class="social-arr">↗</span>
+            <span class="sr-name">Email</span>
+            <span class="sr-handle">dopplemusic@gmail.com</span>
+            <span class="sr-arr">↗</span>
           </a>
         </div>
       </div>
-
-      <!-- CONTACT -->
-      <div class="s2-contact">
-        <div class="s2-label">get in touch</div>
-        <div class="contact-grid">
-          <div class="contact-intro">
-            <p class="contact-big">Let's build something worth using.</p>
-            <p class="contact-sub">Contanos tu proyecto. Te respondemos en 48 horas.</p>
+      <div class="contact-right">
+        <form class="cf" onsubmit="handleSubmit(event)">
+          <div class="cf-row">
+            <div class="cf-group">
+              <label class="cf-label">nombre</label>
+              <input class="cf-input" type="text" placeholder="Tu nombre" required/>
+            </div>
+            <div class="cf-group">
+              <label class="cf-label">email</label>
+              <input class="cf-input" type="email" placeholder="tu@email.com" required/>
+            </div>
           </div>
-          <form class="contact-form" onsubmit="handleSubmit(event)">
-            <div class="cf-row">
-              <div class="cf-group">
-                <label class="cf-label">nombre</label>
-                <input class="cf-input" type="text" placeholder="Tu nombre" required/>
-              </div>
-              <div class="cf-group">
-                <label class="cf-label">email</label>
-                <input class="cf-input" type="email" placeholder="tu@email.com" required/>
-              </div>
-            </div>
-            <div class="cf-group">
-              <label class="cf-label">tipo de proyecto</label>
-              <div class="cf-types">
-                <button type="button" class="cf-type active" onclick="cfType(this)">sitio web</button>
-                <button type="button" class="cf-type" onclick="cfType(this)">branding</button>
-                <button type="button" class="cf-type" onclick="cfType(this)">ux/ui</button>
-                <button type="button" class="cf-type" onclick="cfType(this)">otro</button>
-              </div>
-            </div>
-            <div class="cf-group">
-              <label class="cf-label">mensaje</label>
-              <textarea class="cf-textarea" rows="4" placeholder="Contanos qué tenés en mente…" required></textarea>
-            </div>
-            <div class="cf-footer-row">
-              <button class="cf-submit" type="submit">enviar →</button>
-              <span class="cf-success" id="cfSuccess">enviado ✓</span>
-            </div>
-          </form>
-        </div>
+          <div class="cf-group">
+            <label class="cf-label">mensaje</label>
+            <textarea class="cf-textarea" rows="4" placeholder="Contanos qué tenés en mente…" required></textarea>
+          </div>
+          <div class="cf-footer">
+            <button class="cf-submit" type="submit">enviar →</button>
+            <span class="cf-ok" id="cfOk">enviado ✓</span>
+          </div>
+        </form>
       </div>
-
-      <!-- S2 FOOTER -->
-      <footer class="s2-footer">
-        <div class="s2-footer-top">
-          <div class="s2-footer-logo">dopple<span>®</span></div>
-          <p class="s2-footer-tagline">we deserve a world well done</p>
-        </div>
-        <div class="s2-footer-cols">
-          <div class="s2-fcol">
-            <div class="s2-fcol-label">studio</div>
-            <a href="#">about</a>
-            <a href="#">work</a>
-            <a href="#" onclick="closeSection2()">index</a>
-          </div>
-          <div class="s2-fcol">
-            <div class="s2-fcol-label">social</div>
-            <a href="#" target="_blank">instagram</a>
-            <a href="#" target="_blank">behance</a>
-            <a href="#" target="_blank">linkedin</a>
-          </div>
-          <div class="s2-fcol">
-            <div class="s2-fcol-label">contact</div>
-            <a href="mailto:dopplemusic@gmail.com">email</a>
-          </div>
-        </div>
-        <div class="s2-footer-bottom">
-          <span>Buenos Aires, Argentina</span>
-          <span>© dopple® 2024 – 2026</span>
-        </div>
-      </footer>
-
     </div>
+
+    <footer class="site-footer">
+      <div class="sf-logo">dopple<span>®</span></div>
+      <div class="sf-mid">
+        <a href="#">about</a>
+        <a href="#">work</a>
+        <a href="#" target="_blank">instagram</a>
+        <a href="#" target="_blank">behance</a>
+      </div>
+      <div class="sf-right">
+        <span>Buenos Aires</span>
+        <span>© 2024 – 2026</span>
+      </div>
+    </footer>
   </section>
+
+  <!-- ARTICLE PREVIEW PANEL -->
+  <div class="preview-col" id="previewCol">
+    <button class="preview-close" onclick="hidePreview()">✕</button>
+    <div class="preview-inner" id="previewInner"></div>
+  </div>
 
   <!-- FILTERS OVERLAY -->
   <div class="filters-overlay" id="filtersOverlay">
@@ -282,197 +190,331 @@
   </div>
 
   <script>
-    /* ── TYPE MAP ── */
-    const TYPE_MAP = { portfolio:'work', web:'work', articulo:'articles', resena:'blog', archivo:'articles' };
-    const TYPE_LABELS = { portfolio:'work', web:'web', articulo:'article', resena:'review', archivo:'archive' };
-    const PREVIEW_TYPES = ['portfolio','web'];
+  const TYPE_MAP    = { portfolio:'work', web:'work', articulo:'articles', resena:'blog', archivo:'articles' };
+  const TYPE_LABELS = { portfolio:'work', web:'web', articulo:'article', resena:'review', archivo:'archive' };
+  const WORK_TYPES  = ['portfolio','web'];
 
-    /* ── LOAD ── */
-    async function loadEntries() {
-      try {
-        const res = await fetch('/api/entries');
-        if (!res.ok) throw new Error();
-        return await res.json();
-      } catch {
-        const db = JSON.parse(localStorage.getItem('dopple_db')||'null');
-        if (db?.entries) return db.entries.filter(e=>e.status==='published');
-        return [];
+  /* ── LOAD ── */
+  async function loadEntries() {
+    try {
+      const res = await fetch('/api/entries');
+      if (!res.ok) throw new Error();
+      return await res.json();
+    } catch {
+      const db = JSON.parse(localStorage.getItem('dopple_db')||'null');
+      if (db?.entries) return db.entries.filter(e => e.status === 'published');
+      return [];
+    }
+  }
+
+  /* ══════════════════════════════════════
+     INFINITE GRID ENGINE
+  ══════════════════════════════════════ */
+  const CELL = 400;
+  let gridEntries = [];
+  let ox = 0, oy = 0;         // grid offset
+  let dragging = false;
+  let lx = 0, ly = 0;         // last pointer position
+  let vx = 0, vy = 0;         // velocity for inertia
+  let raf = null;
+  let hintHidden = false;
+
+  function getEntry(col, row) {
+    if (!gridEntries.length) return null;
+    const n = gridEntries.length;
+    // distribute entries across grid by unique index
+    const raw = col * 7 + row * 13; // prime offsets = better distribution
+    return gridEntries[((raw % n) + n) % n];
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById('infiniteGrid');
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const startCol = Math.floor(-ox / CELL) - 1;
+    const startRow = Math.floor(-oy / CELL) - 1;
+    const endCol   = startCol + Math.ceil(vw / CELL) + 3;
+    const endRow   = startRow + Math.ceil(vh / CELL) + 3;
+
+    let html = '';
+    for (let r = startRow; r <= endRow; r++) {
+      for (let c = startCol; c <= endCol; c++) {
+        const entry = getEntry(c, r);
+        if (!entry) continue;
+        const px = c * CELL + ox;
+        const py = r * CELL + oy;
+        const num = String(gridEntries.indexOf(entry) + 1).padStart(2, '0');
+        const cover = entry.cover || '';
+        html += `<div class="grid-cell" style="transform:translate(${px}px,${py}px)" data-id="${entry.id}">
+          <div class="gc-img">
+            ${cover
+              ? `<img src="${cover}" alt="${entry.title}" loading="lazy" draggable="false"/>`
+              : `<div class="gc-empty"></div>`}
+            <div class="gc-hover">
+              <button class="gc-btn" data-id="${entry.id}">preview</button>
+            </div>
+          </div>
+          <div class="gc-caption">
+            <span class="gc-num">${num}</span>
+            <span class="gc-name">${entry.title}</span>
+          </div>
+        </div>`;
       }
     }
 
-    /* ── SECTION 2 ── */
-    function openSection2()  { document.getElementById('sSecondary').classList.add('open'); }
-    function closeSection2() { document.getElementById('sSecondary').classList.remove('open'); }
+    grid.innerHTML = html;
 
-    /* ── PREVIEW ── */
-    let selectedRow = null;
-
-    function showPreview(entry) {
-      const col   = document.getElementById('previewCol');
-      const inner = document.getElementById('previewInner');
-      const isWork = PREVIEW_TYPES.includes(entry.postType);
-      const url  = entry.projectUrl || '';
-      const cover = entry.cover || '';
-
-      if (isWork) {
-        inner.innerHTML = `
-          <div class="pv-work">
-            <div class="pv-hero-wrap">
-              ${cover ? `<img class="pv-hero-img" src="${cover}" alt="${entry.title}"/>` : '<div class="pv-hero-placeholder"></div>'}
-              <div class="pv-hero-overlay">
-                <div class="pv-type-tag">${TYPE_LABELS[entry.postType]||'work'}</div>
-                <div class="pv-hero-title">${entry.title}</div>
-                ${url ? `<a class="pv-hero-link" href="${url}" target="_blank">open ↗</a>` : ''}
-              </div>
-              <div class="browser-bar-mini">
-                <div class="bm-dots"><span></span><span></span><span></span></div>
-                <div class="bm-url">${url.replace('https://','').split('/')[0]}</div>
-              </div>
-            </div>
-            <div class="pv-body">
-              <p class="pv-desc">${entry.excerpt||''}</p>
-              ${(entry.technologies||'') ? `<div class="pv-pills">${entry.technologies.split(',').map(t=>`<span class="pv-pill">${t.trim()}</span>`).join('')}</div>` : ''}
-              <div class="pv-meta">
-                ${entry.year ? `<span>${entry.year}</span>` : ''}
-                ${entry.author ? `<span>${entry.author}</span>` : ''}
-              </div>
-              ${url ? `<a class="pv-cta" href="${url}" target="_blank">open project ↗</a>` : ''}
-            </div>
-          </div>`;
-      } else {
-        inner.innerHTML = `
-          <div class="pv-article">
-            ${cover ? `<img class="pv-art-img" src="${cover}" alt="${entry.title}"/>` : ''}
-            <div class="pv-body">
-              <div class="pv-type-tag">${TYPE_LABELS[entry.postType]||'article'}</div>
-              <div class="pv-art-title">${entry.title}</div>
-              <div class="pv-meta">${entry.year||''} ${entry.author ? '— '+entry.author : ''}</div>
-              <p class="pv-desc">${entry.excerpt||''}</p>
-              <a class="pv-cta" href="article.html?id=${entry.id}">read →</a>
-            </div>
-          </div>`;
-      }
-      col.classList.add('active');
-    }
-
-    function hidePreview() {
-      document.getElementById('previewCol').classList.remove('active');
-      if (selectedRow) { selectedRow.classList.remove('selected'); selectedRow = null; }
-    }
-
-    function selectRow(row, entry) {
-      if (selectedRow) selectedRow.classList.remove('selected');
-      selectedRow = row;
-      row.classList.add('selected');
-      showPreview(entry);
-    }
-
-    /* ── RENDER ── */
-    let allEntries = [], activeFilter = 'all';
-
-    function filterGroup(e) { return TYPE_MAP[e.postType||'articulo'] || 'articles'; }
-
-    function renderRows(entries) {
-      const container = document.getElementById('rowsContainer');
-      const filtered = activeFilter === 'all' ? entries : entries.filter(e => filterGroup(e) === activeFilter);
-
-      if (!filtered.length) {
-        container.innerHTML = `<div class="index-loading">no entries found</div>`;
-        hidePreview(); return;
-      }
-
-      container.innerHTML = filtered.map((e, i) => {
-        const pt = e.postType || 'articulo';
-        return `
-          <div class="index-row" data-id="${e.id}" style="animation-delay:${i*0.035}s">
-            <span class="row-num">${String(i+1).padStart(2,'0')}</span>
-            <span class="row-title">${e.title}</span>
-            <span class="row-meta-wrap">
-              <span class="row-type">${TYPE_LABELS[pt]||pt}</span>
-              <span class="row-year">${e.year||''}</span>
-            </span>
-          </div>`;
-      }).join('');
-
-      container.querySelectorAll('.index-row').forEach(row => {
-        const id = parseInt(row.dataset.id);
-        const entry = entries.find(e => e.id === id);
-        if (!entry) return;
-        row.addEventListener('click', () => selectRow(row, entry));
+    grid.querySelectorAll('.gc-btn').forEach(btn => {
+      btn.addEventListener('click', ev => {
+        ev.stopPropagation();
+        const id = parseInt(btn.dataset.id);
+        const entry = gridEntries.find(e => e.id === id);
+        if (entry) openPopup(entry);
       });
-    }
-
-    /* ── NAV FILTERS ── */
-    document.getElementById('navFilters').addEventListener('click', e => {
-      const item = e.target.closest('.nf-item');
-      if (!item) return;
-      document.querySelectorAll('.nf-item').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-      activeFilter = item.dataset.filter;
-      hidePreview();
-      renderRows(allEntries);
     });
+  }
 
-    function populateFilters(entries) {
-      ['work','articles','blog'].forEach(g => {
-        const ul = document.getElementById('filter-'+g);
-        if (!ul) return;
-        const isWork = g === 'work';
-        const list = entries.filter(e => filterGroup(e) === g);
-        ul.innerHTML = list.length
-          ? list.map(e => {
-              const href = isWork ? (e.projectUrl||'#') : `article.html?id=${e.id}`;
-              const tgt  = isWork ? ' target="_blank"' : '';
-              return `<li><a href="${href}"${tgt}>${e.title} — ${e.year||''}</a></li>`;
-            }).join('')
-          : `<li style="color:rgba(17,17,17,0.3);font-size:0.8rem;padding:4px 0;">no entries</li>`;
-      });
+  function initGrid() {
+    const grid = document.getElementById('infiniteGrid');
+    if (!gridEntries.length) {
+      grid.innerHTML = `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:0.65rem;color:rgba(17,17,17,0.3);letter-spacing:0.08em;">no work entries yet</div>`;
+      return;
     }
 
-    /* ── LOOKBOOK ── */
-    let lbIdx = 0;
-    function lbGo(dir) {
-      const track = document.getElementById('lbTrack');
-      const n = track.querySelectorAll('.lb-slide').length;
-      lbIdx = ((lbIdx + dir) + n) % n;
-      track.style.transform = `translateX(-${lbIdx * 100}%)`;
-      document.getElementById('lbCounter').textContent =
-        `${String(lbIdx+1).padStart(2,'0')} / ${String(n).padStart(2,'0')}`;
-    }
+    // center grid on load
+    ox = (window.innerWidth  - CELL * 3) / 2;
+    oy = (window.innerHeight - CELL * 3) / 2;
+    renderGrid();
 
-    /* ── CONTACT ── */
-    function cfType(btn) {
-      document.querySelectorAll('.cf-type').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-    function handleSubmit(e) {
+    /* MOUSE */
+    grid.addEventListener('mousedown', e => {
+      if (e.target.closest('.gc-btn')) return;
+      dragging = true;
+      lx = e.clientX; ly = e.clientY;
+      vx = 0; vy = 0;
+      grid.style.cursor = 'grabbing';
+      cancelAnimationFrame(raf);
       e.preventDefault();
-      const s = document.getElementById('cfSuccess');
-      s.classList.add('show');
-      e.target.reset();
-      setTimeout(() => s.classList.remove('show'), 4000);
-    }
-
-    /* ── FILTERS OVERLAY ── */
-    document.getElementById('filtersClose').addEventListener('click', () =>
-      document.getElementById('filtersOverlay').classList.remove('active'));
-    document.getElementById('filtersScrim').addEventListener('click', () =>
-      document.getElementById('filtersOverlay').classList.remove('active'));
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        document.getElementById('filtersOverlay').classList.remove('active');
-        closeSection2();
-        hidePreview();
-      }
     });
 
-    /* ── BOOT ── */
-    (async () => {
-      allEntries = await loadEntries();
-      renderRows(allEntries);
-      populateFilters(allEntries);
-    })();
+    window.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      const dx = e.clientX - lx;
+      const dy = e.clientY - ly;
+      ox += dx; oy += dy;
+      vx = dx * 0.85 + vx * 0.15;
+      vy = dy * 0.85 + vy * 0.15;
+      lx = e.clientX; ly = e.clientY;
+      renderGrid();
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (!dragging) return;
+      dragging = false;
+      grid.style.cursor = 'grab';
+      hideHint();
+      inertia();
+    });
+
+    /* TOUCH */
+    grid.addEventListener('touchstart', e => {
+      if (e.target.closest('.gc-btn')) return;
+      dragging = true;
+      lx = e.touches[0].clientX;
+      ly = e.touches[0].clientY;
+      vx = 0; vy = 0;
+      cancelAnimationFrame(raf);
+    }, { passive: true });
+
+    window.addEventListener('touchmove', e => {
+      if (!dragging) return;
+      const dx = e.touches[0].clientX - lx;
+      const dy = e.touches[0].clientY - ly;
+      ox += dx; oy += dy;
+      vx = dx; vy = dy;
+      lx = e.touches[0].clientX;
+      ly = e.touches[0].clientY;
+      renderGrid();
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+      if (!dragging) return;
+      dragging = false;
+      hideHint();
+      inertia();
+    });
+
+    window.addEventListener('resize', renderGrid);
+  }
+
+  function inertia() {
+    function tick() {
+      if (Math.abs(vx) < 0.2 && Math.abs(vy) < 0.2) return;
+      vx *= 0.93; vy *= 0.93;
+      ox += vx; oy += vy;
+      renderGrid();
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+  }
+
+  function hideHint() {
+    if (hintHidden) return;
+    hintHidden = true;
+    const h = document.getElementById('gridHint');
+    h.style.opacity = '0';
+    h.style.pointerEvents = 'none';
+  }
+
+  /* ══════════════════════════════════════
+     PROJECT POPUP
+  ══════════════════════════════════════ */
+  function openPopup(entry) {
+    const url = entry.projectUrl || '';
+    document.getElementById('popupInner').innerHTML = `
+      ${entry.cover ? `<img class="popup-img" src="${entry.cover}" alt="${entry.title}" draggable="false"/>` : ''}
+      <div class="popup-body">
+        <div class="popup-type">${TYPE_LABELS[entry.postType]||'work'}</div>
+        <div class="popup-title">${entry.title}</div>
+        <div class="popup-year">${entry.year||''} ${entry.author ? '— '+entry.author : ''}</div>
+        <p class="popup-desc">${entry.excerpt||''}</p>
+        ${entry.technologies ? `<div class="popup-pills">${entry.technologies.split(',').map(t=>`<span class="popup-pill">${t.trim()}</span>`).join('')}</div>` : ''}
+        ${url ? `<a class="popup-cta" href="${url}" target="_blank">open project ↗</a>` : ''}
+      </div>`;
+    document.getElementById('projectPopup').classList.add('open');
+    document.getElementById('popupBackdrop').classList.add('open');
+  }
+
+  function closePopup() {
+    document.getElementById('projectPopup').classList.remove('open');
+    document.getElementById('popupBackdrop').classList.remove('open');
+  }
+
+  /* ══════════════════════════════════════
+     INDEX LIST
+  ══════════════════════════════════════ */
+  let allEntries = [], activeFilter = 'all', selectedRow = null;
+
+  function filterGroup(e) { return TYPE_MAP[e.postType||'articulo'] || 'articles'; }
+
+  function renderRows(entries) {
+    const container = document.getElementById('rowsContainer');
+    const filtered = activeFilter === 'all' ? entries : entries.filter(e => filterGroup(e) === activeFilter);
+
+    if (!filtered.length) {
+      container.innerHTML = `<div class="index-loading">no entries found</div>`;
+      hidePreview(); return;
+    }
+
+    container.innerHTML = filtered.map((e, i) => {
+      const pt = e.postType || 'articulo';
+      return `<div class="index-row" data-id="${e.id}" style="animation-delay:${i*0.028}s">
+        <span class="row-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="row-title">${e.title}</span>
+        <span class="row-type">${TYPE_LABELS[pt]||pt}</span>
+        <span class="row-year">${e.year||''}</span>
+      </div>`;
+    }).join('');
+
+    container.querySelectorAll('.index-row').forEach(row => {
+      const id = parseInt(row.dataset.id);
+      const entry = entries.find(e => e.id === id);
+      if (!entry) return;
+      row.addEventListener('click', () => {
+        if (WORK_TYPES.includes(entry.postType)) { openPopup(entry); }
+        else { selectRow(row, entry); }
+      });
+    });
+  }
+
+  function showPreview(entry) {
+    const inner = document.getElementById('previewInner');
+    inner.innerHTML = `
+      ${entry.cover ? `<img class="pv-img" src="${entry.cover}" alt="${entry.title}"/>` : ''}
+      <div class="pv-body">
+        <div class="pv-type">${TYPE_LABELS[entry.postType]||'article'}</div>
+        <div class="pv-title">${entry.title}</div>
+        <div class="pv-meta">${entry.year||''} ${entry.author ? '— '+entry.author : ''}</div>
+        <p class="pv-desc">${entry.excerpt||''}</p>
+        <a class="pv-cta" href="article.html?id=${entry.id}">read →</a>
+      </div>`;
+    document.getElementById('previewCol').classList.add('active');
+  }
+
+  function hidePreview() {
+    document.getElementById('previewCol').classList.remove('active');
+    if (selectedRow) { selectedRow.classList.remove('selected'); selectedRow = null; }
+  }
+
+  function selectRow(row, entry) {
+    if (selectedRow) selectedRow.classList.remove('selected');
+    selectedRow = row; row.classList.add('selected');
+    showPreview(entry);
+  }
+
+  /* ── NAV FILTERS ── */
+  document.getElementById('navFilters').addEventListener('click', e => {
+    const item = e.target.closest('.nf-item');
+    if (!item) return;
+    document.querySelectorAll('.nf-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    activeFilter = item.dataset.filter;
+    hidePreview();
+    renderRows(allEntries);
+  });
+
+  function populateFilters(entries) {
+    ['work','articles','blog'].forEach(g => {
+      const ul = document.getElementById('filter-'+g);
+      if (!ul) return;
+      const isWork = g === 'work';
+      const list = entries.filter(e => filterGroup(e) === g);
+      ul.innerHTML = list.length
+        ? list.map(e => {
+            const href = isWork ? (e.projectUrl||'#') : `article.html?id=${e.id}`;
+            const tgt  = isWork ? ' target="_blank"' : '';
+            return `<li><a href="${href}"${tgt}>${e.title} — ${e.year||''}</a></li>`;
+          }).join('')
+        : `<li style="color:rgba(17,17,17,0.3);font-size:0.8rem;padding:4px 0;">no entries</li>`;
+    });
+  }
+
+  /* ── CONTACT ── */
+  function handleSubmit(e) {
+    e.preventDefault();
+    const ok = document.getElementById('cfOk');
+    ok.classList.add('show');
+    e.target.reset();
+    setTimeout(() => ok.classList.remove('show'), 4000);
+  }
+
+  /* ── FILTERS OVERLAY ── */
+  document.getElementById('filtersClose').addEventListener('click', () =>
+    document.getElementById('filtersOverlay').classList.remove('active'));
+  document.getElementById('filtersScrim').addEventListener('click', () =>
+    document.getElementById('filtersOverlay').classList.remove('active'));
+
+  /* ── NAVBAR SCROLL ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 80);
+  }, { passive: true });
+
+  /* ── BOOT ── */
+  (async () => {
+    allEntries = await loadEntries();
+    gridEntries = allEntries.filter(e => WORK_TYPES.includes(e.postType || e.type));
+    initGrid();
+    renderRows(allEntries);
+    populateFilters(allEntries);
+  })();
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closePopup(); hidePreview();
+      document.getElementById('filtersOverlay').classList.remove('active');
+    }
+  });
   </script>
 </body>
 </html>
