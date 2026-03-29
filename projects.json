@@ -14,11 +14,11 @@
   {
     "id": "sphinx",
     "num": "02",
-    "title": "Infinity Disk",
+    "title": "Sphinx",
     "type": "portfolio",
     "year": 2025,
     "author": "dopple",
-    "excerpt": "A personal music archive and player. Dark mode interface with folder-based organization and custom album art. Designed for the obsessive listener.",
+    "excerpt": "Worldwide Culture Collective Web",
     "technologies": ["HTML", "CSS", "Vanilla JS", "Web Audio API"],
     "url": "https://sphinx-archive.netlify.app/infinity-disk",
     "cover": "img/project2.png"
