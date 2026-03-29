@@ -1,0 +1,110 @@
+[
+  {
+    "id": "atlas",
+    "num": "01",
+    "title": "Atlas News",
+    "type": "web",
+    "year": 2025,
+    "author": "dopple",
+    "excerpt": "A live news aggregator with real-time weather, animated gradient backgrounds and a cinematic editorial layout. Built for atmosphere as much as information.",
+    "technologies": ["HTML", "CSS", "Vanilla JS", "News API", "Open-Meteo"],
+    "url": "https://atlasnewsbydopple.netlify.app/",
+    "cover": "img/atlas-cover.jpg"
+  },
+  {
+    "id": "infinity-disk",
+    "num": "02",
+    "title": "Infinity Disk",
+    "type": "portfolio",
+    "year": 2025,
+    "author": "dopple",
+    "excerpt": "A personal music archive and player. Dark mode interface with folder-based organization and custom album art. Designed for the obsessive listener.",
+    "technologies": ["HTML", "CSS", "Vanilla JS", "Web Audio API"],
+    "url": "https://sphinx-archive.netlify.app/infinity-disk",
+    "cover": "img/infinitydisk-cover.jpg"
+  },
+  {
+    "id": "bare-state",
+    "num": "03",
+    "title": "Bare State",
+    "type": "portfolio",
+    "year": 2026,
+    "author": "dopple",
+    "excerpt": "E-commerce and lookbook for Bare State — a Buenos Aires clothing brand. Clean editorial layout, full-screen lookbook, product filtering and contact integration.",
+    "technologies": ["HTML", "CSS", "Vanilla JS"],
+    "url": "https://hilarious-torrone-62fd5e.netlify.app/",
+    "cover": "img/barestate-cover.jpg"
+  },
+  {
+    "id": "magnum-opus",
+    "num": "04",
+    "title": "Magnum Opus",
+    "type": "portfolio",
+    "year": 2024,
+    "author": "Sphinx",
+    "excerpt": "Editorial archive and CMS. A full content management system built on top of a brutalist portfolio layout.",
+    "technologies": ["HTML", "CSS", "Vanilla JS", "Vercel KV"],
+    "url": "#",
+    "cover": "img/paris.jpg"
+  },
+  {
+    "id": "placeholder-5",
+    "num": "05",
+    "title": "Coming Soon",
+    "type": "portfolio",
+    "year": 2026,
+    "author": "dopple",
+    "excerpt": "Next project in progress.",
+    "technologies": [],
+    "url": "#",
+    "cover": ""
+  },
+  {
+    "id": "placeholder-6",
+    "num": "06",
+    "title": "Coming Soon",
+    "type": "portfolio",
+    "year": 2026,
+    "author": "dopple",
+    "excerpt": "Next project in progress.",
+    "technologies": [],
+    "url": "#",
+    "cover": ""
+  },
+  {
+    "id": "placeholder-7",
+    "num": "07",
+    "title": "Coming Soon",
+    "type": "portfolio",
+    "year": 2026,
+    "author": "dopple",
+    "excerpt": "Next project in progress.",
+    "technologies": [],
+    "url": "#",
+    "cover": ""
+  },
+  {
+    "id": "placeholder-8",
+    "num": "08",
+    "title": "Coming Soon",
+    "type": "portfolio",
+    "year": 2026,
+    "author": "dopple",
+    "excerpt": "Next project in progress.",
+    "technologies": [],
+    "url": "#",
+    "cover": ""
+  },
+  {
+    "id": "placeholder-9",
+    "num": "09",
+    "title": "Coming Soon",
+    "type": "portfolio",
+    "year": 2026,
+    "author": "dopple",
+    "excerpt": "Next project in progress.",
+    "technologies": [],
+    "url": "#",
+    "cover": ""
+  }
+]
