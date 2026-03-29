@@ -155,7 +155,6 @@ a { color:inherit; text-decoration:none; }
   flex: 1;
   overflow: hidden;
   position: relative;
-  background: rgba(17,17,17,0.05);
 }
 
 .gc-img-wrap img {
