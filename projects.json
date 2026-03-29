@@ -21,7 +21,7 @@
     "excerpt": "A personal music archive and player. Dark mode interface with folder-based organization and custom album art. Designed for the obsessive listener.",
     "technologies": ["HTML", "CSS", "Vanilla JS", "Web Audio API"],
     "url": "https://sphinx-archive.netlify.app/infinity-disk",
-    "cover": "img/infinitydisk-cover.jpg"
+    "cover": "img/project2.png"
   },
   {
     "id": "bare-state",
