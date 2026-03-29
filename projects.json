@@ -15,11 +15,11 @@
   {
     "id": "bare-state",
     "num": "03",
-    "title": "Bare State",
+    "title": "Roots",
     "type": "portfolio",
     "year": 2026,
     "author": "dopple",
-    "excerpt": "E-commerce and lookbook for Bare State — a Buenos Aires clothing brand. Clean editorial layout, full-screen lookbook, product filtering and contact integration.",
+    "excerpt": "E-commerce and lookbook for Roots — a Buenos Aires clothing brand. Clean editorial layout, full-screen lookbook, product filtering and contact integration.",
     "technologies": ["HTML", "CSS", "Vanilla JS"],
     "url": "https://hilarious-torrone-62fd5e.netlify.app/",
     "cover": "img/barestate-cover.jpg"
