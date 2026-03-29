@@ -59,7 +59,7 @@ a { color:inherit; text-decoration:none; }
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 300;
+  z-index: 100;
   height: var(--nav-h);
   display: flex;
   align-items: center;
@@ -73,6 +73,8 @@ a { color:inherit; text-decoration:none; }
   letter-spacing: -0.02em;
   color: var(--black);
   text-decoration: none;
+  position: absolute;
+  right: 50%;
 }
 
 .nav-reg {
@@ -153,7 +155,6 @@ a { color:inherit; text-decoration:none; }
   flex: 1;
   overflow: hidden;
   position: relative;
-  background: rgba(17,17,17,0.05);
 }
 
 .gc-img-wrap img {
@@ -175,7 +176,7 @@ a { color:inherit; text-decoration:none; }
 .gc-hover {
   position: absolute;
   inset: 0;
-  background: rgba(13,13,13,0);
+  background: rgba(255, 255, 255, 0);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -465,20 +466,11 @@ a { color:inherit; text-decoration:none; }
   text-transform: uppercase;
   color: rgba(255,255,255,0.3);
   flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   transition: color 0.15s;
-  background: none;
-  border: none;
-  width: 100%;
-  text-align: left;
-  position: relative;
-  z-index: 10;
 }
 
 .s2-back:hover { color: var(--white); }
-
-/* hide main navbar when secondary is open */
-body.s2-open .navbar { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-body .navbar { transition: opacity 0.3s; }
 
 .s2-scroll {
   flex: 1;
@@ -578,6 +570,7 @@ body .navbar { transition: opacity 0.3s; }
 ───────────────────────────────────────── */
 .s2-about {
   padding: 80px 60px;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .s2-about-grid {
@@ -626,6 +619,7 @@ body .navbar { transition: opacity 0.3s; }
 ───────────────────────────────────────── */
 .s2-index {
   padding: 80px 60px;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .s2-index-filters {
@@ -653,7 +647,7 @@ body .navbar { transition: opacity 0.3s; }
   display: grid;
   grid-template-columns: 36px 1fr 100px 60px;
   padding: 10px 0;
-  border-bottom: none;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   margin-bottom: 0;
   font-size: 0.5rem;
   font-family: var(--mono);
@@ -667,7 +661,7 @@ body .navbar { transition: opacity 0.3s; }
   grid-template-columns: 36px 1fr 100px 60px;
   align-items: center;
   height: 52px;
-  border-bottom: none;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
   cursor: pointer;
   transition: background 0.1s;
   animation: rowIn 0.35s ease both;
@@ -727,6 +721,7 @@ body .navbar { transition: opacity 0.3s; }
 ───────────────────────────────────────── */
 .s2-socials {
   padding: 80px 60px;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .s2-socials-grid { display:flex; flex-direction:column; }
@@ -740,7 +735,7 @@ body .navbar { transition: opacity 0.3s; }
   transition: opacity 0.15s;
 }
 
-.s2-social:first-child { border-top: none; }
+.s2-social:first-child { border-top: 1px solid rgba(255,255,255,0.05); }
 .s2-social:hover { opacity: 0.5; }
 
 .ss-name {
@@ -775,6 +770,7 @@ body .navbar { transition: opacity 0.3s; }
 ───────────────────────────────────────── */
 .s2-contact {
   padding: 80px 60px;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .s2-contact-grid {
@@ -870,6 +866,7 @@ body .navbar { transition: opacity 0.3s; }
 ───────────────────────────────────────── */
 .s2-footer {
   padding: 56px 60px;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .s2-footer-top {
