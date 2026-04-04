@@ -23,6 +23,19 @@
     "technologies": ["HTML", "CSS", "Vanilla JS"],
     "url": "https://hilarious-torrone-62fd5e.netlify.app/",
     "cover": "project/roots.png"
-  }
+  },
 
+    {
+    "id": "LONDON IS CALLING US BACK",
+    "num": "03",
+    "title": "LONDON IS CALLING US BACK",
+    "type": "portfolio",
+    "year": 2026,
+    "author": "dopple",
+    "excerpt": "Concept for a Campaign for the Clash' re-release of London Calling",
+    "technologies": ["Figma"],
+    "url": "https://www.figma.com/proto/j19kty4e55GeIu2EcBNFcd/Trabajos?node-id=17-2&t=Nyn0f7kzcf0XfmhA-1&starting-point-node-id=17%3A2",
+    "cover": "project/the_clash.png"
+  }
+  
 ]
