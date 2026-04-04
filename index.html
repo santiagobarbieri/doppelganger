@@ -12,6 +12,12 @@
 </head>
 <body>
 
+     <div class="popup-backdrop" id="popupBackdrop" onclick="closePopup()"></div>
+    <div class="project-popup" id="projectPopup">
+      <button class="popup-close" onclick="closePopup()">✕</button>
+      <div class="popup-inner" id="popupInner"></div>
+    </div>
+
   <!-- NAVBAR — centered logo, no contact -->
   <nav class="navbar" id="navbar">
     <a href="admin.html" class="nav-logo">dopple<span class="nav-reg">®</span></a>
@@ -29,12 +35,6 @@
     <div class="explore-bar" id="exploreBar" onclick="openS2()">
       <span class="explore-label">keep exploring</span>
       <span class="explore-arrow">↓</span>
-    </div>
-
-    <div class="popup-backdrop" id="popupBackdrop" onclick="closePopup()"></div>
-    <div class="project-popup" id="projectPopup">
-      <button class="popup-close" onclick="closePopup()">✕</button>
-      <div class="popup-inner" id="popupInner"></div>
     </div>
 
   </section>
