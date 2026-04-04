@@ -1,15 +1,15 @@
 [
   {
-    "id": "atlas",
+    "id": "INFINITY DISK",
     "num": "01",
-    "title": "Atlas News",
-    "type": "web",
-    "year": 2025,
+    "title": "INFINITY DISK",
+    "type": "APP",
+    "year": 2026,
     "author": "dopple",
-    "excerpt": "A live news aggregator with real-time weather, animated gradient backgrounds and a cinematic editorial layout. Built for atmosphere as much as information.",
-    "technologies": ["HTML", "CSS", "Vanilla JS", "News API", "Open-Meteo"],
-    "url": "https://atlasnewsbydopple.netlify.app/",
-    "cover": "img/atlas-cover.jpg"
+    "excerpt": "A New way of listening to music. You Just upload your mp3 archives and the system uploads them to the framework for everyone to listen to, a platform that puts the artist allways first.",
+    "technologies": ["Swift"],
+    "url": "#",
+    "cover": "project/infinity_disk.png"
   },
   
   {
