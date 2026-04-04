@@ -12,35 +12,45 @@
 </head>
 <body>
 
+  <!-- NAVBAR — centered logo, no contact -->
   <nav class="navbar" id="navbar">
     <a href="admin.html" class="nav-logo">dopple<span class="nav-reg">®</span></a>
-    <div class="nav-right">
-    </div>
   </nav>
 
-  <!-- SECTION 1: MAIN — INFINITE GRID -->
+  <!-- ═══════════════════════════════════════
+       SECTION 1 — MAIN / INFINITE GRID
+  ═══════════════════════════════════════ -->
   <section class="s-main" id="sMain">
+
     <div class="infinite-grid" id="infiniteGrid"></div>
+
     <div class="grid-hint" id="gridHint">drag to explore ← →</div>
-    <div class="explore-bar" id="exploreBar" onclick="openSecondary()">
+
+    <div class="explore-bar" id="exploreBar" onclick="openS2()">
       <span class="explore-label">keep exploring</span>
       <span class="explore-arrow">↓</span>
     </div>
+
     <div class="popup-backdrop" id="popupBackdrop" onclick="closePopup()"></div>
     <div class="project-popup" id="projectPopup">
       <button class="popup-close" onclick="closePopup()">✕</button>
       <div class="popup-inner" id="popupInner"></div>
     </div>
+
   </section>
 
-  <!-- SECTION 2: SECONDARY — slides up from below -->
+  <!-- ═══════════════════════════════════════
+       SECTION 2 — SECONDARY / slides up
+  ═══════════════════════════════════════ -->
   <section class="s-secondary" id="sSecondary">
-    <div class="s2-back" onclick="closeSecondary()">
-      <span>↑</span><span>back to main</span>
-    </div>
+
+    <button class="s2-back" id="s2Back" type="button" onclick="closeS2()">
+      ↑ back to main
+    </button>
+
     <div class="s2-scroll">
 
-      <!-- HERO with video -->
+      <!-- HERO -->
       <div class="s2-hero">
         <video class="s2-video" autoplay muted loop playsinline poster="img/paris.jpg">
           <source src="img/hero-bg.mp4" type="video/mp4"/>
@@ -51,12 +61,12 @@
           <h1 class="s2-headline">we deserve<br><em>a world</em><br>well done.</h1>
           <p class="s2-subline">UX/UI design studio building the web people actually want to use.</p>
         </div>
-        <div class="s2-scroll-hint">scroll ↓</div>
+        <span class="s2-scroll-hint">scroll ↓</span>
       </div>
 
       <!-- ABOUT -->
       <div class="s2-about">
-        <div class="s2-label">about us</div>
+        <p class="s2-section-label">about us</p>
         <div class="s2-about-grid">
           <div class="s2-about-text">
             <p>Dopple nació de una convicción simple: el entorno online que habitamos todos los días merece ser mejor. Más atractivo, más inteligente, más humano.</p>
@@ -71,34 +81,53 @@
         </div>
       </div>
 
-      <!-- ARCHIVE / INDEX -->
-      <div class="s2-index">
-        <div class="s2-label">archive</div>
-        <div class="s2-index-filters" id="s2Filters">
+      <!-- ARCHIVE -->
+      <div class="s2-archive">
+        <p class="s2-section-label">archive</p>
+        <div class="s2-archive-filters" id="s2Filters">
           <span class="s2-fi active" data-filter="all">all</span>
           <span class="s2-fi" data-filter="articles">articles</span>
           <span class="s2-fi" data-filter="blog">blog</span>
         </div>
-        <div class="s2-index-header">
-          <span>#</span><span>title</span><span>type</span><span>year</span>
+        <div class="s2-archive-header">
+          <span>#</span>
+          <span>title</span>
+          <span>type</span>
+          <span>year</span>
         </div>
         <div id="s2Rows"><div class="s2-loading">loading…</div></div>
       </div>
 
       <!-- SOCIALS -->
       <div class="s2-socials">
-        <div class="s2-label">find us</div>
-        <div class="s2-socials-grid">
-          <a class="s2-social" href="#" target="_blank"><span class="ss-name">Instagram</span><span class="ss-handle">@dopple.studio</span><span class="ss-arr">↗</span></a>
-          <a class="s2-social" href="#" target="_blank"><span class="ss-name">Behance</span><span class="ss-handle">/dopple</span><span class="ss-arr">↗</span></a>
-          <a class="s2-social" href="#" target="_blank"><span class="ss-name">LinkedIn</span><span class="ss-handle">dopple studio</span><span class="ss-arr">↗</span></a>
-          <a class="s2-social" href="mailto:dopplemusic@gmail.com"><span class="ss-name">Email</span><span class="ss-handle">dopplemusic@gmail.com</span><span class="ss-arr">↗</span></a>
+        <p class="s2-section-label">find us</p>
+        <div class="s2-socials-list">
+          <a class="s2-social" href="#" target="_blank">
+            <span class="ss-name">Instagram</span>
+            <span class="ss-handle">@dopple.studio</span>
+            <span class="ss-arr">↗</span>
+          </a>
+          <a class="s2-social" href="#" target="_blank">
+            <span class="ss-name">Behance</span>
+            <span class="ss-handle">/dopple</span>
+            <span class="ss-arr">↗</span>
+          </a>
+          <a class="s2-social" href="#" target="_blank">
+            <span class="ss-name">LinkedIn</span>
+            <span class="ss-handle">dopple studio</span>
+            <span class="ss-arr">↗</span>
+          </a>
+          <a class="s2-social" href="mailto:dopplemusic@gmail.com">
+            <span class="ss-name">Email</span>
+            <span class="ss-handle">dopplemusic@gmail.com</span>
+            <span class="ss-arr">↗</span>
+          </a>
         </div>
       </div>
 
       <!-- CONTACT -->
       <div class="s2-contact">
-        <div class="s2-label">get in touch</div>
+        <p class="s2-section-label">get in touch</p>
         <div class="s2-contact-grid">
           <div class="s2-contact-left">
             <p class="s2-contact-big">Let's build something worth using.</p>
@@ -106,11 +135,20 @@
           </div>
           <form class="s2-form" onsubmit="handleSubmit(event)">
             <div class="sf-row">
-              <div class="sf-group"><label class="sf-label">nombre</label><input class="sf-input" type="text" placeholder="Tu nombre" required/></div>
-              <div class="sf-group"><label class="sf-label">email</label><input class="sf-input" type="email" placeholder="tu@email.com" required/></div>
+              <div class="sf-group">
+                <label class="sf-label">nombre</label>
+                <input class="sf-input" type="text" placeholder="Tu nombre" required/>
+              </div>
+              <div class="sf-group">
+                <label class="sf-label">email</label>
+                <input class="sf-input" type="email" placeholder="tu@email.com" required/>
+              </div>
             </div>
-            <div class="sf-group"><label class="sf-label">mensaje</label><textarea class="sf-textarea" rows="4" placeholder="Contanos qué tenés en mente…" required></textarea></div>
-            <div class="sf-footer">
+            <div class="sf-group">
+              <label class="sf-label">mensaje</label>
+              <textarea class="sf-textarea" rows="4" placeholder="Contanos qué tenés en mente…" required></textarea>
+            </div>
+            <div class="sf-footer-row">
               <button class="sf-submit" type="submit">enviar →</button>
               <span class="sf-ok" id="sfOk">enviado ✓</span>
             </div>
@@ -120,14 +158,22 @@
 
       <!-- FOOTER -->
       <footer class="s2-footer">
-        <div class="s2-footer-top">
-          <div class="s2-footer-logo">dopple<span>®</span></div>
-          <p class="s2-footer-tagline">we deserve a world well done</p>
-        </div>
+        <div class="s2-footer-logo">dopple<span>®</span></div>
         <div class="s2-footer-cols">
-          <div class="s2-fcol"><div class="s2-fcol-label">studio</div><a href="#">about</a><a href="#" onclick="closeSecondary()">work</a></div>
-          <div class="s2-fcol"><div class="s2-fcol-label">social</div><a href="#" target="_blank">instagram</a><a href="#" target="_blank">behance</a></div>
-          <div class="s2-fcol"><div class="s2-fcol-label">contact</div><a href="mailto:dopplemusic@gmail.com">email</a></div>
+          <div class="s2-fcol">
+            <span class="s2-fcol-label">studio</span>
+            <a href="#">about</a>
+            <a href="#" onclick="closeS2()">work</a>
+          </div>
+          <div class="s2-fcol">
+            <span class="s2-fcol-label">social</span>
+            <a href="#" target="_blank">instagram</a>
+            <a href="#" target="_blank">behance</a>
+          </div>
+          <div class="s2-fcol">
+            <span class="s2-fcol-label">contact</span>
+            <a href="mailto:dopplemusic@gmail.com">email</a>
+          </div>
         </div>
         <div class="s2-footer-bottom">
           <span>Buenos Aires, Argentina</span>
@@ -135,25 +181,63 @@
         </div>
       </footer>
 
-    </div>
+    </div><!-- /s2-scroll -->
   </section>
 
   <script>
+  /* ─────────────────────────────────────
+     TYPES
+  ───────────────────────────────────── */
   const TYPE_MAP    = { articulo:'articles', resena:'blog', archivo:'articles' };
-  const TYPE_LABELS = { articulo:'article', resena:'review', archivo:'archive' };
+  const TYPE_LABELS = { articulo:'article',  resena:'review', archivo:'archive' };
 
-  function openSecondary()  { document.getElementById('sSecondary').classList.add('open'); }
-  function closeSecondary() { document.getElementById('sSecondary').classList.remove('open'); }
+  /* ─────────────────────────────────────
+     SECTION 2 TOGGLE
+  ───────────────────────────────────── */
+  function openS2() {
+    document.getElementById('sSecondary').classList.add('open');
+    document.getElementById('navbar').style.opacity = '0';
+    document.getElementById('navbar').style.pointerEvents = 'none';
+  }
 
-  /* ── INFINITE GRID ── */
-  const CELL = 200, GAP = 150, STEP = CELL + GAP;
-  let projects = [], ox = 0, oy = 0;
-  let dragging = false, lx = 0, ly = 0, vx = 0, vy = 0;
-  let raf = null, hintHidden = false, dragMoved = false;
+  function closeS2() {
+    document.getElementById('sSecondary').classList.remove('open');
+    document.getElementById('navbar').style.opacity = '1';
+    document.getElementById('navbar').style.pointerEvents = 'auto';
+    // scroll s2 back to top so it starts fresh next time
+    document.getElementById('s2-scroll') && (document.getElementById('s2-scroll').scrollTop = 0);
+  }
+
+  /* ─────────────────────────────────────
+     INFINITE GRID
+     - loads from projects.json
+     - cells are 400px with 14px gap
+     - centers 3×3 on load
+     - mouse: direct update + inertia
+     - touch: direct update (no lerp lag) + inertia
+  ───────────────────────────────────── */
+  const CELL = 400;
+  const GAP  = 14;
+  const STEP = CELL + GAP;
+  const NAV_H = 52; // navbar height to avoid overlap
+
+  let projects   = [];
+  let ox = 0, oy = 0;          // current offset
+  let dragging   = false;
+  let lx = 0,  ly = 0;          // last pointer position
+  let vx = 0,  vy = 0;          // velocity
+  let raf        = null;
+  let hintHidden = false;
+  let pointerMoved = false;
 
   async function loadProjects() {
-    try { return await (await fetch('projects.json')).json(); }
-    catch { return []; }
+    try {
+      const res = await fetch('projects.json');
+      if (!res.ok) throw new Error();
+      return await res.json();
+    } catch {
+      return [];
+    }
   }
 
   function getProject(col, row) {
@@ -164,128 +248,180 @@
 
   function renderGrid() {
     const grid = document.getElementById('infiniteGrid');
-    const vw = window.innerWidth, vh = window.innerHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     const sc = Math.floor(-ox / STEP) - 1;
     const sr = Math.floor(-oy / STEP) - 1;
     const ec = sc + Math.ceil(vw / STEP) + 3;
     const er = sr + Math.ceil(vh / STEP) + 3;
+
     let html = '';
     for (let r = sr; r <= er; r++) {
       for (let c = sc; c <= ec; c++) {
         const p = getProject(c, r);
         if (!p) continue;
-        const px = c * STEP + ox, py = r * STEP + oy;
+        const px = c * STEP + ox;
+        const py = r * STEP + oy;
         const empty = !p.url || p.url === '#' || p.title === 'Coming Soon';
-        html += `<div class="grid-cell${empty?' gc-empty-slot':''}" style="transform:translate(${px}px,${py}px);width:${CELL}px;height:${CELL}px" data-id="${p.id}">
-          <div class="gc-img-wrap">
-            ${p.cover ? `<img src="${p.cover}" alt="${p.title}" loading="lazy" draggable="false"/>` : '<div class="gc-placeholder"></div>'}
-            ${!empty ? `<div class="gc-hover"><button class="gc-preview-btn" data-id="${p.id}">preview</button></div>` : ''}
-          </div>
-          <div class="gc-caption"><span class="gc-num">${p.num}</span><span class="gc-name">${p.title}</span></div>
-        </div>`;
+        html += `
+          <div class="gc${empty ? ' gc-empty' : ''}"
+               style="transform:translate(${px}px,${py}px)"
+               data-id="${p.id}">
+            <div class="gc-img">
+              ${p.cover
+                ? `<img src="${p.cover}" alt="${p.title}" loading="lazy" draggable="false"/>`
+                : `<div class="gc-blank"></div>`}
+              ${!empty ? `<div class="gc-hover">
+                <button class="gc-btn" data-id="${p.id}">preview</button>
+              </div>` : ''}
+            </div>
+            <div class="gc-caption">
+              <span class="gc-num">${p.num}</span>
+              <span class="gc-name">${p.title}</span>
+            </div>
+          </div>`;
       }
     }
+
     grid.innerHTML = html;
-    grid.querySelectorAll('.gc-preview-btn').forEach(btn => {
-      btn.addEventListener('click', ev => {
-        ev.stopPropagation();
-        if (dragMoved) return;
+
+    // Bind preview buttons — only if no drag happened
+    grid.querySelectorAll('.gc-btn').forEach(btn => {
+      btn.addEventListener('pointerdown', e => e.stopPropagation());
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (pointerMoved) return;
         const p = projects.find(pr => pr.id === btn.dataset.id);
         if (p) openProjectPopup(p);
       });
     });
   }
 
+  function centerGrid() {
+    // Position so 3×3 grid is centered, but top row starts below navbar
+    ox = Math.round((window.innerWidth  - 3 * STEP + GAP) / 2);
+    oy = Math.round((window.innerHeight - 3 * STEP + GAP) / 2 + NAV_H / 2);
+  }
+
   function initGrid() {
     const grid = document.getElementById('infiniteGrid');
     if (!projects.length) {
-      grid.innerHTML = `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(17,17,17,0.3);">no projects yet</div>`;
+      grid.innerHTML = `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'DM Mono',monospace;font-size:0.62rem;color:rgba(17,17,17,0.3);letter-spacing:0.1em;">no projects yet</div>`;
       return;
     }
-    ox = (window.innerWidth  - Math.ceil(window.innerWidth  / STEP) * STEP) / 2 + GAP;
-    oy = (window.innerHeight - Math.ceil(window.innerHeight / STEP) * STEP) / 2 + GAP;
+
+    centerGrid();
     renderGrid();
 
-    grid.addEventListener('mousedown', e => {
-      if (e.target.closest('.gc-preview-btn')) return;
-      dragging = true; dragMoved = false;
-      lx = e.clientX; ly = e.clientY; vx = 0; vy = 0;
-      grid.style.cursor = 'grabbing';
-      cancelAnimationFrame(raf); e.preventDefault();
-    });
-    window.addEventListener('mousemove', e => {
-      if (!dragging) return;
-      const dx = e.clientX - lx, dy = e.clientY - ly;
-      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) dragMoved = true;
-      ox += dx; oy += dy;
-      vx = dx * 0.75 + vx * 0.25; vy = dy * 0.75 + vy * 0.25;
-      lx = e.clientX; ly = e.clientY; renderGrid();
-    });
-    window.addEventListener('mouseup', () => {
-      if (!dragging) return;
-      dragging = false; grid.style.cursor = 'grab';
-      hideHint(); inertia(); setTimeout(() => { dragMoved = false; }, 80);
-    });
-    grid.addEventListener('touchstart', e => {
-      if (e.target.closest('.gc-preview-btn')) return;
-      dragging = true; dragMoved = false;
-      lx = e.touches[0].clientX; ly = e.touches[0].clientY; vx = 0; vy = 0;
+    /* ── POINTER EVENTS (handles both mouse and touch via pointer API) ── */
+    grid.setPointerCapture; // just reference
+
+    grid.addEventListener('pointerdown', e => {
+      if (e.target.closest('.gc-btn')) return;
+      dragging     = true;
+      pointerMoved = false;
+      lx = e.clientX;
+      ly = e.clientY;
+      vx = 0; vy = 0;
       cancelAnimationFrame(raf);
-    }, { passive: true });
-    window.addEventListener('touchmove', e => {
-      if (!dragging) return;
-      const dx = e.touches[0].clientX - lx, dy = e.touches[0].clientY - ly;
-      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) dragMoved = true;
-      ox += dx; oy += dy; vx = dx; vy = dy;
-      lx = e.touches[0].clientX; ly = e.touches[0].clientY; renderGrid();
-    }, { passive: true });
-    window.addEventListener('touchend', () => {
-      if (!dragging) return;
-      dragging = false; hideHint(); inertia();
-      setTimeout(() => { dragMoved = false; }, 80);
+      grid.style.cursor = 'grabbing';
+      grid.setPointerCapture(e.pointerId);
+      e.preventDefault();
     });
-    window.addEventListener('resize', renderGrid);
+
+    grid.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dx = e.clientX - lx;
+      const dy = e.clientY - ly;
+      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) pointerMoved = true;
+      ox += dx;
+      oy += dy;
+      // exponential moving average for velocity
+      vx = dx * 0.6 + vx * 0.4;
+      vy = dy * 0.6 + vy * 0.4;
+      lx = e.clientX;
+      ly = e.clientY;
+      renderGrid();
+    });
+
+    grid.addEventListener('pointerup', () => {
+      if (!dragging) return;
+      dragging = false;
+      grid.style.cursor = 'grab';
+      hideHint();
+      startInertia();
+      setTimeout(() => { pointerMoved = false; }, 60);
+    });
+
+    grid.addEventListener('pointercancel', () => {
+      if (!dragging) return;
+      dragging = false;
+      grid.style.cursor = 'grab';
+      startInertia();
+      setTimeout(() => { pointerMoved = false; }, 60);
+    });
+
+    window.addEventListener('resize', () => { centerGrid(); renderGrid(); });
   }
 
-  function inertia() {
+  function startInertia() {
+    cancelAnimationFrame(raf);
     function tick() {
-      if (Math.abs(vx) < 0.15 && Math.abs(vy) < 0.15) return;
-      vx *= 0.93; vy *= 0.93; ox += vx; oy += vy; renderGrid();
+      if (Math.abs(vx) < 0.15 && Math.abs(vy) < 0.15) { vx = 0; vy = 0; return; }
+      vx *= 0.92;
+      vy *= 0.92;
+      ox += vx;
+      oy += vy;
+      renderGrid();
       raf = requestAnimationFrame(tick);
     }
     raf = requestAnimationFrame(tick);
   }
 
   function hideHint() {
-    if (hintHidden) return; hintHidden = true;
+    if (hintHidden) return;
+    hintHidden = true;
     const h = document.getElementById('gridHint');
-    h.style.opacity = '0'; h.style.pointerEvents = 'none';
+    if (h) { h.style.opacity = '0'; h.style.pointerEvents = 'none'; }
   }
 
-  /* ── POPUPS ── */
+  /* ─────────────────────────────────────
+     PROJECT POPUP
+  ───────────────────────────────────── */
   function openProjectPopup(p) {
     const hasUrl = p.url && p.url !== '#';
     document.getElementById('popupInner').innerHTML = `
-      ${p.cover ? `<img class="popup-img" src="${p.cover}" alt="${p.title}" draggable="false"/>` : '<div class="popup-no-img"></div>'}
+      ${p.cover
+        ? `<img class="popup-img" src="${p.cover}" alt="${p.title}" draggable="false"/>`
+        : `<div class="popup-no-img"></div>`}
       <div class="popup-body">
         <div class="popup-type">${p.type || 'work'}</div>
         <div class="popup-title">${p.title}</div>
-        <div class="popup-year">${p.year || ''} ${p.author ? '— ' + p.author : ''}</div>
+        <div class="popup-year">${p.year || ''}${p.author ? ' — ' + p.author : ''}</div>
         <p class="popup-desc">${p.excerpt || ''}</p>
-        ${p.technologies && p.technologies.length ? `<div class="popup-pills">${p.technologies.map(t => `<span class="popup-pill">${t}</span>`).join('')}</div>` : ''}
-        ${hasUrl ? `<a class="popup-cta" href="${p.url}" target="_blank">open project ↗</a>` : '<span class="popup-cta-disabled">coming soon</span>'}
+        ${p.technologies && p.technologies.length
+          ? `<div class="popup-pills">${p.technologies.map(t => `<span class="popup-pill">${t}</span>`).join('')}</div>`
+          : ''}
+        ${hasUrl
+          ? `<a class="popup-cta" href="${p.url}" target="_blank">open project ↗</a>`
+          : `<span class="popup-soon">coming soon</span>`}
       </div>`;
     document.getElementById('projectPopup').classList.add('open');
     document.getElementById('popupBackdrop').classList.add('open');
   }
 
+  /* ─────────────────────────────────────
+     ENTRY POPUP (articles / blog)
+  ───────────────────────────────────── */
   function openEntryPopup(entry) {
     document.getElementById('popupInner').innerHTML = `
-      ${entry.cover ? `<img class="popup-img" src="${entry.cover}" alt="${entry.title}" draggable="false"/>` : ''}
+      ${entry.cover
+        ? `<img class="popup-img" src="${entry.cover}" alt="${entry.title}" draggable="false"/>`
+        : ''}
       <div class="popup-body">
         <div class="popup-type">${TYPE_LABELS[entry.postType] || 'article'}</div>
         <div class="popup-title">${entry.title}</div>
-        <div class="popup-year">${entry.year || ''} ${entry.author ? '— ' + entry.author : ''}</div>
+        <div class="popup-year">${entry.year || ''}${entry.author ? ' — ' + entry.author : ''}</div>
         <p class="popup-desc">${entry.excerpt || ''}</p>
         <a class="popup-cta" href="article.html?id=${entry.id}">read article →</a>
       </div>`;
@@ -298,7 +434,9 @@
     document.getElementById('popupBackdrop').classList.remove('open');
   }
 
-  /* ── ENTRIES ── */
+  /* ─────────────────────────────────────
+     ENTRIES — api / localstorage
+  ───────────────────────────────────── */
   let allEntries = [], activeFilter = 'all';
 
   async function loadEntries() {
@@ -317,17 +455,25 @@
 
   function renderRows(entries) {
     const container = document.getElementById('s2Rows');
-    const filtered  = activeFilter === 'all' ? entries : entries.filter(e => filterGroup(e) === activeFilter);
-    if (!filtered.length) { container.innerHTML = `<div class="s2-loading">no entries found</div>`; return; }
+    const filtered  = activeFilter === 'all'
+      ? entries
+      : entries.filter(e => filterGroup(e) === activeFilter);
+
+    if (!filtered.length) {
+      container.innerHTML = `<div class="s2-loading">no entries found</div>`;
+      return;
+    }
+
     container.innerHTML = filtered.map((e, i) => `
-      <div class="s2-row" data-id="${e.id}" style="animation-delay:${i*0.03}s">
-        <span class="s2r-num">${String(i+1).padStart(2,'0')}</span>
+      <div class="s2-row" data-id="${e.id}" style="animation-delay:${i * 0.025}s">
+        <span class="s2r-num">${String(i + 1).padStart(2, '0')}</span>
         <span class="s2r-title">${e.title}</span>
-        <span class="s2r-type">${TYPE_LABELS[e.postType||'articulo']||e.postType}</span>
-        <span class="s2r-year">${e.year||''}</span>
+        <span class="s2r-type">${TYPE_LABELS[e.postType || 'articulo'] || e.postType}</span>
+        <span class="s2r-year">${e.year || ''}</span>
       </div>`).join('');
+
     container.querySelectorAll('.s2-row').forEach(row => {
-      const id = parseInt(row.dataset.id);
+      const id    = parseInt(row.dataset.id);
       const entry = entries.find(e => e.id === id);
       if (entry) row.addEventListener('click', () => openEntryPopup(entry));
     });
@@ -342,6 +488,9 @@
     renderRows(allEntries);
   });
 
+  /* ─────────────────────────────────────
+     CONTACT FORM
+  ───────────────────────────────────── */
   function handleSubmit(e) {
     e.preventDefault();
     const ok = document.getElementById('sfOk');
@@ -350,10 +499,16 @@
     setTimeout(() => ok.classList.remove('show'), 4000);
   }
 
+  /* ─────────────────────────────────────
+     KEYBOARD
+  ───────────────────────────────────── */
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closePopup(); closeSecondary(); }
+    if (e.key === 'Escape') { closePopup(); closeS2(); }
   });
 
+  /* ─────────────────────────────────────
+     BOOT
+  ───────────────────────────────────── */
   (async () => {
     [projects, allEntries] = await Promise.all([loadProjects(), loadEntries()]);
     initGrid();
