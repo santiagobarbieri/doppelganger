@@ -13,16 +13,16 @@
   },
   
   {
-    "id": "bare-state",
+    "id": "ROOTS",
     "num": "03",
-    "title": "Roots",
+    "title": "ROOTS",
     "type": "portfolio",
     "year": 2026,
     "author": "dopple",
     "excerpt": "E-commerce and lookbook for Roots — a Buenos Aires clothing brand. Clean editorial layout, full-screen lookbook, product filtering and contact integration.",
     "technologies": ["HTML", "CSS", "Vanilla JS"],
     "url": "https://hilarious-torrone-62fd5e.netlify.app/",
-    "cover": "img/barestate-cover.jpg"
+    "cover": "project/roots.png"
   },
   {
     "id": "magnum-opus",
