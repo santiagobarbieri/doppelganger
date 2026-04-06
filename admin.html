@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>admin - blog</title>
-  <link rel="icon" type="image/png" href="favicon.png">
+  <title>admin — dopple®</title>
+  <link rel="icon" type="image/png" href="img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;1,300&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
@@ -827,6 +827,69 @@ button { cursor:pointer; }
 .embed-detected.show { display: block; }
 
 /* ─────────────────────────────────────────
+   SITES TOGGLE
+───────────────────────────────────────── */
+.sites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.site-toggle input[type="checkbox"] { display: none; }
+
+.site-toggle-box {
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(17,17,17,0.25);
+  flex-shrink: 0;
+  position: relative;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.site-toggle input:checked + .site-toggle-box {
+  background: var(--dark);
+  border-color: var(--dark);
+}
+
+.site-toggle input:checked + .site-toggle-box::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: var(--white);
+}
+
+.site-toggle-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.site-name {
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--black);
+}
+
+.site-url {
+  font-size: 0.52rem;
+  font-family: var(--mono);
+  color: rgba(17,17,17,0.3);
+  letter-spacing: 0.04em;
+}
+
+/* ─────────────────────────────────────────
    TOAST
 ───────────────────────────────────────── */
 .toast {
@@ -1152,6 +1215,30 @@ button { cursor:pointer; }
                 </div>
               </div>
 
+              <!-- PUBLISH TO -->
+              <div class="panel-card">
+                <div class="panel-title">publish to</div>
+                <p style="font-size:0.58rem;font-family:var(--mono);color:rgba(17,17,17,0.35);margin-bottom:12px;line-height:1.6;">Select which sites will show this entry.</p>
+                <div class="sites-list">
+                  <label class="site-toggle">
+                    <input type="checkbox" id="siteDopple" checked/>
+                    <span class="site-toggle-box"></span>
+                    <span class="site-toggle-label">
+                      <span class="site-name">dopple®</span>
+                      <span class="site-url">doppelganger-eta.vercel.app</span>
+                    </span>
+                  </label>
+                  <label class="site-toggle">
+                    <input type="checkbox" id="siteAtlas"/>
+                    <span class="site-toggle-box"></span>
+                    <span class="site-toggle-label">
+                      <span class="site-name">Atlas</span>
+                      <span class="site-url">atlasnewsbydopple.netlify.app</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -1388,6 +1475,10 @@ function openEditor(id) {
   if (entry?.cover) { cp.src = entry.cover; cp.style.display = ''; }
   else { cp.style.display = 'none'; }
 
+  // restore site checkboxes
+  document.getElementById('siteDopple').checked = !entry?.sites || entry.sites.includes('dopple');
+  document.getElementById('siteAtlas').checked  = entry?.sites ? entry.sites.includes('atlas') : false;
+
   document.getElementById('embedDetected').classList.remove('show');
   if (entry?.embed) detectEmbed();
 
@@ -1435,6 +1526,9 @@ async function publishEntry() {
 }
 
 function collectEntry() {
+  const sites = [];
+  if (document.getElementById('siteDopple').checked) sites.push('dopple');
+  if (document.getElementById('siteAtlas').checked)  sites.push('atlas');
   return {
     id:           currentEntryId || db.nextId,
     title:        document.getElementById('editorTitle').value.trim() || 'Untitled',
@@ -1450,6 +1544,7 @@ function collectEntry() {
     projectUrl:   document.getElementById('editorProjectUrl').value.trim(),
     technologies: document.getElementById('editorTech').value.trim(),
     date:         new Date().toISOString().split('T')[0],
+    sites,
   };
 }
 
