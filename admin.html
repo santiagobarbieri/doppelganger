@@ -1229,11 +1229,11 @@ button { cursor:pointer; }
                     </span>
                   </label>
                   <label class="site-toggle">
-                    <input type="checkbox" id="siteAtlas"/>
+                    <input type="checkbox" id="siteAstrak"/>
                     <span class="site-toggle-box"></span>
                     <span class="site-toggle-label">
-                      <span class="site-name">Atlas</span>
-                      <span class="site-url">atlasnewsbydopple.netlify.app</span>
+                      <span class="site-name">Astrak</span>
+                      <span class="site-url">astrak.netlify.app</span>
                     </span>
                   </label>
                 </div>
@@ -1477,7 +1477,7 @@ function openEditor(id) {
 
   // restore site checkboxes
   document.getElementById('siteDopple').checked = !entry?.sites || entry.sites.includes('dopple');
-  document.getElementById('siteAtlas').checked  = entry?.sites ? entry.sites.includes('atlas') : false;
+  document.getElementById('siteAstrak').checked = entry?.sites ? entry.sites.includes('astrak') : false;
 
   document.getElementById('embedDetected').classList.remove('show');
   if (entry?.embed) detectEmbed();
@@ -1528,7 +1528,7 @@ async function publishEntry() {
 function collectEntry() {
   const sites = [];
   if (document.getElementById('siteDopple').checked) sites.push('dopple');
-  if (document.getElementById('siteAtlas').checked)  sites.push('atlas');
+  if (document.getElementById('siteAstrak').checked) sites.push('astrak');
   return {
     id:           currentEntryId || db.nextId,
     title:        document.getElementById('editorTitle').value.trim() || 'Untitled',
