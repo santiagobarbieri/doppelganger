@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>dopple®</title>
-  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
@@ -273,7 +273,7 @@
   <main class="page">
     <nav class="topbar">
       <a href="index.html" class="logo">dopple<span>®</span></a>
-      <a href="index.html" class="back">back</a>
+      <a href="index.html" class="back" data-smart-back>back</a>
     </nav>
 
     <div id="state" class="state">loading</div>
@@ -288,13 +288,77 @@
     </article>
 
     <footer class="footer">
-      <a href="index.html">back to index</a>
+      <a href="index.html" data-smart-back>back</a>
     </footer>
   </main>
 
   <script>
+    const SITE_BACK_URLS = {
+      dopple: 'index.html',
+      astrak: 'https://astrak.netlify.app/about.html',
+    };
+
+    let backFallbackUrl = SITE_BACK_URLS.dopple;
+
+    function getSiteBackUrl(site) {
+      if (!site) return '';
+      return SITE_BACK_URLS[String(site).toLowerCase()] || '';
+    }
+
+    function getBackUrlFromParams() {
+      const params = new URLSearchParams(window.location.search);
+      const ref = params.get('ref') || params.get('returnTo') || params.get('return');
+      const site = params.get('site') || params.get('from');
+
+      if (ref) return ref;
+      return getSiteBackUrl(site);
+    }
+
+    function getBackUrlFromReferrer() {
+      if (!document.referrer || document.referrer === window.location.href) return '';
+
+      try {
+        const referrerUrl = new URL(document.referrer);
+        if (referrerUrl.hostname.includes('astrak.netlify.app')) return SITE_BACK_URLS.astrak;
+      } catch (error) {
+        return document.referrer;
+      }
+
+      return document.referrer;
+    }
+
+    function getBackFallbackFromEntry(entry) {
+      const sites = Array.isArray(entry.sites) ? entry.sites : [];
+      const nonDoppleSite = sites.find(site => site !== 'dopple');
+      return getSiteBackUrl(nonDoppleSite) || getSiteBackUrl(sites[0]) || SITE_BACK_URLS.dopple;
+    }
+
+    function goBack(event) {
+      event.preventDefault();
+
+      const explicitBackUrl = getBackUrlFromParams();
+      if (explicitBackUrl) {
+        window.location.href = explicitBackUrl;
+        return;
+      }
+
+      const referrerBackUrl = getBackUrlFromReferrer();
+      if (referrerBackUrl) {
+        window.location.href = referrerBackUrl;
+        return;
+      }
+
+      window.location.href = backFallbackUrl;
+    }
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('[data-smart-back]');
+      if (link) goBack(event);
+    });
+
     function renderEntry(entry) {
       document.title = `${entry.title} - dopple®`;
+      backFallbackUrl = getBackFallbackFromEntry(entry);
 
       const banner = document.getElementById('banner');
       const meta = document.getElementById('meta');
@@ -347,7 +411,7 @@
 
         renderEntry(entry);
       } catch (error) {
-        document.getElementById('state').innerHTML = '<a href="index.html">error loading - go back</a>';
+        document.getElementById('state').innerHTML = '<a href="index.html" data-smart-back>error loading - go back</a>';
       }
     })();
   </script>

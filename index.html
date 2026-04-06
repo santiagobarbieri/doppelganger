@@ -423,7 +423,7 @@
         <div class="popup-title">${entry.title}</div>
         <div class="popup-year">${entry.year || ''}${entry.author ? ' — ' + entry.author : ''}</div>
         <p class="popup-desc">${entry.excerpt || ''}</p>
-        <a class="popup-cta" href="article.html?id=${entry.id}">read article →</a>
+        <a class="popup-cta" href="article.html?id=${entry.id}&site=dopple">read article →</a>
       </div>`;
     document.getElementById('projectPopup').classList.add('open');
     document.getElementById('popupBackdrop').classList.add('open');
